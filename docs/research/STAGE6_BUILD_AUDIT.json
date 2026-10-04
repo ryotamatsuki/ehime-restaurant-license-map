@@ -1,6 +1,6 @@
 {
   "stage": 6,
-  "manifest_schema_version": 1,
+  "manifest_schema_version": 2,
   "strict_new_events": 822,
   "business_type_count": 20,
   "matsuyama_exact_months": 23,
@@ -8,8 +8,8 @@
   "rolling12_end_months": 12,
   "missing_public_data": [],
   "public_data_bytes": {
-    "manifest.json": 3307,
-    "strict_new_events.json": 289238,
+    "manifest.json": 4603,
+    "strict_new_events.json": 311432,
     "coverage.json": 41887,
     "municipality_monthly.json": 30791,
     "matsuyama_mesh_1km_monthly.geojson": 157735,
@@ -18,7 +18,7 @@
     "matsuyama_mesh_500m_rolling12.geojson": 849836,
     "matsuyama_spatial_centroid_monthly.geojson": 11948
   },
-  "dist_file_count": 22,
+  "dist_file_count": 24,
   "dist_files": [
     "assets/array-utils-flat-BL8Cekj1.js",
     "assets/buffer-transform-DrLOKHxY.js",
@@ -38,12 +38,14 @@
     "data/matsuyama_mesh_1km_rolling12.geojson",
     "data/matsuyama_mesh_500m_monthly.geojson",
     "data/matsuyama_mesh_500m_rolling12.geojson",
+    "data/matsuyama_retrospective_events.json",
+    "data/matsuyama_retrospective_monthly.json",
     "data/matsuyama_spatial_centroid_monthly.geojson",
     "data/municipality_monthly.json",
     "data/strict_new_events.json",
     "index.html"
   ],
-  "dist_total_bytes": 4648975,
+  "dist_total_bytes": 6093619,
   "browser_qa": {
     "framework": "@playwright/test 1.63.0",
     "desktop": "executed by Stage 6 workflow",
