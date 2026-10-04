@@ -89,3 +89,13 @@ jobs:
           assert m["retrospective_visible_event_count"] >= 3500
           print("Public Pages data QA: PASS")
           PY
+          curl --fail --location --retry 12 --retry-delay 5 --retry-all-errors "${PAGE_URL}data/cinematic_timeline_v1.json" > /tmp/cinematic.json
+          python - <<'PY'
+          import json
+          with open("/tmp/cinematic.json", encoding="utf-8") as f:
+              c = json.load(f)
+          assert c["runtime_seconds"] == 80
+          assert any(s["month"] == "2024-09" and s["type"] == "evidence_transition" for s in c["scenes"])
+          assert any(s["month"] == "2026-02" and s["primary_kpi"]["value"] == 158 for s in c["scenes"])
+          print("Public Cinematic Mode data QA: PASS")
+          PY
