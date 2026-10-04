@@ -700,3 +700,130 @@ All state changes derive from elapsed cinematic time and the committed timeline 
 - [x] machine-readable timeline + QA generated
 
 Stage 9 is complete when the machine timeline passes QA.
+
+
+---
+
+# Stage 11 editorial revision — 2026-10-04
+
+This section supersedes the Stage 9 scene-by-scene timing wherever the two differ. The analytical map remains unchanged.
+
+## Editorial premise
+
+The film now follows one continuous idea:
+
+> 許可の記録が月ごとに重なり、道後、三津、その他の地区に、繰り返し現れるまとまりが見えてくる。
+
+The source-method boundary is no longer a chapter or dramatic beat. It appears only as a small corner note:
+
+- 2021-06〜2024-08：参考復元
+- 2024-09〜2026-07：月次観測
+
+There is no pause, blackout, title card, global color change, or explanatory KPI at 2024-09.
+
+## Revised 80-second edit
+
+| Time | Editorial block | Motion priority |
+|---|---|---|
+| 0–5 s | Matsuyama overview / first light | title, intuitive meaning of light |
+| 5–22 s | continuous retrospective months | fast accumulation with short Dogo and Takehara inserts |
+| 22–37 s | 2024-09 through spring 2025 | Dogo → Airport/Takehara → return citywide |
+| 37–48 s | May 2025 | stable wide shot, 165 citywide permits, quiet read time |
+| 48–56 s | Mitsu August 2025 | pull → westward move → push, then still hold |
+| 56–70 s | year-end through Feb 2026 | short year-end pass; Feb citywide 158 → Dogo local 14 |
+| 70–80 s | Mar–Jul 2026 / ending | return wide, Dogo + Mitsu persistence, Explore handoff |
+
+All 62 months receive an explicit playback interval. Routine months are compressed; authored months receive longer intervals.
+
+## Camera synchronization
+
+Camera motion is now computed from absolute cinematic time on every animation frame. MapLibre asynchronous \`easeTo\` is not used for the film clock.
+
+Consequences:
+
+- pause freezes the camera and data on exactly the same frame;
+- resume continues from that frame;
+- keyframes between authored scenes are actually interpolated;
+- distant moves can use pull → translate → push;
+- scene jumps resolve deterministically to the matching camera time.
+
+The canonical keyframes live in \`cinematic_timeline_v2.json\`.
+
+## Point grammar
+
+High-precision permit locations use three states:
+
+1. **core** — small bright center;
+2. **halo** — short-lived soft ignition;
+3. **memory** — low-opacity residual mark.
+
+The month-level ignition jitter is deterministic from event ID and deliberately does not encode within-month permit-date order.
+
+Retrospective town-centroid points do not receive strong ignition. They remain a weak ambient layer. Fine hotspot claims and highlighted 1km cells use high-precision address/parcel points only.
+
+The same high-precision symbol grammar is maintained across the 2024-09 source boundary.
+
+## Information staging
+
+Major beats follow:
+
+1. establish location;
+2. show point/mesh change;
+3. introduce the scoped number;
+4. show one short caption;
+5. remove the caption and hold the map.
+
+Major captions have at least 2.5 seconds of reading time. Camera travel is kept free of principal explanatory copy.
+
+Bridge months emphasize the date. Local holds reduce the date and promote place + local count.
+
+## Scope rules fixed in Stage 11
+
+- 2024-02 Dogo: 6 high-precision events in the Dogo 1km cell. The citywide 48 strict points are not presented as a Dogo count.
+- 2024-05 Takehara/Fujiwara: 4 in the same 1km/high-precision definition.
+- 2024-09 Dogo: 15. No month-over-month increase is shown across the data-source boundary.
+- 2024-11 Airport/Takehara: 4 in the highlighted 1km cell.
+- 2025-05: Matsuyama citywide 165 total permit events; 40 high-precision points are explicitly a separate map-availability count.
+- 2025-08 Mitsu: 5 in the highlighted 1km cell; the supporting comparison is “直前3か月は同じ区画で合計1件”, not a “5× increase”.
+- 2025-12: Matsuyama citywide 131, shown briefly.
+- 2026-02: citywide 158 first; after the camera settles on Dogo, the primary number becomes 14 for the Dogo 1km/high-precision cell.
+- Final exact-period persistence: Dogo 19/23 months, Mitsu 15/23 months.
+
+## Local comparison graphic
+
+Mitsu and Dogo major local scenes show a compact 23-month sparkline using the identical:
+
+- monthly observation window;
+- 1km mesh;
+- high-precision point definition.
+
+It is descriptive only and does not imply shop survival.
+
+## Mobile composition
+
+For local scenes:
+
+- zoom is reduced relative to desktop;
+- map center is offset so the highlighted cell remains above the lower HUD;
+- principal caption remains one short sentence;
+- only one primary number is emphasized;
+- the same focal-region vs HUD geometry is asserted in browser QA.
+
+## Ending
+
+The ending no longer reports 62-month activity counts as if they were directly comparable with exact monthly observation.
+
+It shows:
+
+- 道後 19/23か月
+- 三津 15/23か月
+
+under the label:
+
+\`月次観測23か月・同じ1km区画・高精度地点\`
+
+The viewer can choose Dogo or Mitsu and select:
+
+\`この場所の時間を、自分で見る\`
+
+The handoff opens the analytical map at the selected place and the authored reference month.
