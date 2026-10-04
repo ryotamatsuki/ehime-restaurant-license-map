@@ -148,7 +148,23 @@ select {
 .legend-block p, .method p { color: var(--ink-soft); font-size: 11px; line-height: 1.55; }
 .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
 .dot-strict { background: var(--accent); }
+.dot-retro { background: #e2a03b; }
 .dot-mesh { background: var(--navy); }
+
+.retro-toggle {
+  display: flex;
+  grid-template-columns: none;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 10px 0 4px;
+  color: #6e531f;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.retro-toggle input {
+  margin: 2px 0 0;
+  accent-color: #c9801d;
+}
 .method summary { cursor: pointer; font-weight: 750; font-size: 12px; }
 .method a { color: var(--accent-deep); }
 
