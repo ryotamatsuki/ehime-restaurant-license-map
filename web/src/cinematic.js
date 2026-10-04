@@ -423,6 +423,9 @@ export function createCinematicController({
 
   function updateDebug(elapsed, monthInfo, beat, camera) {
     run.seenMonths.add(monthInfo.month);
+    const focusCenter = beat?.focus_center || beat?.focus_centers?.[0] || null;
+    const focusPixel = focusCenter ? map.project(focusCenter) : null;
+    const hudRect = els.cinematicHud?.getBoundingClientRect?.() || null;
     window.__CINEMATIC_DEBUG__ = {
       elapsed,
       month: monthInfo.month,
@@ -430,6 +433,8 @@ export function createCinematicController({
       playing: run.playing,
       reduced: run.reduced,
       camera,
+      focusPixel: focusPixel ? {x: focusPixel.x, y: focusPixel.y} : null,
+      hudRect: hudRect ? {top: hudRect.top, bottom: hudRect.bottom, left: hudRect.left, right: hudRect.right} : null,
       seenMonths: Array.from(run.seenMonths),
       selectedExploreTarget: run.selectedExploreTarget
     };
@@ -571,7 +576,15 @@ export function createCinematicController({
     onExploreTarget(target);
   }
 
+  function seek(seconds) {
+    pause();
+    run.elapsed = clamp(Number(seconds) || 0, 0, timeline.runtime_seconds - 0.001);
+    run.pausedAt = run.elapsed;
+    render(run.elapsed);
+  }
+
   function bindControls() {
+    window.__CINEMATIC_TEST_API__ = {seek, play, pause, replay};
     els.cinematicEnter.addEventListener('click', enter);
     els.cinematicExit.addEventListener('click', () => exit());
     els.cinematicPlay.addEventListener('click', toggle);
@@ -616,6 +629,7 @@ export function createCinematicController({
     toggle,
     replay,
     render,
+    seek,
     destroy
   };
 }
