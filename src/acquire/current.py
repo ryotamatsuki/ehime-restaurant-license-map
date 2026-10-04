@@ -22,7 +22,7 @@ RAW.mkdir(parents=True, exist_ok=True)
 SNAP.mkdir(parents=True, exist_ok=True)
 REPORT.parent.mkdir(parents=True, exist_ok=True)
 
-UA = "ehime-restaurant-license-map/0.1 (+https://github.com/ryotamatsuki/ehime-restaurant-license-map)"
+UA = "ehime-restaurant-license-map/0.2 (+https://github.com/ryotamatsuki/ehime-restaurant-license-map)"
 SESSION = requests.Session()
 SESSION.headers.update({"User-Agent": UA})
 
@@ -34,11 +34,17 @@ CANONICAL = [
     "source_authority",
     "source_snapshot_date",
     "permit_number",
+    "initial_permit_date",
     "permit_date",
     "permit_expiry_date",
     "business_type",
     "facility_name",
     "facility_address",
+    "municipality_code",
+    "town_id",
+    "latitude",
+    "longitude",
+    "application_type",
     "record_scope",
     "source_url",
     "source_sha256",
@@ -46,13 +52,23 @@ CANONICAL = [
 
 ALIASES = {
     "permit_number": ["許可番号", "営業許可番号", "許可・届出番号", "許可届出番号"],
-    "permit_date": ["新規許可日", "新規許可年月日", "許可年月日", "許可日", "営業許可年月日"],
-    "permit_expiry_date": ["許可有効期限", "有効期限", "営業許可有効期限"],
+    "initial_permit_date": ["初回許可年月日", "新規許可日", "新規許可年月日"],
+    "permit_date": ["許可年月日", "新規許可日", "新規許可年月日", "許可日", "営業許可年月日"],
+    "permit_expiry_date": ["許可満了日", "許可有効期限", "有効期限", "営業許可有効期限"],
     "business_type": ["営業の種類", "営業種別", "営業許可業種", "業種"],
-    "facility_name": ["営業所名称", "施設名称", "営業施設名称", "名称"],
-    "facility_address": ["営業所所在地", "施設所在地", "営業施設所在地", "所在地"],
+    "facility_name": ["施設名称", "営業所名称", "営業施設名称", "施設名称1", "名称"],
+    "facility_address": ["所在地＿連結表記", "営業所所在地", "施設所在地", "営業施設所在地", "所在地"],
+    "municipality_code": ["所在地＿全国地方公共団体コード", "全国地方公共団体コード"],
+    "town_id": ["町字ID"],
+    "latitude": ["緯度"],
+    "longitude": ["経度"],
+    "application_type": ["申請区分"],
 }
-FORBIDDEN_HEADER_TERMS = ["申請者氏名", "申請者カナ", "申請者住所", "申請者所在地", "電話番号", "営業所電話番号"]
+FORBIDDEN_HEADER_TERMS = [
+    "申請者氏名", "申請者カナ", "申請者住所", "申請者所在地",
+    "申請者個人名", "法人代表者氏名", "電話番号", "営業所電話番号",
+    "施設電話番号", "連絡先メールアドレス",
+]
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -71,7 +87,7 @@ def normalize_header(x) -> str:
     return re.sub(r"[\s\u3000]+", "", str(x)).strip()
 
 
-def find_header_row(raw: pd.DataFrame, max_rows: int = 20) -> int | None:
+def find_header_row(raw: pd.DataFrame, max_rows: int = 30) -> int | None:
     alias_set = {normalize_header(v) for vals in ALIASES.values() for v in vals}
     best = None
     best_score = 0
@@ -96,6 +112,37 @@ def clean_date_series(s: pd.Series) -> pd.Series:
     return dt.dt.strftime("%Y-%m-%d").where(dt.notna(), "")
 
 
+def clean_text_series(s: pd.Series) -> pd.Series:
+    return s.fillna("").astype(str).str.strip()
+
+
+def optional_text(df: pd.DataFrame, col):
+    if col is None:
+        return pd.Series([""] * len(df), index=df.index, dtype="object")
+    return clean_text_series(df[col])
+
+
+def build_facility_name(df: pd.DataFrame, primary):
+    out = optional_text(df, primary)
+    if primary is not None and normalize_header(primary) == normalize_header("施設名称1"):
+        second = find_col(df.columns, ["施設名称2"])
+        if second is not None:
+            out = (out + optional_text(df, second)).str.strip()
+    return out
+
+
+def build_facility_address(df: pd.DataFrame, primary):
+    out = optional_text(df, primary)
+    if primary is not None and normalize_header(primary) == normalize_header("営業所所在地"):
+        continuation_cols = [
+            c for c in df.columns if normalize_header(c).startswith(normalize_header("営業所所在地（続き）"))
+        ]
+        for c in continuation_cols:
+            out = out + optional_text(df, c)
+        out = out.str.strip()
+    return out
+
+
 def sanitize_frame(df: pd.DataFrame, authority: str, snapshot_date: str, scope: str, source_url: str, source_sha: str):
     mapping = {k: find_col(df.columns, v) for k, v in ALIASES.items()}
     required = ["permit_number", "permit_date", "business_type", "facility_name", "facility_address"]
@@ -103,18 +150,27 @@ def sanitize_frame(df: pd.DataFrame, authority: str, snapshot_date: str, scope: 
     if missing_required:
         raise ValueError(f"Required columns not found: {missing_required}; columns={list(map(str, df.columns))}")
 
-    out = pd.DataFrame()
+    out = pd.DataFrame(index=df.index)
     out["source_authority"] = authority
     out["source_snapshot_date"] = snapshot_date
-    out["permit_number"] = df[mapping["permit_number"]].fillna("").astype(str).str.strip()
+    out["permit_number"] = optional_text(df, mapping["permit_number"])
+    if mapping.get("initial_permit_date"):
+        out["initial_permit_date"] = clean_date_series(df[mapping["initial_permit_date"]])
+    else:
+        out["initial_permit_date"] = ""
     out["permit_date"] = clean_date_series(df[mapping["permit_date"]])
     if mapping.get("permit_expiry_date"):
         out["permit_expiry_date"] = clean_date_series(df[mapping["permit_expiry_date"]])
     else:
         out["permit_expiry_date"] = ""
-    out["business_type"] = df[mapping["business_type"]].fillna("").astype(str).str.strip()
-    out["facility_name"] = df[mapping["facility_name"]].fillna("").astype(str).str.strip()
-    out["facility_address"] = df[mapping["facility_address"]].fillna("").astype(str).str.strip()
+    out["business_type"] = optional_text(df, mapping["business_type"])
+    out["facility_name"] = build_facility_name(df, mapping["facility_name"])
+    out["facility_address"] = build_facility_address(df, mapping["facility_address"])
+    out["municipality_code"] = optional_text(df, mapping.get("municipality_code"))
+    out["town_id"] = optional_text(df, mapping.get("town_id"))
+    out["latitude"] = optional_text(df, mapping.get("latitude"))
+    out["longitude"] = optional_text(df, mapping.get("longitude"))
+    out["application_type"] = optional_text(df, mapping.get("application_type"))
     out["record_scope"] = scope
     out["source_url"] = source_url
     out["source_sha256"] = source_sha
@@ -148,6 +204,15 @@ def decode_csv(data: bytes):
     raise UnicodeDecodeError("unknown", b"", 0, 1, "Could not decode CSV")
 
 
+def parse_csv_with_header_scan(decoded: str):
+    raw = pd.read_csv(StringIO(decoded), header=None, dtype=str, keep_default_na=False)
+    header_row = find_header_row(raw)
+    if header_row is None:
+        raise ValueError(f"Could not identify CSV header row; shape={raw.shape}")
+    df = pd.read_csv(StringIO(decoded), header=header_row, dtype=str, keep_default_na=False)
+    return df.dropna(how="all"), header_row
+
+
 def snapshot_from_name(name: str) -> str:
     m = re.search(r"R(\d+)\.(\d+)\.(\d+)", name)
     if m:
@@ -157,6 +222,10 @@ def snapshot_from_name(name: str) -> str:
     if m:
         y, mo = map(int, m.groups())
         return f"{2018+y:04d}-{mo:02d}"
+    m = re.search(r"(\d{4})年(\d{1,2})月", name)
+    if m:
+        y, mo = map(int, m.groups())
+        return f"{y:04d}-{mo:02d}"
     return datetime.now(timezone.utc).date().isoformat()
 
 
@@ -174,18 +243,21 @@ def write_snapshot(df: pd.DataFrame, filename: str):
 
 
 def audit_output(df: pd.DataFrame):
+    lat_present = (df["latitude"] != "") & (df["longitude"] != "")
     return {
         "rows": int(len(df)),
         "missing_permit_date": int((df["permit_date"] == "").sum()),
         "missing_facility_address": int((df["facility_address"] == "").sum()),
         "duplicate_permit_number_rows": int(df["permit_number"].duplicated(keep=False).sum()),
+        "rows_with_coordinates": int(lat_present.sum()),
+        "application_type_counts": {str(k): int(v) for k, v in df["application_type"].value_counts().head(20).items() if str(k) != ""},
         "business_type_top10": {str(k): int(v) for k, v in df["business_type"].value_counts().head(10).items()},
     }
 
 
 def discover_links(page_url: str, extensions: tuple[str, ...]):
-    html = get(page_url).text
-    soup = BeautifulSoup(html, "html.parser")
+    response = get(page_url)
+    soup = BeautifulSoup(response.content, "html.parser")
     links = []
     for a in soup.find_all("a", href=True):
         href = a["href"]
@@ -216,7 +288,7 @@ def process_ehime(report):
     entry = {
         "authority": "愛媛県",
         "source_url": url,
-        "resource_id": res.get("id"),
+        "resource_internal_id": res.get("id"),
         "resource_name": name,
         "sha256": sha,
         "bytes": len(data),
@@ -282,11 +354,10 @@ def process_matsuyama_monthly(report):
                 "columns": [str(c) for c in df.columns],
             })
             continue
-        fname = f"matsuyama_monthly_{safe_slug(snapshot_date)}_{safe_slug(sheet)}.csv"
+        fname = f"matsuyama_monthly_{safe_slug(snapshot_date)}.csv"
         rel = write_snapshot(out, fname)
         entry["sheets"].append({
-            "sheet": sheet,
-            "status": "sanitized",
+            "sheet": sheet, "status": "sanitized",
             "columns": [str(c) for c in df.columns],
             "mapping": {k: (None if v is None else str(v)) for k, v in mapping.items()},
             **audit_output(out),
@@ -304,21 +375,22 @@ def process_matsuyama_all(report):
         data = get(url).content
         sha = sha256_bytes(data)
         decoded, enc = decode_csv(data)
-        df = pd.read_csv(StringIO(decoded), dtype=str)
+        df, header_row = parse_csv_with_header_scan(decoded)
         snapshot_date = "2026-03-31"
         try:
             out, mapping = sanitize_frame(df, "松山市", snapshot_date, "all", url, sha)
         except Exception as e:
             entry["files"].append({
                 "anchor_text": text, "source_url": url, "status": "schema_error",
-                "error": str(e), "encoding": enc, "columns": [str(c) for c in df.columns],
+                "error": str(e), "encoding": enc, "header_row": header_row,
+                "columns": [str(c) for c in df.columns],
             })
             continue
         fname = f"matsuyama_all_2026-03-31_part{idx}.csv"
         rel = write_snapshot(out, fname)
         entry["files"].append({
             "anchor_text": text, "source_url": url, "status": "sanitized",
-            "sha256": sha, "bytes": len(data), "encoding": enc,
+            "sha256": sha, "bytes": len(data), "encoding": enc, "header_row": header_row,
             "columns": [str(c) for c in df.columns],
             "mapping": {k: (None if v is None else str(v)) for k, v in mapping.items()},
             **audit_output(out),
@@ -350,8 +422,11 @@ def main():
             report["errors"][name] = f"{type(e).__name__}: {e}"
     REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    if "ehime_prefecture" not in report["sources"]:
+    if report["errors"]:
         return 2
+    for source in report["sources"].values():
+        if not source.get("outputs"):
+            return 2
     return 0
 
 
