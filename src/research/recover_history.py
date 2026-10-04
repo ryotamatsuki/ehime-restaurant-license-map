@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import sys
 import time
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -12,9 +13,12 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from src.acquire.current import find_header_row, sanitize_frame, audit_output
 
-ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "data" / "snapshots" / "history"
 REPORT = ROOT / "docs" / "research" / "HISTORY_RECOVERY.json"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
