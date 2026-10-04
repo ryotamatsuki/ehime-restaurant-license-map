@@ -197,3 +197,21 @@ Use the **Cinematic** button to watch the authored 80-second Matsuyama story. Th
 Desktop/mobile browser QA and GitHub Pages deployment are passing.
 
 See [`docs/research/STAGE10_CINEMATIC_IMPLEMENTATION_QA.md`](docs/research/STAGE10_CINEMATIC_IMPLEMENTATION_QA.md).
+
+
+## Stage 11 — Cinematic polish
+
+Cinematic Mode has been re-edited as a continuous **80-second / 62-month** film rather than a sequence of jumps between selected months.
+
+Key improvements:
+- every month progresses in order;
+- Dogo, Takehara/Fujiwara, Mitsu and citywide beats use different pacing/camera grammar;
+- point ignition decays into historical memory;
+- local KPIs use the highlighted 1km/high-precision definition;
+- 2026-02 shows Matsuyama 158 first, then Dogo 14 after the camera settles;
+- final exact-period persistence is Dogo 19/23 months and Mitsu 15/23 months;
+- the ending can hand off directly to Explore at Dogo or Mitsu.
+
+Desktop/mobile full-playback QA and the final GitHub Pages deployment are passing.
+
+See [`docs/research/STAGE11_CINEMATIC_POLISH_QA.md`](docs/research/STAGE11_CINEMATIC_POLISH_QA.md).
