@@ -186,3 +186,14 @@ The specification fixes:
 The 2026-02 Dogo surge is the main climax; 2024-09 is the mandatory evidence transition.
 
 See [`docs/design/CINEMATIC_MOTION_SPEC.md`](docs/design/CINEMATIC_MOTION_SPEC.md).
+
+
+## Stage 10 — Cinematic Mode
+
+Cinematic Mode is implemented and published alongside the analytical map.
+
+Use the **Cinematic** button to watch the authored 80-second Matsuyama story. The mode preserves historical permit-event memory, highlights new events, moves the camera only at selected insight moments, and explicitly distinguishes retrospective reconstruction from exact monthly observation.
+
+Desktop/mobile browser QA and GitHub Pages deployment are passing.
+
+See [`docs/research/STAGE10_CINEMATIC_IMPLEMENTATION_QA.md`](docs/research/STAGE10_CINEMATIC_IMPLEMENTATION_QA.md).
