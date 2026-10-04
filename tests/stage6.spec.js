@@ -165,13 +165,18 @@ test('cinematic mobile reduced-motion retains the same information', async ({pag
   await expect(page.locator('#cinematic-shell')).toBeVisible();
   await expect(page.locator('#cinematic-play')).toHaveText('▶');
 
+  await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(50.6));
+  let debug = await page.evaluate(() => window.__CINEMATIC_DEBUG__);
+  expect(debug.focusPixel.y).toBeLessThan(debug.hudRect.top + 8);
+
   await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(66));
   await expect(page.locator('#cinematic-kpi')).toHaveText('14件');
   await expect(page.locator('#cinematic-scope')).toContainText('高精度地点');
 
-  const debug = await page.evaluate(() => window.__CINEMATIC_DEBUG__);
+  debug = await page.evaluate(() => window.__CINEMATIC_DEBUG__);
   expect(debug.reduced).toBe(true);
   expect(debug.camera.pitch).toBeLessThanOrEqual(12);
+  expect(debug.focusPixel.y).toBeLessThan(debug.hudRect.top + 8);
 
   await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(78));
   await expect(page.locator('#cinematic-final')).toHaveClass(/is-visible/);
