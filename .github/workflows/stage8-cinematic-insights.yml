@@ -1,0 +1,35 @@
+name: Stage 8 extract cinematic insights
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/cinematic/**"
+      - ".github/workflows/stage8-cinematic-insights.yml"
+      - "data/processed/matsuyama_restaurant_retrospective_geocoded.csv"
+      - "data/processed/restaurant_permit_events_geocoded.csv"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy
+      - name: Extract quantitative scene candidates
+        run: python src/cinematic/extract_scene_candidates.py
+      - name: Commit Stage 8 outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed/cinematic docs/research/STAGE8_CINEMATIC_INSIGHT_AUDIT.json
+          git commit -m "analysis: extract Matsuyama cinematic scene candidates" || exit 0
+          git pull --rebase origin main
+          git push
