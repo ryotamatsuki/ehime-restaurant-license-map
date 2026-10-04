@@ -61,6 +61,8 @@
 
 ## Stage 3 — Historical reconstruction
 
+**Status: COMPLETE (2026-10-04)**
+
 ### Tasks
 - enumerate retained Ehime resource revisions and indexed historical previews
 - search archived/current Matsuyama monthly files
@@ -70,9 +72,11 @@
 - coverage matrix by month × authority
 
 ### Exit criteria
-- exact recoverable time window is proven.
-- each month has a completeness flag.
-- no interpolation is silently treated as observed data.
+- [x] exact recoverable time window is proven.
+- [x] each month has a completeness flag.
+- [x] no interpolation is silently treated as observed data.
+
+See `docs/research/STAGE3_HISTORICAL_RECONSTRUCTION.md` and `data/processed/coverage_matrix.csv`.
 
 ## Stage 4 — Address normalization / geocoding
 
