@@ -848,23 +848,23 @@
       "sequence": 2
     },
     {
-      "month": "2023-11",
+      "month": "2022-08",
       "role": "insight",
-      "scene_type": "hotspot_emergence_or_surge",
+      "scene_type": "spatial_reconfiguration",
       "evidence_tier": "retrospective_partial",
-      "editorial_priority_score": 76.43,
-      "visual_interest_score": 79.29,
-      "total_events": 133,
-      "strict_events": 39,
-      "top_mesh": "50326622",
-      "top_mesh_locality": "道後湯之町 / 道後多幸町 / 道後湯月町",
+      "editorial_priority_score": 69.35,
+      "visual_interest_score": 70.43,
+      "total_events": 99,
+      "strict_events": 26,
+      "top_mesh": "50326537",
+      "top_mesh_locality": "祓川一丁目 / 住吉二丁目 / 住吉一丁目",
       "camera_target": {
-        "mesh_1km": "50326622",
-        "locality": "道後湯之町 / 道後多幸町 / 道後湯月町",
-        "lat": 33.85416666666667,
-        "lon": 132.78125
+        "mesh_1km": "",
+        "locality": "",
+        "lat": 33.830928671423074,
+        "lon": 132.75664273811537
       },
-      "reason": "High quantitative scene score driven primarily by hotspot_emergence_or_surge.",
+      "reason": "High quantitative scene score driven primarily by spatial_reconfiguration.",
       "sequence": 3
     },
     {
@@ -1008,23 +1008,23 @@
       "sequence": 10
     },
     {
-      "month": "2026-03",
+      "month": "2026-02",
       "role": "insight",
-      "scene_type": "volume_spike",
+      "scene_type": "hotspot_emergence_or_surge",
       "evidence_tier": "exact_monthly",
-      "editorial_priority_score": 74.35,
-      "visual_interest_score": 67.93,
-      "total_events": 152,
-      "strict_events": 44,
-      "top_mesh": "50325579",
-      "top_mesh_locality": "余戸東一丁目 / 保免西三丁目 / 余戸南一丁目",
+      "editorial_priority_score": 96.35,
+      "visual_interest_score": 95.43,
+      "total_events": 158,
+      "strict_events": 48,
+      "top_mesh": "50326622",
+      "top_mesh_locality": "道後湯之町 / 道後緑台 / 祝谷町一丁目",
       "camera_target": {
-        "mesh_1km": "",
-        "locality": "",
-        "lat": 33.848038464886365,
-        "lon": 132.75642961086362
+        "mesh_1km": "50326622",
+        "locality": "道後湯之町 / 道後緑台 / 祝谷町一丁目",
+        "lat": 33.85416666666667,
+        "lon": 132.78125
       },
-      "reason": "High quantitative scene score driven primarily by volume_spike.",
+      "reason": "High quantitative scene score driven primarily by hotspot_emergence_or_surge.",
       "sequence": 11
     },
     {
