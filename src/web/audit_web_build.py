@@ -17,10 +17,13 @@ def size(path: Path) -> int:
 def main() -> int:
     manifest = json.loads((PUBLIC_DATA / "manifest.json").read_text(encoding="utf-8"))
     events = json.loads((PUBLIC_DATA / "strict_new_events.json").read_text(encoding="utf-8"))
+    retro_events = json.loads((PUBLIC_DATA / "matsuyama_retrospective_events.json").read_text(encoding="utf-8"))
 
     required_data = [
         "manifest.json",
         "strict_new_events.json",
+        "matsuyama_retrospective_events.json",
+        "matsuyama_retrospective_monthly.json",
         "coverage.json",
         "municipality_monthly.json",
         "matsuyama_mesh_1km_monthly.geojson",
@@ -42,6 +45,9 @@ def main() -> int:
         "manifest_schema_version": manifest.get("schema_version"),
         "strict_new_events": len(events),
         "business_type_count": len(manifest.get("business_types", [])),
+        "retrospective_visible_events": len(retro_events),
+        "matsuyama_retrospective_months": len(manifest.get("matsuyama_retrospective_months", [])),
+        "matsuyama_hybrid_months": len(manifest.get("matsuyama_hybrid_months", [])),
         "matsuyama_exact_months": len(
             manifest.get("exact_months_by_authority", {}).get("松山市", [])
         ),
@@ -75,6 +81,12 @@ def main() -> int:
     if not (DIST / "index.html").exists():
         return 2
     if len(events) < 500:
+        return 2
+    if len(retro_events) < 3500:
+        return 2
+    if report["matsuyama_retrospective_months"] != 39:
+        return 2
+    if report["matsuyama_hybrid_months"] != 62:
         return 2
     if report["matsuyama_exact_months"] != 23:
         return 2
