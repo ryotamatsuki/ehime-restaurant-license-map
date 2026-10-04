@@ -73,4 +73,16 @@ jobs:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           echo "Checking $PAGE_URL"
-          curl --fail --location --retry 12 --retry-delay 5 --retry-all-errors "$PAGE_URL"
+          curl --fail --location --retry 12 --retry-delay 5 --retry-all-errors "$PAGE_URL" > /tmp/index.html
+          grep -q "Ehime Restaurant License Map" /tmp/index.html
+          curl --fail --location --retry 12 --retry-delay 5 --retry-all-errors "${PAGE_URL}data/manifest.json" > /tmp/manifest.json
+          python - <<'PY'
+          import json
+          with open("/tmp/manifest.json", encoding="utf-8") as f:
+              m = json.load(f)
+          assert m["schema_version"] == 1
+          assert len(m["exact_months_by_authority"]["松山市"]) == 23
+          assert len(m["rolling12_end_months_matsuyama"]) == 12
+          assert m["strict_new_event_count"] >= 800
+          print("Public Pages data QA: PASS")
+          PY
