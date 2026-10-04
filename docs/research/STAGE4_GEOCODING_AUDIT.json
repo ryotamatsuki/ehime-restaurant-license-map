@@ -1,0 +1,224 @@
+{
+  "stage": 4,
+  "geocoder": {
+    "engine": "@geolonia/normalize-japanese-addresses",
+    "version": "3.1.3",
+    "data_endpoint": "https://japanese-addresses-v2.geoloniamaps.com/api/ja",
+    "crs": "EPSG:4326"
+  },
+  "municipality_code_reference": "Ehime Prefecture official municipal-code table",
+  "input": "data/processed/permit_events_observed.csv",
+  "cache": "data/geocode/geocode_cache.json",
+  "unique_cached_addresses": 2564,
+  "overall": {
+    "rows": 4240,
+    "with_any_point": 4229,
+    "with_any_point_pct": 99.74,
+    "strict_address_or_parcel": 904,
+    "strict_address_or_parcel_pct": 21.32,
+    "town_or_better": 2937,
+    "town_or_better_pct": 69.27,
+    "municipality_code_resolved": 4228,
+    "municipality_code_resolved_pct": 99.72,
+    "quality_counts": {
+      "town_centroid": 2033,
+      "municipality_centroid": 1291,
+      "address_or_parcel": 904,
+      "": 11,
+      "prefecture_centroid": 1
+    },
+    "point_level_counts": {
+      "3": 2033,
+      "2": 1291,
+      "8": 904,
+      "": 11,
+      "1": 1
+    },
+    "missing_source_address": 11,
+    "outside_ehime_bounds": 0
+  },
+  "restaurants": {
+    "rows": 3300,
+    "with_any_point": 3290,
+    "with_any_point_pct": 99.7,
+    "strict_address_or_parcel": 661,
+    "strict_address_or_parcel_pct": 20.03,
+    "town_or_better": 2400,
+    "town_or_better_pct": 72.73,
+    "municipality_code_resolved": 3289,
+    "municipality_code_resolved_pct": 99.67,
+    "quality_counts": {
+      "town_centroid": 1739,
+      "municipality_centroid": 889,
+      "address_or_parcel": 661,
+      "": 10,
+      "prefecture_centroid": 1
+    },
+    "point_level_counts": {
+      "3": 1739,
+      "2": 889,
+      "8": 661,
+      "": 10,
+      "1": 1
+    },
+    "missing_source_address": 10,
+    "outside_ehime_bounds": 0
+  },
+  "by_authority": {
+    "愛媛県": {
+      "rows": 1222,
+      "with_any_point": 1211,
+      "with_any_point_pct": 99.1,
+      "strict_address_or_parcel": 27,
+      "strict_address_or_parcel_pct": 2.21,
+      "town_or_better": 42,
+      "town_or_better_pct": 3.44,
+      "municipality_code_resolved": 1210,
+      "municipality_code_resolved_pct": 99.02,
+      "quality_counts": {
+        "municipality_centroid": 1168,
+        "address_or_parcel": 27,
+        "town_centroid": 15,
+        "": 11,
+        "prefecture_centroid": 1
+      },
+      "point_level_counts": {
+        "2": 1168,
+        "8": 27,
+        "3": 15,
+        "": 11,
+        "1": 1
+      },
+      "missing_source_address": 11,
+      "outside_ehime_bounds": 0
+    },
+    "松山市": {
+      "rows": 3018,
+      "with_any_point": 3018,
+      "with_any_point_pct": 100.0,
+      "strict_address_or_parcel": 877,
+      "strict_address_or_parcel_pct": 29.06,
+      "town_or_better": 2895,
+      "town_or_better_pct": 95.92,
+      "municipality_code_resolved": 3018,
+      "municipality_code_resolved_pct": 100.0,
+      "quality_counts": {
+        "town_centroid": 2018,
+        "address_or_parcel": 877,
+        "municipality_centroid": 123
+      },
+      "point_level_counts": {
+        "3": 2018,
+        "8": 877,
+        "2": 123
+      },
+      "missing_source_address": 0,
+      "outside_ehime_bounds": 0
+    }
+  },
+  "by_source_kind": {
+    "official_current_monthly": {
+      "rows": 57,
+      "with_any_point": 46,
+      "with_any_point_pct": 80.7,
+      "strict_address_or_parcel": 27,
+      "strict_address_or_parcel_pct": 47.37,
+      "town_or_better": 42,
+      "town_or_better_pct": 73.68,
+      "municipality_code_resolved": 46,
+      "municipality_code_resolved_pct": 80.7,
+      "quality_counts": {
+        "address_or_parcel": 27,
+        "town_centroid": 15,
+        "": 11,
+        "municipality_centroid": 4
+      },
+      "point_level_counts": {
+        "8": 27,
+        "3": 15,
+        "": 11,
+        "2": 4
+      },
+      "missing_source_address": 11,
+      "outside_ehime_bounds": 0
+    },
+    "official_current_rolling_workbook": {
+      "rows": 1609,
+      "with_any_point": 1609,
+      "with_any_point_pct": 100.0,
+      "strict_address_or_parcel": 452,
+      "strict_address_or_parcel_pct": 28.09,
+      "town_or_better": 1545,
+      "town_or_better_pct": 96.02,
+      "municipality_code_resolved": 1609,
+      "municipality_code_resolved_pct": 100.0,
+      "quality_counts": {
+        "town_centroid": 1093,
+        "address_or_parcel": 452,
+        "municipality_centroid": 64
+      },
+      "point_level_counts": {
+        "3": 1093,
+        "8": 452,
+        "2": 64
+      },
+      "missing_source_address": 0,
+      "outside_ehime_bounds": 0
+    },
+    "wayback_archived_monthly": {
+      "rows": 1165,
+      "with_any_point": 1165,
+      "with_any_point_pct": 100.0,
+      "strict_address_or_parcel": 0,
+      "strict_address_or_parcel_pct": 0.0,
+      "town_or_better": 0,
+      "town_or_better_pct": 0.0,
+      "municipality_code_resolved": 1164,
+      "municipality_code_resolved_pct": 99.91,
+      "quality_counts": {
+        "municipality_centroid": 1164,
+        "prefecture_centroid": 1
+      },
+      "point_level_counts": {
+        "2": 1164,
+        "1": 1
+      },
+      "missing_source_address": 0,
+      "outside_ehime_bounds": 0
+    },
+    "wayback_archived_rolling_workbook": {
+      "rows": 1409,
+      "with_any_point": 1409,
+      "with_any_point_pct": 100.0,
+      "strict_address_or_parcel": 425,
+      "strict_address_or_parcel_pct": 30.16,
+      "town_or_better": 1350,
+      "town_or_better_pct": 95.81,
+      "municipality_code_resolved": 1409,
+      "municipality_code_resolved_pct": 100.0,
+      "quality_counts": {
+        "town_centroid": 925,
+        "address_or_parcel": 425,
+        "municipality_centroid": 59
+      },
+      "point_level_counts": {
+        "3": 925,
+        "8": 425,
+        "2": 59
+      },
+      "missing_source_address": 0,
+      "outside_ehime_bounds": 0
+    }
+  },
+  "quality_semantics": {
+    "address_or_parcel": "point_level >= 8; eligible for strict point-map use",
+    "town_centroid": "point_level 3; may be used for aggregated/context views, not presented as exact facility coordinate",
+    "municipality_centroid": "point_level 2; retained for provenance/context only and excluded from point maps",
+    "prefecture_centroid": "point_level 1; excluded from point maps",
+    "failed": "no usable coordinate returned"
+  },
+  "outputs": [
+    "data/processed/permit_events_geocoded.csv",
+    "data/processed/restaurant_permit_events_geocoded.csv"
+  ]
+}
