@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-04T02:34:49.327176+00:00",
+  "generated_at_utc": "2026-10-04T02:36:48.795758+00:00",
   "bodik": {
     "380008_2344_cc-by": {
       "dataset_id": "380008_2344_cc-by",
@@ -249,6 +249,74 @@
           "https://www.pref.ehime.jp/opendata-catalog/dataset/3375.html",
           "200",
           "IRCMVDK5SKPIUR3KPPYWYAIKLPLOENA5"
+        ]
+      ]
+    },
+    "ehime_resource_files": {
+      "ok": true,
+      "count": 6,
+      "captures": [
+        [
+          "20220519121134",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/11211/%E6%96%B0%E8%A6%8F%E9%A3%9F%E5%93%81%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD%EF%BC%88%E4%BB%A4%E5%92%8C3%E5%B9%B412%E6%9C%88%EF%BC%89.xls",
+          "200",
+          "application/excel",
+          "NAOWIWCU4F3TSCO4VFBHZMW6XFEWKDMR",
+          "46873"
+        ],
+        [
+          "20220519121203",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/11214/%E9%A3%9F%E5%93%81%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD%E4%B8%80%E8%A6%A7%EF%BC%882021.12.31%E7%8F%BE%E5%9C%A8%EF%BC%89.xls",
+          "200",
+          "application/excel",
+          "R5L7GDHCMIF3IMO4XX337JF2I6RUGALL",
+          "1066051"
+        ],
+        [
+          "20220519121141",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/11312/%E6%96%B0%E8%A6%8F%E9%A3%9F%E5%93%81%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD%EF%BC%88%E4%BB%A4%E5%92%8C4%E5%B9%B41%E6%9C%88%EF%BC%89.xls",
+          "200",
+          "application/excel",
+          "PXQQ4V6P5PFEEWHPUVJLTPJ5D6P3KONN",
+          "29050"
+        ],
+        [
+          "20220519121116",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/11619/%E6%96%B0%E8%A6%8F%E9%A3%9F%E5%93%81%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD%EF%BC%88%E4%BB%A4%E5%92%8C4%E5%B9%B42%E6%9C%88%EF%BC%89.xls",
+          "200",
+          "application/excel",
+          "IS5WGIVDWCYZHFOU2IVWA7OIIVO4LCLV",
+          "25934"
+        ],
+        [
+          "20220519121155",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/11680/%E6%96%B0%E8%A6%8F%E9%A3%9F%E5%93%81%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD%EF%BC%88%E4%BB%A4%E5%92%8C4%E5%B9%B43%E6%9C%88%EF%BC%89.xls",
+          "200",
+          "application/excel",
+          "W757D6FN74UYI3HLHUZIUP5UKVDY4Z6H",
+          "50849"
+        ],
+        [
+          "20220519121113",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/11688/%E6%96%B0%E8%A6%8F%E9%A3%9F%E5%93%81%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD%EF%BC%88%E4%BB%A4%E5%92%8C4%E5%B9%B44%E6%9C%88%EF%BC%89.xls",
+          "200",
+          "application/excel",
+          "RBVWO7TOQBFPSFU7XTUM7CPYZ3LOBXYW",
+          "20986"
+        ]
+      ]
+    },
+    "matsuyama_monthly_xlsx_versions": {
+      "ok": true,
+      "count": 1,
+      "captures": [
+        [
+          "20251014144532",
+          "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.files/shokuhinsinki.xlsx",
+          "200",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "TBIT5HKCNUB2FHGVZ5P3P35CR74EA35I",
+          "315706"
         ]
       ]
     }
