@@ -1,0 +1,47 @@
+name: Stage 4 geocode permit events
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "package.json"
+      - "src/geocode/**"
+      - ".github/workflows/stage4-geocode.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  geocode:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install Python dependency
+        run: pip install pandas
+      - name: Install pinned geocoder
+        run: npm install --no-audit --no-fund
+      - name: Prepare unique addresses
+        run: python src/geocode/prepare_geocode_input.py
+      - name: Normalize and geocode
+        run: node src/geocode/geocode_addresses.mjs
+      - name: Join and audit geocodes
+        run: python src/geocode/finalize_geocoding.py
+      - name: Commit Stage 4 artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json data/geocode data/processed/permit_events_geocoded.csv data/processed/restaurant_permit_events_geocoded.csv docs/research/STAGE4_GEOCODING_AUDIT.json
+          if git diff --cached --quiet; then
+            echo "No Stage 4 changes"
+          else
+            git commit -m "data: build Stage 4 geocoded event panel"
+            git push
+          fi
