@@ -159,6 +159,28 @@ def wayback_cdx(url: str):
         return {"ok": False, "error": f"{type(e).__name__}: {e}"}
 
 
+
+def wayback_resource_cdx(url_pattern: str, collapse: str = "digest"):
+    endpoint = "https://web.archive.org/cdx/search/cdx"
+    params = [
+        ("url", url_pattern),
+        ("output", "json"),
+        ("filter", "statuscode:200"),
+        ("fl", "timestamp,original,statuscode,mimetype,digest,length"),
+        ("collapse", collapse),
+        ("from", "2021"),
+        ("to", "2026"),
+        ("limit", "5000"),
+    ]
+    try:
+        r = S.get(endpoint, params=params, timeout=90)
+        r.raise_for_status()
+        data = r.json()
+        rows = data[1:] if data and isinstance(data[0], list) else data
+        return {"ok": True, "count": len(rows), "captures": rows}
+    except Exception as e:
+        return {"ok": False, "error": f"{type(e).__name__}: {e}"}
+
 def main():
     result = {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -173,6 +195,14 @@ def main():
             "matsuyama_current": wayback_cdx(MATSU_CURRENT),
             "matsuyama_old_3669": wayback_cdx(MATSU_OLD_CATALOG[0]),
             "matsuyama_old_3375": wayback_cdx(MATSU_OLD_CATALOG[1]),
+            "ehime_resource_files": wayback_resource_cdx(
+                "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/*",
+                collapse="urlkey"
+            ),
+            "matsuyama_monthly_xlsx_versions": wayback_resource_cdx(
+                "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.files/shokuhinsinki.xlsx",
+                collapse="digest"
+            ),
         },
     }
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
