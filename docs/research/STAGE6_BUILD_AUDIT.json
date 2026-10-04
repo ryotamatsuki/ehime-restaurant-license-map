@@ -19,7 +19,7 @@
     "strict_new_events.json": 311432,
     "matsuyama_retrospective_events.json": 1417448,
     "matsuyama_retrospective_monthly.json": 3706,
-    "cinematic_timeline_v2.json": 15807,
+    "cinematic_timeline_v2.json": 15872,
     "cinematic_focus_series.json": 3367,
     "coverage.json": 41887,
     "municipality_monthly.json": 30791,
@@ -36,7 +36,7 @@
     "assets/expression-E359vKZW.js",
     "assets/get-attribute-from-layouts-Dd2gixpo.js",
     "assets/index-AAI97zLx.css",
-    "assets/index-DtGidJ96.js",
+    "assets/index-RILJuKyu.js",
     "assets/maplibre-gl-worker-CRiIRpYb.js",
     "assets/webgl-BBwxV-F8.js",
     "assets/webgl-device-BKRjQ_1Q.js",
@@ -59,7 +59,7 @@
     "data/strict_new_events.json",
     "index.html"
   ],
-  "dist_total_bytes": 6149995,
+  "dist_total_bytes": 6150081,
   "browser_qa": {
     "framework": "@playwright/test 1.63.0",
     "desktop": "executed by Stage 6 workflow",
