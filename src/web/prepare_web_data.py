@@ -32,7 +32,7 @@ def boolify(x) -> bool:
 
 def clean_business_type(value: str) -> str:
     x = str(value).strip()
-    return re.sub(r"^[①-㊿]\s*", "", x)
+    return re.sub(r"^[\u2460-\u2473\u3251-\u325f\u32b1-\u32bf]\s*", "", x)
 
 
 def json_dump(path: Path, data) -> None:
