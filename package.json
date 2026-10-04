@@ -1,0 +1,10 @@
+{
+  "name": "ehime-restaurant-license-map",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Reproducible address normalization for Ehime restaurant permit events",
+  "license": "MIT",
+  "dependencies": {
+    "@geolonia/normalize-japanese-addresses": "3.1.3"
+  }
+}
