@@ -848,23 +848,23 @@
       "sequence": 2
     },
     {
-      "month": "2022-08",
+      "month": "2023-11",
       "role": "insight",
-      "scene_type": "spatial_reconfiguration",
+      "scene_type": "hotspot_emergence_or_surge",
       "evidence_tier": "retrospective_partial",
-      "editorial_priority_score": 69.35,
-      "visual_interest_score": 70.43,
-      "total_events": 99,
-      "strict_events": 26,
-      "top_mesh": "50326537",
-      "top_mesh_locality": "祓川一丁目 / 住吉二丁目 / 住吉一丁目",
+      "editorial_priority_score": 76.43,
+      "visual_interest_score": 79.29,
+      "total_events": 133,
+      "strict_events": 39,
+      "top_mesh": "50326622",
+      "top_mesh_locality": "道後湯之町 / 道後多幸町 / 道後湯月町",
       "camera_target": {
-        "mesh_1km": "",
-        "locality": "",
-        "lat": 33.830928671423074,
-        "lon": 132.75664273811537
+        "mesh_1km": "50326622",
+        "locality": "道後湯之町 / 道後多幸町 / 道後湯月町",
+        "lat": 33.85416666666667,
+        "lon": 132.78125
       },
-      "reason": "High quantitative scene score driven primarily by spatial_reconfiguration.",
+      "reason": "High quantitative scene score driven primarily by hotspot_emergence_or_surge.",
       "sequence": 3
     },
     {
@@ -948,23 +948,23 @@
       "sequence": 7
     },
     {
-      "month": "2025-06",
+      "month": "2025-05",
       "role": "insight",
-      "scene_type": "centroid_shift",
+      "scene_type": "volume_spike",
       "evidence_tier": "exact_monthly",
-      "editorial_priority_score": 61.39,
-      "visual_interest_score": 51.74,
-      "total_events": 118,
-      "strict_events": 33,
-      "top_mesh": "50325671",
-      "top_mesh_locality": "居相四丁目 / 居相五丁目 / 古川北四丁目",
+      "editorial_priority_score": 80.26,
+      "visual_interest_score": 75.33,
+      "total_events": 165,
+      "strict_events": 40,
+      "top_mesh": "50326622",
+      "top_mesh_locality": "道後湯之町 / 道後緑台 / 道後鷺谷町",
       "camera_target": {
         "mesh_1km": "",
         "locality": "",
-        "lat": 33.831690022848484,
-        "lon": 132.76549324933333
+        "lat": 33.845378107875,
+        "lon": 132.75086641069998
       },
-      "reason": "High quantitative scene score driven primarily by centroid_shift.",
+      "reason": "High quantitative scene score driven primarily by volume_spike.",
       "sequence": 8
     },
     {
@@ -999,10 +999,10 @@
       "top_mesh": "50325681",
       "top_mesh_locality": "朝生田町一丁目 / 朝生田町六丁目",
       "camera_target": {
-        "mesh_1km": "50325681",
-        "locality": "朝生田町一丁目 / 朝生田町六丁目",
-        "lat": 33.82083333333334,
-        "lon": 132.76874999999998
+        "mesh_1km": "",
+        "locality": "",
+        "lat": 33.83170432934615,
+        "lon": 132.7706226221923
       },
       "reason": "High quantitative scene score driven primarily by volume_spike.",
       "sequence": 10
@@ -1019,10 +1019,10 @@
       "top_mesh": "50325579",
       "top_mesh_locality": "余戸東一丁目 / 保免西三丁目 / 余戸南一丁目",
       "camera_target": {
-        "mesh_1km": "50325579",
-        "locality": "余戸東一丁目 / 保免西三丁目 / 余戸南一丁目",
-        "lat": 33.8125,
-        "lon": 132.74375
+        "mesh_1km": "",
+        "locality": "",
+        "lat": 33.848038464886365,
+        "lon": 132.75642961086362
       },
       "reason": "High quantitative scene score driven primarily by volume_spike.",
       "sequence": 11
