@@ -98,6 +98,8 @@ See `docs/research/STAGE4_GEOCODING.md` and `docs/research/STAGE4_GEOCODING_AUDI
 
 ## Stage 5 — Spatial metrics
 
+**Status: COMPLETE (2026-10-04)**
+
 Generate:
 - monthly new permits by municipality
 - 500 m / 1 km mesh counts
@@ -110,6 +112,10 @@ Potential secondary analyses:
 - Matsuyama central shopping street vacant-store rate
 - pedestrian counts
 - station-area redevelopment periods
+
+Completed outputs include municipality-month counts, standard 1km/500m mesh series, coverage-aware rolling-12 metrics, descriptive hotspot ranks, centroid movement, concentration statistics and GeoJSON layers.
+
+See `docs/research/STAGE5_SPATIAL_METRICS.md`.
 
 ## Stage 6 — Interactive visualization
 
