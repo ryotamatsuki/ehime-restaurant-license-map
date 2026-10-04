@@ -276,20 +276,24 @@ export function createCinematicController({
 
     if (!run.reduced && cache.freshStrict.length) {
       layers.push(new ScatterplotLayer({
-        id: 'cin-halo-' + monthInfo.month + '-' + Math.floor(elapsed * 30),
+        id: 'cin-halo-' + monthInfo.month,
         data: cache.freshStrict,
         getPosition: d => [d.lon, d.lat],
         getRadius: d => 46 * ignitionPhase(d, elapsed, monthInfo).radius,
         radiusMinPixels: 3,
         radiusMaxPixels: 14,
         getFillColor: d => [...HALO, Math.round(92 * ignitionPhase(d, elapsed, monthInfo).halo)],
+        updateTriggers: {
+          getRadius: Math.floor(elapsed * 30),
+          getFillColor: Math.floor(elapsed * 30)
+        },
         stroked: false,
         pickable: false
       }));
     }
 
     layers.push(new ScatterplotLayer({
-      id: 'cin-core-' + monthInfo.month + '-' + Math.floor(elapsed * 20),
+      id: 'cin-core-' + monthInfo.month,
       data: cache.freshStrict,
       getPosition: d => [d.lon, d.lat],
       getRadius: 18,
@@ -299,6 +303,7 @@ export function createCinematicController({
         const phase = run.reduced ? 1 : ignitionPhase(d, elapsed, monthInfo).core;
         return [...FRESH, Math.round(235 * phase)];
       },
+      updateTriggers: {getFillColor: Math.floor(elapsed * 20)},
       stroked: false,
       pickable: false
     }));
