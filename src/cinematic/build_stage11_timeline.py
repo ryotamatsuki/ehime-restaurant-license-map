@@ -232,6 +232,7 @@ def main() -> int:
                 "start": 22.0, "end": 24.6,
                 "place": "道後",
                 "focus_mesh": DOGO,
+                "focus_center": centers["dogo"],
                 "scope": "道後周辺の1km区画・高精度地点",
                 "local_count": checks["2024-09_dogo"],
                 "caption": "道後周辺に、許可がまとまって現れる。",
@@ -294,6 +295,7 @@ def main() -> int:
                 "start": 61.0, "end": 69.5,
                 "place": "道後",
                 "focus_mesh": DOGO,
+                "focus_center": centers["dogo"],
                 "scope": "道後周辺の1km区画・高精度地点",
                 "kpi_sequence": [
                     {"start": 61.5, "end": 63.25, "label": "松山市全体", "value": checks["2026-02_city_total"], "unit": "件"},
