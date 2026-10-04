@@ -24,7 +24,7 @@
       "town_centroid": 2033,
       "municipality_centroid": 1291,
       "address_or_parcel": 904,
-      "": 11,
+      "no_source_address": 11,
       "prefecture_centroid": 1
     },
     "point_level_counts": {
@@ -51,7 +51,7 @@
       "town_centroid": 1739,
       "municipality_centroid": 889,
       "address_or_parcel": 661,
-      "": 10,
+      "no_source_address": 10,
       "prefecture_centroid": 1
     },
     "point_level_counts": {
@@ -79,7 +79,7 @@
         "municipality_centroid": 1168,
         "address_or_parcel": 27,
         "town_centroid": 15,
-        "": 11,
+        "no_source_address": 11,
         "prefecture_centroid": 1
       },
       "point_level_counts": {
@@ -130,7 +130,7 @@
       "quality_counts": {
         "address_or_parcel": 27,
         "town_centroid": 15,
-        "": 11,
+        "no_source_address": 11,
         "municipality_centroid": 4
       },
       "point_level_counts": {
@@ -215,7 +215,8 @@
     "town_centroid": "point_level 3; may be used for aggregated/context views, not presented as exact facility coordinate",
     "municipality_centroid": "point_level 2; retained for provenance/context only and excluded from point maps",
     "prefecture_centroid": "point_level 1; excluded from point maps",
-    "failed": "no usable coordinate returned"
+    "no_source_address": "source facility_address is empty; no coordinate is guessed",
+    "failed": "address was present but no usable coordinate returned"
   },
   "outputs": [
     "data/processed/permit_events_geocoded.csv",

@@ -7,9 +7,9 @@
     "crs": "EPSG:4326"
   },
   "municipality_code_reference": "Ehime Prefecture official municipal-code table",
-  "generated_at": "2026-10-04T02:56:32.833Z",
+  "generated_at": "2026-10-04T02:57:56.610Z",
   "source_unique_addresses": 2564,
-  "newly_geocoded_addresses": 2564,
+  "newly_geocoded_addresses": 0,
   "results": [
     {
       "address_key": "5d399dac3684a2e1aed982d9",
