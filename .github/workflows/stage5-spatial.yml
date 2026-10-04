@@ -1,0 +1,39 @@
+name: Stage 5 build spatial metrics
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/spatial/**"
+      - ".github/workflows/stage5-spatial.yml"
+      - "data/processed/restaurant_permit_events_geocoded.csv"
+      - "data/processed/coverage_matrix.csv"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  spatial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install pandas numpy
+      - name: Build spatial indicators
+        run: python src/spatial/build_spatial_metrics.py
+      - name: Commit Stage 5 outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed/spatial docs/research/STAGE5_SPATIAL_METRICS_AUDIT.json
+          if git diff --cached --quiet; then
+            echo "No Stage 5 changes"
+          else
+            git commit -m "data: build Stage 5 spatial indicators"
+            git push
+          fi
