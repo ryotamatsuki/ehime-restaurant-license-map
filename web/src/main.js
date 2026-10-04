@@ -47,6 +47,7 @@ const els = {
   cinematicMonth: document.querySelector('#cinematic-month'),
   cinematicPeriod: document.querySelector('#cinematic-evidence'),
   cinematicTitle: document.querySelector('#cinematic-title'),
+  cinematicHud: document.querySelector('.cinematic-hud'),
   cinematicPlace: document.querySelector('#cinematic-place'),
   cinematicKpiWrap: document.querySelector('#cinematic-kpi-wrap'),
   cinematicKpiLabel: document.querySelector('#cinematic-kpi-label'),
