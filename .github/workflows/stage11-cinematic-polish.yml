@@ -1,0 +1,44 @@
+name: Stage 11 cinematic polish data QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/cinematic/build_stage11_timeline.py"
+      - "src/cinematic/qa_stage11.py"
+      - ".github/workflows/stage11-cinematic-polish.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ehime-repo-writes
+  cancel-in-progress: false
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas
+      - name: Build Stage 11 timeline and focus series
+        run: python src/cinematic/build_stage11_timeline.py
+      - name: Validate Stage 11 editorial and numeric rules
+        run: python src/cinematic/qa_stage11.py
+      - name: Commit generated Stage 11 data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed/cinematic/cinematic_timeline_v2.json data/processed/cinematic/cinematic_focus_series.json
+          if git diff --cached --quiet; then
+            echo "No Stage 11 generated changes"
+          else
+            git commit -m "data: build Stage 11 cinematic timeline"
+            git pull --rebase origin main
+            git push
+          fi
