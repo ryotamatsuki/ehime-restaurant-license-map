@@ -152,3 +152,19 @@ The target synthesis is:
 > Flight Patterns atmosphere × Urban Layers historical accumulation × HERE Traffic Analytics motion/storyboard × District Mobility insight guidance × NYC Taxi temporal instrumentation.
 
 The existing analytical map remains unchanged; the cinematic mode will be additive.
+
+
+## Stage 8 — Cinematic insight extraction
+
+Stage 8 quantitatively ranks the 62-month Matsuyama hybrid timeline to identify months and 1km locations suitable for the future cinematic mode.
+
+Key outputs include:
+- monthly visual-interest / editorial-priority scores;
+- centroid movement, mesh churn, concentration and hotspot-surge metrics;
+- persistent hotspot trajectories;
+- locality-labeled camera targets;
+- a 12-scene storyboard seed.
+
+The dominant long-run cores are Dogo and Mitsu. The strongest exact-period scene is 2026-02 in Dogo, while 2024-09 is the mandatory retrospective-to-exact evidence transition.
+
+See [`docs/design/MATSUYAMA_CINEMATIC_SCENE_EXTRACTION.md`](docs/design/MATSUYAMA_CINEMATIC_SCENE_EXTRACTION.md).
