@@ -406,6 +406,14 @@ export function createCinematicController({
       els.cinematicClosingStats.textContent = beat.support || '';
     }
 
+    const closingQuiet = Boolean(final && beat.caption_window && elapsed > beat.caption_window[1]);
+    const hudHasContent = Boolean(
+      beat
+      && !closingQuiet
+      && (beat.place || beat.title || kpi || captionVisible || beat.support || beat.sparkline)
+    );
+    els.cinematicHud.classList.toggle('is-active', hudHasContent);
+
     els.cinematicProgress.style.width =
       Math.min(100, elapsed / timeline.runtime_seconds * 100) + '%';
   }
