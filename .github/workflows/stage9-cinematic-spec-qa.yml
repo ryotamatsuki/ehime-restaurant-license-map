@@ -1,0 +1,22 @@
+name: Stage 9 cinematic motion spec QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/processed/cinematic/cinematic_timeline_v1.json"
+      - "src/cinematic/qa_motion_spec.py"
+      - ".github/workflows/stage9-cinematic-spec-qa.yml"
+  workflow_dispatch:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate cinematic timeline
+        run: python src/cinematic/qa_motion_spec.py
