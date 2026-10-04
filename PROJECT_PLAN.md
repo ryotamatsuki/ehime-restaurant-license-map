@@ -80,6 +80,8 @@ See `docs/research/STAGE3_HISTORICAL_RECONSTRUCTION.md` and `data/processed/cove
 
 ## Stage 4 — Address normalization / geocoding
 
+**Status: COMPLETE (2026-10-04)**
+
 ### Tasks
 - normalize Japanese address strings
 - geocode using reproducible public geocoder/address base
@@ -87,8 +89,12 @@ See `docs/research/STAGE3_HISTORICAL_RECONSTRUCTION.md` and `data/processed/cove
 - attach municipal code and quality level
 
 ### Exit criteria
-- geocoding success and uncertainty are quantified.
-- original address remains traceable in sanitized form.
+- [x] geocoding success and uncertainty are quantified.
+- [x] original address remains traceable in sanitized form.
+- [x] low-precision representative points are separated from strict facility points.
+- [x] municipality codes are retained or derived only where supportable.
+
+See `docs/research/STAGE4_GEOCODING.md` and `docs/research/STAGE4_GEOCODING_AUDIT.json`.
 
 ## Stage 5 — Spatial metrics
 
