@@ -149,3 +149,8 @@ See `docs/research/STAGE6_INTERACTIVE_MAP.md`.
 - data attribution / caveats
 - performance budget
 - provenance links to each snapshot
+
+
+Stage 7 public URL: https://ryotamatsuki.github.io/ehime-restaurant-license-map/
+
+See `docs/research/STAGE7_PUBLICATION_QA.md`.
