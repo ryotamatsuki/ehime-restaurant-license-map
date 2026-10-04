@@ -1,0 +1,252 @@
+{
+  "period": [
+    "2021-06",
+    "2024-08"
+  ],
+  "rows": 3743,
+  "strict_address_or_parcel": 1041,
+  "town_or_better": 3574,
+  "quality_counts": {
+    "town_centroid": 2533,
+    "address_or_parcel": 1041,
+    "municipality_centroid": 169
+  },
+  "invalid_matsuyama_coordinates": 0,
+  "monthly": [
+    {
+      "month": "2021-06",
+      "rows": 202,
+      "strict": 60,
+      "town_or_better": 199
+    },
+    {
+      "month": "2021-07",
+      "rows": 43,
+      "strict": 11,
+      "town_or_better": 41
+    },
+    {
+      "month": "2021-08",
+      "rows": 106,
+      "strict": 31,
+      "town_or_better": 99
+    },
+    {
+      "month": "2021-09",
+      "rows": 112,
+      "strict": 31,
+      "town_or_better": 109
+    },
+    {
+      "month": "2021-10",
+      "rows": 50,
+      "strict": 14,
+      "town_or_better": 49
+    },
+    {
+      "month": "2021-11",
+      "rows": 104,
+      "strict": 27,
+      "town_or_better": 103
+    },
+    {
+      "month": "2021-12",
+      "rows": 138,
+      "strict": 43,
+      "town_or_better": 128
+    },
+    {
+      "month": "2022-01",
+      "rows": 39,
+      "strict": 15,
+      "town_or_better": 36
+    },
+    {
+      "month": "2022-02",
+      "rows": 95,
+      "strict": 38,
+      "town_or_better": 90
+    },
+    {
+      "month": "2022-03",
+      "rows": 120,
+      "strict": 29,
+      "town_or_better": 116
+    },
+    {
+      "month": "2022-04",
+      "rows": 49,
+      "strict": 10,
+      "town_or_better": 48
+    },
+    {
+      "month": "2022-05",
+      "rows": 107,
+      "strict": 26,
+      "town_or_better": 104
+    },
+    {
+      "month": "2022-06",
+      "rows": 118,
+      "strict": 34,
+      "town_or_better": 116
+    },
+    {
+      "month": "2022-07",
+      "rows": 59,
+      "strict": 9,
+      "town_or_better": 55
+    },
+    {
+      "month": "2022-08",
+      "rows": 99,
+      "strict": 26,
+      "town_or_better": 95
+    },
+    {
+      "month": "2022-09",
+      "rows": 113,
+      "strict": 28,
+      "town_or_better": 106
+    },
+    {
+      "month": "2022-10",
+      "rows": 57,
+      "strict": 17,
+      "town_or_better": 57
+    },
+    {
+      "month": "2022-11",
+      "rows": 132,
+      "strict": 35,
+      "town_or_better": 126
+    },
+    {
+      "month": "2022-12",
+      "rows": 131,
+      "strict": 46,
+      "town_or_better": 127
+    },
+    {
+      "month": "2023-01",
+      "rows": 51,
+      "strict": 11,
+      "town_or_better": 47
+    },
+    {
+      "month": "2023-02",
+      "rows": 88,
+      "strict": 26,
+      "town_or_better": 85
+    },
+    {
+      "month": "2023-03",
+      "rows": 127,
+      "strict": 29,
+      "town_or_better": 123
+    },
+    {
+      "month": "2023-04",
+      "rows": 61,
+      "strict": 12,
+      "town_or_better": 57
+    },
+    {
+      "month": "2023-05",
+      "rows": 89,
+      "strict": 30,
+      "town_or_better": 85
+    },
+    {
+      "month": "2023-06",
+      "rows": 143,
+      "strict": 31,
+      "town_or_better": 134
+    },
+    {
+      "month": "2023-07",
+      "rows": 50,
+      "strict": 18,
+      "town_or_better": 45
+    },
+    {
+      "month": "2023-08",
+      "rows": 105,
+      "strict": 26,
+      "town_or_better": 100
+    },
+    {
+      "month": "2023-09",
+      "rows": 119,
+      "strict": 31,
+      "town_or_better": 104
+    },
+    {
+      "month": "2023-10",
+      "rows": 75,
+      "strict": 14,
+      "town_or_better": 73
+    },
+    {
+      "month": "2023-11",
+      "rows": 133,
+      "strict": 39,
+      "town_or_better": 129
+    },
+    {
+      "month": "2023-12",
+      "rows": 92,
+      "strict": 23,
+      "town_or_better": 87
+    },
+    {
+      "month": "2024-01",
+      "rows": 38,
+      "strict": 8,
+      "town_or_better": 35
+    },
+    {
+      "month": "2024-02",
+      "rows": 124,
+      "strict": 48,
+      "town_or_better": 119
+    },
+    {
+      "month": "2024-03",
+      "rows": 125,
+      "strict": 41,
+      "town_or_better": 116
+    },
+    {
+      "month": "2024-04",
+      "rows": 49,
+      "strict": 13,
+      "town_or_better": 46
+    },
+    {
+      "month": "2024-05",
+      "rows": 119,
+      "strict": 33,
+      "town_or_better": 116
+    },
+    {
+      "month": "2024-06",
+      "rows": 111,
+      "strict": 43,
+      "town_or_better": 107
+    },
+    {
+      "month": "2024-07",
+      "rows": 64,
+      "strict": 10,
+      "town_or_better": 62
+    },
+    {
+      "month": "2024-08",
+      "rows": 106,
+      "strict": 25,
+      "town_or_better": 100
+    }
+  ],
+  "interpretation": "Incomplete retrospective series from facilities present in the 2026-03-31 all-facilities snapshot; not complete historical new-permit counts."
+}
