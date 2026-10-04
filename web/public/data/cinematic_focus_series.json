@@ -1,0 +1,210 @@
+{
+  "dogo": {
+    "mesh_1km": "50326622",
+    "label": "道後",
+    "center": [
+      132.78125,
+      33.85416666666667
+    ],
+    "exact_active_months": 19,
+    "exact_total_months": 23,
+    "series": [
+      {
+        "month": "2024-09",
+        "count": 15
+      },
+      {
+        "month": "2024-10",
+        "count": 0
+      },
+      {
+        "month": "2024-11",
+        "count": 0
+      },
+      {
+        "month": "2024-12",
+        "count": 8
+      },
+      {
+        "month": "2025-01",
+        "count": 2
+      },
+      {
+        "month": "2025-02",
+        "count": 6
+      },
+      {
+        "month": "2025-03",
+        "count": 2
+      },
+      {
+        "month": "2025-04",
+        "count": 2
+      },
+      {
+        "month": "2025-05",
+        "count": 5
+      },
+      {
+        "month": "2025-06",
+        "count": 1
+      },
+      {
+        "month": "2025-07",
+        "count": 1
+      },
+      {
+        "month": "2025-08",
+        "count": 3
+      },
+      {
+        "month": "2025-09",
+        "count": 2
+      },
+      {
+        "month": "2025-10",
+        "count": 2
+      },
+      {
+        "month": "2025-11",
+        "count": 6
+      },
+      {
+        "month": "2025-12",
+        "count": 3
+      },
+      {
+        "month": "2026-01",
+        "count": 0
+      },
+      {
+        "month": "2026-02",
+        "count": 14
+      },
+      {
+        "month": "2026-03",
+        "count": 3
+      },
+      {
+        "month": "2026-04",
+        "count": 2
+      },
+      {
+        "month": "2026-05",
+        "count": 1
+      },
+      {
+        "month": "2026-06",
+        "count": 0
+      },
+      {
+        "month": "2026-07",
+        "count": 3
+      }
+    ]
+  },
+  "mitsu": {
+    "mesh_1km": "50326537",
+    "label": "三津",
+    "center": [
+      132.71875,
+      33.8625
+    ],
+    "exact_active_months": 15,
+    "exact_total_months": 23,
+    "series": [
+      {
+        "month": "2024-09",
+        "count": 3
+      },
+      {
+        "month": "2024-10",
+        "count": 2
+      },
+      {
+        "month": "2024-11",
+        "count": 2
+      },
+      {
+        "month": "2024-12",
+        "count": 0
+      },
+      {
+        "month": "2025-01",
+        "count": 0
+      },
+      {
+        "month": "2025-02",
+        "count": 3
+      },
+      {
+        "month": "2025-03",
+        "count": 0
+      },
+      {
+        "month": "2025-04",
+        "count": 1
+      },
+      {
+        "month": "2025-05",
+        "count": 1
+      },
+      {
+        "month": "2025-06",
+        "count": 0
+      },
+      {
+        "month": "2025-07",
+        "count": 0
+      },
+      {
+        "month": "2025-08",
+        "count": 5
+      },
+      {
+        "month": "2025-09",
+        "count": 2
+      },
+      {
+        "month": "2025-10",
+        "count": 2
+      },
+      {
+        "month": "2025-11",
+        "count": 1
+      },
+      {
+        "month": "2025-12",
+        "count": 0
+      },
+      {
+        "month": "2026-01",
+        "count": 2
+      },
+      {
+        "month": "2026-02",
+        "count": 1
+      },
+      {
+        "month": "2026-03",
+        "count": 3
+      },
+      {
+        "month": "2026-04",
+        "count": 1
+      },
+      {
+        "month": "2026-05",
+        "count": 0
+      },
+      {
+        "month": "2026-06",
+        "count": 0
+      },
+      {
+        "month": "2026-07",
+        "count": 1
+      }
+    ]
+  }
+}
