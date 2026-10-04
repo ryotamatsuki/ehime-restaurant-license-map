@@ -325,6 +325,92 @@
   "exact_rows_after_dedup": 4240,
   "exact_restaurant_rows": 3300,
   "event_id_duplicates_removed": 3,
+  "duplicate_event_groups": [
+    {
+      "event_id": "255002bf4b83ec985845557e",
+      "rows": 2,
+      "authority": [
+        "松山市"
+      ],
+      "coverage_months": [
+        "2025-04"
+      ],
+      "permit_numbers": [
+        "第70号"
+      ],
+      "permit_dates": [
+        "2025-04-25"
+      ],
+      "business_types": [
+        "飲食店営業"
+      ],
+      "facility_names": [
+        "焼き鳥・海鮮　一"
+      ],
+      "facility_addresses": [
+        "松山市二番町1丁目7-11 青娥2番館 2F"
+      ],
+      "source_kinds": [
+        "wayback_archived_rolling_workbook"
+      ]
+    },
+    {
+      "event_id": "afc1781b754027bc9ac4aa93",
+      "rows": 2,
+      "authority": [
+        "松山市"
+      ],
+      "coverage_months": [
+        "2025-05"
+      ],
+      "permit_numbers": [
+        "第218号"
+      ],
+      "permit_dates": [
+        "2025-05-28"
+      ],
+      "business_types": [
+        "飲食店営業"
+      ],
+      "facility_names": [
+        "tiara"
+      ],
+      "facility_addresses": [
+        "松山市三番町2丁目6参番館2F"
+      ],
+      "source_kinds": [
+        "wayback_archived_rolling_workbook"
+      ]
+    },
+    {
+      "event_id": "ef244d401c6f4345c1aa7243",
+      "rows": 2,
+      "authority": [
+        "松山市"
+      ],
+      "coverage_months": [
+        "2024-11"
+      ],
+      "permit_numbers": [
+        "第1029号"
+      ],
+      "permit_dates": [
+        "2024-11-27"
+      ],
+      "business_types": [
+        "飲食店営業"
+      ],
+      "facility_names": [
+        "ITALIAN RESTAURANT Carne e vino"
+      ],
+      "facility_addresses": [
+        "松山市一番町2丁目5-25GOODWINビル3F"
+      ],
+      "source_kinds": [
+        "wayback_archived_rolling_workbook"
+      ]
+    }
+  ],
   "event_type_counts": {
     "new": 3981,
     "renewal": 259
