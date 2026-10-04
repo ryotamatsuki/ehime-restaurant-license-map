@@ -592,7 +592,7 @@ def choose_storyboard(scored: pd.DataFrame, locations: pd.DataFrame) -> list[dic
 
         # Movement/reconfiguration should be shown citywide around the centroid,
         # not incorrectly forced onto the strongest hotspot.
-        if scene_type in {"centroid_shift", "spatial_reconfiguration", "source_boundary_opening"}:
+        if scene_type in {"centroid_shift", "spatial_reconfiguration", "source_boundary_opening", "volume_spike"}:
             return {
                 "mesh_1km": "",
                 "locality": "",
@@ -666,7 +666,7 @@ def choose_storyboard(scored: pd.DataFrame, locations: pd.DataFrame) -> list[dic
 
             target = location_for_month(r["month"], r["primary_scene_type"])
             # Avoid a storyboard that repeatedly zooms to the same dominant mesh.
-            if target["mesh_1km"] and used_focus_meshes[target["mesh_1km"]] >= 2:
+            if target["mesh_1km"] and used_focus_meshes[target["mesh_1km"]] >= 3:
                 continue
 
             selected.append(r["month"])
