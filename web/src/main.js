@@ -5,6 +5,7 @@ import {MapLibreOverlay} from '@deck.gl/maplibre';
 import {ScatterplotLayer, GeoJsonLayer} from '@deck.gl/layers';
 import {HeatmapLayer, HexagonLayer} from '@deck.gl/aggregation-layers';
 import './style.css';
+import {createCinematicController} from './cinematic.js';
 
 setWorkerUrl(maplibreWorkerUrl);
 
@@ -44,12 +45,23 @@ const els = {
   cinematicPlay: document.querySelector('#cinematic-play'),
   cinematicNext: document.querySelector('#cinematic-next'),
   cinematicMonth: document.querySelector('#cinematic-month'),
-  cinematicEvidence: document.querySelector('#cinematic-evidence'),
+  cinematicPeriod: document.querySelector('#cinematic-evidence'),
+  cinematicTitle: document.querySelector('#cinematic-title'),
+  cinematicPlace: document.querySelector('#cinematic-place'),
+  cinematicKpiWrap: document.querySelector('#cinematic-kpi-wrap'),
   cinematicKpiLabel: document.querySelector('#cinematic-kpi-label'),
   cinematicKpi: document.querySelector('#cinematic-kpi'),
+  cinematicScope: document.querySelector('#cinematic-scope'),
   cinematicSupport: document.querySelector('#cinematic-support'),
   cinematicAnnotation: document.querySelector('#cinematic-annotation'),
-  cinematicProgress: document.querySelector('#cinematic-progress')
+  cinematicChart: document.querySelector('#cinematic-chart'),
+  cinematicProgress: document.querySelector('#cinematic-progress'),
+  cinematicFinal: document.querySelector('#cinematic-final'),
+  cinematicClosingStats: document.querySelector('#cinematic-closing-stats'),
+  cinematicTargetDogo: document.querySelector('#cinematic-target-dogo'),
+  cinematicTargetMitsu: document.querySelector('#cinematic-target-mitsu'),
+  cinematicExplore: document.querySelector('#cinematic-explore'),
+  cinematicReplay: document.querySelector('#cinematic-replay')
 };
 
 const data = await loadData();
@@ -64,17 +76,6 @@ const state = {
   playing: false,
   timer: null,
   cinematic: false
-};
-
-const cinematic = {
-  playing: false,
-  startedAt: 0,
-  pausedAt: 0,
-  elapsed: 0,
-  raf: null,
-  lastSceneId: null,
-  reduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  saved: null
 };
 
 const map = new Map({
@@ -109,6 +110,23 @@ const overlay = new MapLibreOverlay({
 });
 map.addControl(overlay);
 
+const cinematicController = createCinematicController({
+  map,
+  overlay,
+  data,
+  state,
+  els,
+  stopAnalyticalPlayback: stopPlayback,
+  analyticalLayers: layersForState,
+  analyticalTooltip: makeTooltip,
+  updateAnalytical: function() { updateAll(); },
+  syncAnalytical: function() {
+    syncButtons();
+    syncTimeline();
+  },
+  onExploreTarget: exploreCinematicTarget
+});
+
 initializeControls();
 updateAll();
 
@@ -135,7 +153,8 @@ async function loadData() {
     loadJson('matsuyama_mesh_1km_rolling12.geojson'),
     loadJson('matsuyama_mesh_500m_rolling12.geojson'),
     loadJson('matsuyama_spatial_centroid_monthly.geojson'),
-    loadJson('cinematic_timeline_v1.json')
+    loadJson('cinematic_timeline_v2.json'),
+    loadJson('cinematic_focus_series.json')
   ]);
   return {
     manifest: results[0],
@@ -149,7 +168,8 @@ async function loadData() {
     mesh1Rolling: results[8],
     mesh500Rolling: results[9],
     centroids: results[10],
-    cinematicTimeline: results[11]
+    cinematicTimeline: results[11],
+    cinematicFocusSeries: results[12]
   };
 }
 
@@ -253,30 +273,7 @@ function initializeControls() {
     else startPlayback();
   });
 
-  els.cinematicEnter.addEventListener('click', enterCinematic);
-  els.cinematicExit.addEventListener('click', exitCinematic);
-  els.cinematicPlay.addEventListener('click', toggleCinematicPlayback);
-  els.cinematicNext.addEventListener('click', nextCinematicScene);
-
-  document.addEventListener('keydown', function(event) {
-    if (!state.cinematic) return;
-    if (event.code === 'Space') {
-      event.preventDefault();
-      toggleCinematicPlayback();
-    } else if (event.code === 'ArrowRight') {
-      event.preventDefault();
-      nextCinematicScene();
-    } else if (event.code === 'ArrowLeft') {
-      event.preventDefault();
-      previousCinematicScene();
-    } else if (event.code === 'Escape') {
-      exitCinematic();
-    }
-  });
-
-  document.addEventListener('visibilitychange', function() {
-    if (document.hidden && state.cinematic && cinematic.playing) pauseCinematic();
-  });
+  cinematicController.bindControls();
 
   syncButtons();
   syncTimeline();
@@ -767,282 +764,28 @@ function updateAll(fly) {
 }
 
 
-function cinematicAllEvents() {
-  const exact = data.events.filter(function(d) {
-    return d.municipality_code === '382019' && d.business_type === '飲食店営業';
-  });
-  return data.retrospectiveEvents.concat(exact);
-}
-
-function monthOrdinal(month) {
-  const [y, m] = month.split('-').map(Number);
-  return y * 12 + m;
-}
-
-function ageMonths(eventMonth, currentMonth) {
-  return monthOrdinal(currentMonth) - monthOrdinal(eventMonth);
-}
-
-function hashUnit(value) {
-  let h = 2166136261;
-  const s = String(value || '');
-  for (let i = 0; i < s.length; i += 1) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return (h >>> 0) / 4294967295;
-}
-
-function memoryOpacity(d, currentMonth) {
-  const age = ageMonths(d.month, currentMonth);
-  if (age < 0) return 0;
-  const retro = d.evidence !== 'exact_monthly';
-  if (age === 0) return retro ? 0.72 : 0.92;
-  if (age <= 3) return 0.55 - ((age - 1) / 2) * 0.21;
-  if (age <= 12) return 0.24 - ((age - 4) / 8) * 0.14;
-  return retro ? 0.035 : 0.045;
-}
-
-function cinematicLayers(scene, elapsedInScene) {
-  const currentMonth = scene.month;
-  const visible = cinematicAllEvents().filter(function(d) {
-    return ageMonths(d.month, currentMonth) >= 0;
-  });
-  const fresh = visible.filter(function(d) { return d.month === currentMonth; });
-  const focal = scene.camera && scene.camera.to ? scene.camera.to : null;
-
-  const layers = [
-    new ScatterplotLayer({
-      id: 'cinematic-memory-' + scene.id,
-      data: visible,
-      getPosition: d => [d.lon, d.lat],
-      getRadius: d => ageMonths(d.month, currentMonth) === 0 ? 34 : 20,
-      radiusMinPixels: 1,
-      radiusMaxPixels: 7,
-      getFillColor: d => {
-        const a = Math.round(255 * memoryOpacity(d, currentMonth));
-        return d.evidence === 'exact_monthly' ? [255, 111, 70, a] : [238, 173, 72, a];
-      },
-      stroked: false,
-      pickable: false,
-      updateTriggers: {getFillColor: currentMonth}
-    })
-  ];
-
-  if (fresh.length) {
-    const pulse = Math.min(1, elapsedInScene / 0.9);
-    layers.push(new ScatterplotLayer({
-      id: 'cinematic-fresh-' + scene.id,
-      data: fresh,
-      getPosition: d => [d.lon, d.lat],
-      getRadius: d => 55 + 90 * Math.max(0, Math.sin(Math.PI * Math.min(1, pulse + hashUnit(d.id) * 0.18))),
-      radiusMinPixels: 4,
-      radiusMaxPixels: 18,
-      getFillColor: d => d.evidence === 'exact_monthly' ? [255, 119, 74, 205] : [238, 174, 73, 150],
-      getLineColor: [255, 229, 190, 145],
-      lineWidthMinPixels: 1,
-      stroked: true,
-      pickable: false
-    }));
-  }
-
-  if (focal && scene.type !== 'volume_spike' && scene.type !== 'closing' && scene.type !== 'evidence_boundary_approach') {
-    layers.push(new ScatterplotLayer({
-      id: 'cinematic-focus-' + scene.id,
-      data: [{lon: focal[0], lat: focal[1]}],
-      getPosition: d => [d.lon, d.lat],
-      getRadius: 420,
-      radiusMinPixels: 22,
-      radiusMaxPixels: 68,
-      getFillColor: [255, 133, 69, 22],
-      getLineColor: [255, 184, 99, 145],
-      lineWidthMinPixels: 1.5,
-      stroked: true,
-      pickable: false
-    }));
-  }
-  return layers;
-}
-
-function sceneAtTime(seconds) {
-  const scenes = data.cinematicTimeline.scenes;
-  return scenes.find(s => seconds >= s.start && seconds < s.end) || scenes.at(-1);
-}
-
-function formatKpi(kpi) {
-  if (!kpi) return '';
-  const v = typeof kpi.value === 'number'
-    ? kpi.value.toLocaleString('ja-JP', {maximumFractionDigits: 2})
-    : String(kpi.value);
-  return v + (kpi.unit || '');
-}
-
-function updateCinematicHud(scene, elapsed) {
-  els.cinematicMonth.textContent = scene.month.replace('-', '.');
-  const exact = scene.evidence === 'exact_monthly';
-  els.cinematicEvidence.textContent = exact ? '完全観測・月次' : '参考復元・不完全';
-  els.cinematicEvidence.className = 'cinematic-evidence ' + (exact ? 'exact' : 'retro');
-  els.cinematicKpiLabel.textContent = scene.primary_kpi?.label || '';
-  els.cinematicKpi.textContent = formatKpi(scene.primary_kpi);
-  els.cinematicSupport.textContent = (scene.support || []).map(function(item) {
-    return item[0] + ' ' + item[1] + (item[2] || '');
-  }).join(' / ');
-  els.cinematicAnnotation.textContent = scene.annotation || '';
-  els.cinematicProgress.style.width = Math.min(100, elapsed / data.cinematicTimeline.runtime_seconds * 100) + '%';
-}
-
-function cameraForScene(scene) {
-  const cam = scene.camera || {};
-  if (cam.to) return cam.to;
-  if (cam.keyframes && cam.keyframes.length) return cam.keyframes.at(-1).slice(1);
-  return [132.755, 33.840, 11.1, 32, -8];
-}
-
-function applySceneCamera(scene) {
-  const [lon, lat, zoom, pitch, bearing] = cameraForScene(scene);
-  if (cinematic.reduced) {
-    map.jumpTo({center: [lon, lat], zoom: Math.min(zoom, 12.8), pitch: Math.min(pitch, 15), bearing: 0});
-  } else {
-    map.easeTo({
-      center: [lon, lat],
-      zoom,
-      pitch,
-      bearing,
-      duration: scene.type === 'evidence_transition' ? 2400 : 2000,
-      easing: t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2
-    });
-  }
-}
-
-function applyCinematicBasemap(on) {
-  document.body.classList.toggle('cinematic-active', on);
-  try {
-    map.setPaintProperty('gsi', 'raster-saturation', on ? -1 : 0);
-    map.setPaintProperty('gsi', 'raster-brightness-max', on ? 0.22 : 1);
-    map.setPaintProperty('gsi', 'raster-brightness-min', on ? 0.03 : 0);
-    map.setPaintProperty('gsi', 'raster-contrast', on ? 0.28 : 0);
-  } catch (_) {}
-}
-
-function enterCinematic() {
+function exploreCinematicTarget(target) {
   stopPlayback();
-  state.cinematic = true;
-  cinematic.saved = {
-    center: map.getCenter().toArray(),
-    zoom: map.getZoom(),
-    pitch: map.getPitch(),
-    bearing: map.getBearing()
-  };
-  document.querySelector('.topbar').setAttribute('aria-hidden', 'true');
-  document.querySelector('.panel').setAttribute('aria-hidden', 'true');
-  els.cinematicShell.hidden = false;
-  applyCinematicBasemap(true);
-  cinematic.elapsed = 0;
-  cinematic.pausedAt = 0;
-  cinematic.lastSceneId = null;
-  if (cinematic.reduced) {
-    cinematic.playing = false;
-    els.cinematicPlay.textContent = '▶';
-    renderCinematic(0);
-  } else {
-    cinematic.playing = true;
-    cinematic.startedAt = performance.now();
-    els.cinematicPlay.textContent = 'Ⅱ';
-    cinematic.raf = requestAnimationFrame(cinematicFrame);
-  }
-}
+  state.municipality = '382019';
+  state.business = '飲食店営業';
+  state.view = 'points';
+  state.period = 'monthly';
+  state.includeRetrospective = true;
+  state.month = target.month;
 
-function exitCinematic() {
-  if (!state.cinematic) return;
-  pauseCinematic();
-  state.cinematic = false;
-  els.cinematicShell.hidden = true;
-  document.querySelector('.topbar').removeAttribute('aria-hidden');
-  document.querySelector('.panel').removeAttribute('aria-hidden');
-  applyCinematicBasemap(false);
-  overlay.setProps({layers: layersForState(), getTooltip: makeTooltip});
-  if (cinematic.saved) {
-    map.jumpTo({
-      center: cinematic.saved.center,
-      zoom: cinematic.saved.zoom,
-      pitch: cinematic.saved.pitch,
-      bearing: cinematic.saved.bearing
-    });
-  }
-}
+  els.municipality.value = state.municipality;
+  els.business.value = state.business;
+  els.retroToggle.checked = true;
 
-function cinematicFrame(now) {
-  if (!cinematic.playing || !state.cinematic) return;
-  cinematic.elapsed = cinematic.pausedAt + (now - cinematic.startedAt) / 1000;
-  if (cinematic.elapsed >= data.cinematicTimeline.runtime_seconds) {
-    cinematic.elapsed = data.cinematicTimeline.runtime_seconds - 0.001;
-    renderCinematic(cinematic.elapsed);
-    pauseCinematic();
-    return;
-  }
-  renderCinematic(cinematic.elapsed);
-  cinematic.raf = requestAnimationFrame(cinematicFrame);
-}
-
-function renderCinematic(elapsed) {
-  const scene = sceneAtTime(elapsed);
-  const local = Math.max(0, elapsed - scene.start);
-  if (scene.id !== cinematic.lastSceneId) {
-    cinematic.lastSceneId = scene.id;
-    applySceneCamera(scene);
-  }
-  overlay.setProps({layers: cinematicLayers(scene, local), getTooltip: null});
-  updateCinematicHud(scene, elapsed);
-}
-
-function pauseCinematic() {
-  if (cinematic.raf) cancelAnimationFrame(cinematic.raf);
-  cinematic.raf = null;
-  if (cinematic.playing) cinematic.pausedAt = cinematic.elapsed;
-  cinematic.playing = false;
-  els.cinematicPlay.textContent = '▶';
-}
-
-function resumeCinematic() {
-  if (!state.cinematic) return;
-  if (cinematic.elapsed >= data.cinematicTimeline.runtime_seconds - 0.01) {
-    cinematic.elapsed = 0;
-    cinematic.pausedAt = 0;
-    cinematic.lastSceneId = null;
-  }
-  cinematic.playing = true;
-  cinematic.startedAt = performance.now();
-  els.cinematicPlay.textContent = 'Ⅱ';
-  cinematic.raf = requestAnimationFrame(cinematicFrame);
-}
-
-function toggleCinematicPlayback() {
-  if (cinematic.playing) pauseCinematic();
-  else resumeCinematic();
-}
-
-function jumpCinematic(index) {
-  const scenes = data.cinematicTimeline.scenes;
-  const scene = scenes[Math.max(0, Math.min(scenes.length - 1, index))];
-  pauseCinematic();
-  cinematic.elapsed = scene.start + 0.02;
-  cinematic.pausedAt = cinematic.elapsed;
-  cinematic.lastSceneId = null;
-  renderCinematic(cinematic.elapsed);
-}
-
-function nextCinematicScene() {
-  const scenes = data.cinematicTimeline.scenes;
-  const current = sceneAtTime(cinematic.elapsed);
-  const i = scenes.findIndex(s => s.id === current.id);
-  jumpCinematic(Math.min(scenes.length - 1, i + 1));
-}
-
-function previousCinematicScene() {
-  const scenes = data.cinematicTimeline.scenes;
-  const current = sceneAtTime(cinematic.elapsed);
-  const i = scenes.findIndex(s => s.id === current.id);
-  jumpCinematic(Math.max(0, i - 1));
+  syncButtons();
+  syncTimeline();
+  updateAll();
+  map.jumpTo({
+    center: target.center,
+    zoom: target.zoom,
+    pitch: 0,
+    bearing: 0
+  });
 }
 
 function viewLabel() {
@@ -1058,5 +801,5 @@ function viewLabel() {
 
 window.addEventListener('beforeunload', function() {
   stopPlayback();
-  pauseCinematic();
+  cinematicController.destroy();
 });
