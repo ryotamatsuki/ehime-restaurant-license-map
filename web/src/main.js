@@ -1,4 +1,4 @@
-import maplibregl, {setWorkerUrl} from 'maplibre-gl';
+import {Map, NavigationControl, AttributionControl, setWorkerUrl} from 'maplibre-gl';
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {MapLibreOverlay} from '@deck.gl/maplibre';
@@ -47,7 +47,7 @@ const state = {
   timer: null
 };
 
-const map = new maplibregl.Map({
+const map = new Map({
   container: 'map',
   center: [132.765, 33.84],
   zoom: 11.4,
@@ -69,8 +69,8 @@ const map = new maplibregl.Map({
   }
 });
 
-map.addControl(new maplibregl.NavigationControl({showCompass: false}), 'top-right');
-map.addControl(new maplibregl.AttributionControl({compact: true}), 'bottom-right');
+map.addControl(new NavigationControl({showCompass: false}), 'top-right');
+map.addControl(new AttributionControl({compact: true}), 'bottom-right');
 
 const overlay = new MapLibreOverlay({
   interleaved: false,
