@@ -5,7 +5,7 @@
   "description": "Ehime restaurant permit time-map research and visualization",
   "license": "MIT",
   "scripts": {
-    "prepare:web": "python src/web/prepare_web_data.py",
+    "prepare:web": "python src/cinematic/build_stage11_timeline.py && python src/web/prepare_web_data.py",
     "build:web": "npm run prepare:web && vite build --config vite.config.js",
     "test:web": "playwright test",
     "preview:web": "vite preview --config vite.config.js --host 127.0.0.1"
