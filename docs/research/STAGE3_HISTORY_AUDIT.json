@@ -1,0 +1,247 @@
+{
+  "stage": "3",
+  "range": [
+    "2021-12",
+    "2026-08"
+  ],
+  "exact_source_manifest": [
+    {
+      "authority": "愛媛県",
+      "month": "2026-08",
+      "path": "data/snapshots/ehime_prefecture_2026-08-31_new.csv",
+      "source_kind": "official_current_monthly",
+      "rows": 57,
+      "new_rows": 57,
+      "renewal_rows": 0,
+      "restaurant_rows": 41
+    },
+    {
+      "authority": "松山市",
+      "month": "2025-08",
+      "path": "data/snapshots/matsuyama_monthly_2025-08.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 154,
+      "new_rows": 154,
+      "renewal_rows": 0,
+      "restaurant_rows": 126
+    },
+    {
+      "authority": "松山市",
+      "month": "2025-09",
+      "path": "data/snapshots/matsuyama_monthly_2025-09.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 120,
+      "new_rows": 120,
+      "renewal_rows": 0,
+      "restaurant_rows": 98
+    },
+    {
+      "authority": "松山市",
+      "month": "2025-10",
+      "path": "data/snapshots/matsuyama_monthly_2025-10.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 64,
+      "new_rows": 64,
+      "renewal_rows": 0,
+      "restaurant_rows": 58
+    },
+    {
+      "authority": "松山市",
+      "month": "2025-11",
+      "path": "data/snapshots/matsuyama_monthly_2025-11.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 116,
+      "new_rows": 116,
+      "renewal_rows": 0,
+      "restaurant_rows": 87
+    },
+    {
+      "authority": "松山市",
+      "month": "2025-12",
+      "path": "data/snapshots/matsuyama_monthly_2025-12.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 154,
+      "new_rows": 154,
+      "renewal_rows": 0,
+      "restaurant_rows": 131
+    },
+    {
+      "authority": "松山市",
+      "month": "2026-01",
+      "path": "data/snapshots/matsuyama_monthly_2026-01.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 54,
+      "new_rows": 54,
+      "renewal_rows": 0,
+      "restaurant_rows": 45
+    },
+    {
+      "authority": "松山市",
+      "month": "2026-02",
+      "path": "data/snapshots/matsuyama_monthly_2026-02.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 183,
+      "new_rows": 183,
+      "renewal_rows": 0,
+      "restaurant_rows": 158
+    },
+    {
+      "authority": "松山市",
+      "month": "2026-03",
+      "path": "data/snapshots/matsuyama_monthly_2026-03.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 186,
+      "new_rows": 186,
+      "renewal_rows": 0,
+      "restaurant_rows": 152
+    },
+    {
+      "authority": "松山市",
+      "month": "2026-04",
+      "path": "data/snapshots/matsuyama_monthly_2026-04.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 86,
+      "new_rows": 82,
+      "renewal_rows": 4,
+      "restaurant_rows": 64
+    },
+    {
+      "authority": "松山市",
+      "month": "2026-05",
+      "path": "data/snapshots/matsuyama_monthly_2026-05.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 174,
+      "new_rows": 78,
+      "renewal_rows": 96,
+      "restaurant_rows": 150
+    },
+    {
+      "authority": "松山市",
+      "month": "2026-06",
+      "path": "data/snapshots/matsuyama_monthly_2026-06.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 191,
+      "new_rows": 70,
+      "renewal_rows": 121,
+      "restaurant_rows": 156
+    },
+    {
+      "authority": "松山市",
+      "month": "2026-07",
+      "path": "data/snapshots/matsuyama_monthly_2026-07.csv",
+      "source_kind": "official_current_rolling_workbook",
+      "rows": 127,
+      "new_rows": 89,
+      "renewal_rows": 38,
+      "restaurant_rows": 108
+    }
+  ],
+  "retrospective_source_manifest": [
+    {
+      "authority": "愛媛県",
+      "snapshot_month": "2026-08",
+      "path": "data/snapshots/ehime_prefecture_2026-08-31_all.csv",
+      "rows": 10897,
+      "usable_historical_date_rows": 10897,
+      "restaurant_rows": 7167
+    },
+    {
+      "authority": "松山市",
+      "snapshot_month": "2026-03",
+      "path": "data/snapshots/matsuyama_all_2026-03-31_part1.csv",
+      "rows": 577,
+      "usable_historical_date_rows": 0,
+      "restaurant_rows": 0
+    },
+    {
+      "authority": "松山市",
+      "snapshot_month": "2026-03",
+      "path": "data/snapshots/matsuyama_all_2026-03-31_part2.csv",
+      "rows": 7110,
+      "usable_historical_date_rows": 7110,
+      "restaurant_rows": 5642
+    }
+  ],
+  "exact_rows_after_dedup": 1666,
+  "exact_restaurant_rows": 1374,
+  "event_id_duplicates_removed": 0,
+  "event_type_counts": {
+    "new": 1407,
+    "renewal": 259
+  },
+  "exact_months": {
+    "愛媛県": {
+      "months": [
+        "2026-08"
+      ],
+      "continuous_windows": [
+        [
+          "2026-08",
+          "2026-08"
+        ]
+      ],
+      "count": 1
+    },
+    "松山市": {
+      "months": [
+        "2025-08",
+        "2025-09",
+        "2025-10",
+        "2025-11",
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07"
+      ],
+      "continuous_windows": [
+        [
+          "2025-08",
+          "2026-07"
+        ]
+      ],
+      "count": 12
+    }
+  },
+  "coverage_status_counts": [
+    {
+      "authority": "愛媛県",
+      "coverage_status": "complete_exact_monthly",
+      "months": 1
+    },
+    {
+      "authority": "愛媛県",
+      "coverage_status": "partial_retrospective",
+      "months": 56
+    },
+    {
+      "authority": "松山市",
+      "coverage_status": "complete_exact_monthly",
+      "months": 12
+    },
+    {
+      "authority": "松山市",
+      "coverage_status": "partial_retrospective",
+      "months": 44
+    },
+    {
+      "authority": "松山市",
+      "coverage_status": "unavailable",
+      "months": 1
+    }
+  ],
+  "methodological_boundary": {
+    "complete_exact_monthly": "May be used for month-level event counts and animation.",
+    "partial_retrospective": "May be used for exploratory historical location context only; must not be presented as complete monthly opening/new-permit counts.",
+    "unavailable": "No monthly count may be inferred."
+  },
+  "outputs": [
+    "data/processed/permit_events_observed.csv",
+    "data/processed/restaurant_permit_events_observed.csv",
+    "data/processed/permit_events_retrospective_partial.csv",
+    "data/processed/coverage_matrix.csv"
+  ]
+}
