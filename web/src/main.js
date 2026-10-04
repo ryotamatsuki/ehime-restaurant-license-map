@@ -10,7 +10,9 @@ setWorkerUrl(maplibreWorkerUrl);
 
 const DATA = './data/';
 const COLORS = {
-  accent: [221, 90, 58, 210]
+  exact: [221, 90, 58, 210],
+  retroStrict: [215, 111, 47, 185],
+  retroTown: [226, 160, 59, 105]
 };
 
 const els = {
@@ -18,6 +20,7 @@ const els = {
   business: document.querySelector('#business-select'),
   views: document.querySelector('#view-switcher'),
   periods: document.querySelector('#period-switcher'),
+  retroToggle: document.querySelector('#retrospective-toggle'),
   slider: document.querySelector('#month-slider'),
   play: document.querySelector('#play-button'),
   start: document.querySelector('#timeline-start'),
@@ -27,7 +30,9 @@ const els = {
   periodLabel: document.querySelector('#period-label'),
   modeNote: document.querySelector('#mode-note'),
   total: document.querySelector('#metric-total'),
+  totalLabel: document.querySelector('#metric-total-label'),
   points: document.querySelector('#metric-points'),
+  pointsLabel: document.querySelector('#metric-points-label'),
   third: document.querySelector('#metric-third'),
   thirdLabel: document.querySelector('#metric-third-label'),
   empty: document.querySelector('#empty-state'),
@@ -43,6 +48,7 @@ const state = {
   view: 'points',
   period: 'monthly',
   month: '2026-07',
+  includeRetrospective: true,
   playing: false,
   timer: null
 };
@@ -96,6 +102,8 @@ async function loadData() {
   const results = await Promise.all([
     loadJson('manifest.json'),
     loadJson('strict_new_events.json'),
+    loadJson('matsuyama_retrospective_events.json'),
+    loadJson('matsuyama_retrospective_monthly.json'),
     loadJson('coverage.json'),
     loadJson('municipality_monthly.json'),
     loadJson('matsuyama_mesh_1km_monthly.geojson'),
@@ -107,13 +115,15 @@ async function loadData() {
   return {
     manifest: results[0],
     events: results[1],
-    coverage: results[2],
-    municipalityMonthly: results[3],
-    mesh1Monthly: results[4],
-    mesh500Monthly: results[5],
-    mesh1Rolling: results[6],
-    mesh500Rolling: results[7],
-    centroids: results[8]
+    retrospectiveEvents: results[2],
+    retrospectiveMonthly: results[3],
+    coverage: results[4],
+    municipalityMonthly: results[5],
+    mesh1Monthly: results[6],
+    mesh500Monthly: results[7],
+    mesh1Rolling: results[8],
+    mesh500Rolling: results[9],
+    centroids: results[10]
   };
 }
 
@@ -138,6 +148,7 @@ function initializeControls() {
     els.business.append(option);
   });
   els.business.value = state.business;
+  els.retroToggle.checked = state.includeRetrospective;
 
   els.municipality.addEventListener('change', function() {
     stopPlayback();
@@ -152,13 +163,24 @@ function initializeControls() {
   });
 
   els.business.addEventListener('change', function() {
+    stopPlayback();
     state.business = els.business.value;
+    if (!retroEligible() && isRetroMonth()) resetMonthToLatest();
+    syncButtons();
+    updateAll();
+  });
+
+  els.retroToggle.addEventListener('change', function() {
+    stopPlayback();
+    state.includeRetrospective = els.retroToggle.checked;
+    if (!state.includeRetrospective && isRetroMonth()) resetMonthToLatest();
+    syncTimeline();
     updateAll();
   });
 
   els.views.addEventListener('click', function(event) {
     const button = event.target.closest('button[data-view]');
-    if (!button) return;
+    if (!button || button.disabled) return;
     const next = button.dataset.view;
 
     if ((next === 'mesh1' || next === 'mesh500') && state.municipality !== '382019') {
@@ -213,9 +235,25 @@ function authorityForMunicipality(code) {
   return code === '382019' ? '松山市' : '愛媛県';
 }
 
+function retroEligible() {
+  return (
+    state.municipality === '382019'
+    && state.business === '飲食店営業'
+    && state.period === 'monthly'
+    && state.includeRetrospective
+  );
+}
+
+function isRetroMonth(month = state.month) {
+  return data.manifest.matsuyama_retrospective_months.includes(month);
+}
+
 function timelineMonths() {
   if (state.period === 'rolling12') {
     return data.manifest.rolling12_end_months_matsuyama;
+  }
+  if (retroEligible()) {
+    return data.manifest.matsuyama_hybrid_months;
   }
   return data.manifest.exact_months_by_authority[authorityForMunicipality(state.municipality)] || [];
 }
@@ -223,6 +261,12 @@ function timelineMonths() {
 function resetMonthToLatest() {
   const months = timelineMonths();
   state.month = months.at(-1) || state.month;
+}
+
+function normalizeViewForMonth() {
+  if (isRetroMonth() && (state.view === 'mesh1' || state.view === 'mesh500')) {
+    state.view = 'points';
+  }
 }
 
 function syncTimeline() {
@@ -238,7 +282,11 @@ function syncTimeline() {
 }
 
 function syncButtons() {
+  normalizeViewForMonth();
+
   els.views.querySelectorAll('button').forEach(function(button) {
+    const mesh = button.dataset.view === 'mesh1' || button.dataset.view === 'mesh500';
+    button.disabled = mesh && isRetroMonth();
     button.classList.toggle('active', button.dataset.view === state.view);
   });
 
@@ -248,15 +296,23 @@ function syncButtons() {
     button.classList.toggle('active', button.dataset.period === state.period);
   });
 
+  els.retroToggle.disabled = !(
+    state.municipality === '382019'
+    && state.business === '飲食店営業'
+    && state.period === 'monthly'
+  );
+
   const meshMode = state.view === 'mesh1' || state.view === 'mesh500';
   els.business.disabled = meshMode;
 
-  if (meshMode) {
-    els.modeNote.textContent = 'メッシュは飲食店営業・番地/地番レベル座標のみ。';
+  if (isRetroMonth()) {
+    els.modeNote.textContent = '参考復元期：2026-03-31時点の全施設一覧を初回許可日に遡及。町丁目代表点を含み、当時の全新規許可を完全収録していません。';
+  } else if (meshMode) {
+    els.modeNote.textContent = 'メッシュは完全観測期の飲食店営業・番地/地番レベル座標のみ。';
   } else if (state.period === 'rolling12') {
     els.modeNote.textContent = '12か月すべて完全観測できる松山市の期間だけ表示。';
   } else {
-    els.modeNote.textContent = 'Point / Heatmap / Hexagon は高精度地点のみ。';
+    els.modeNote.textContent = '完全観測期：Point / Heatmap / Hexagon は高精度地点のみ。';
   }
 }
 
@@ -271,7 +327,7 @@ function startPlayback() {
     state.month = months[(current + 1) % months.length];
     syncTimeline();
     updateAll();
-  }, 900);
+  }, 800);
 }
 
 function stopPlayback() {
@@ -298,6 +354,12 @@ function monthWindow(endMonth) {
 }
 
 function filteredEvents() {
+  if (state.period === 'monthly' && isRetroMonth() && retroEligible()) {
+    return data.retrospectiveEvents.filter(function(d) {
+      return d.month === state.month;
+    });
+  }
+
   const windowMonths = state.period === 'rolling12' ? monthWindow(state.month) : null;
 
   return data.events.filter(function(d) {
@@ -313,6 +375,19 @@ function filteredEvents() {
 
 function municipalityMetric() {
   if (state.business !== '飲食店営業') return null;
+
+  if (state.period === 'monthly' && isRetroMonth() && retroEligible()) {
+    const row = data.retrospectiveMonthly.find(function(d) {
+      return d.month === state.month;
+    });
+    if (!row) return null;
+    return {
+      new_restaurant_permits: Number(row.retrospective_rows),
+      strict_address_or_parcel: Number(row.strict_address_or_parcel),
+      town_or_better: Number(row.town_or_better),
+      retrospective: true
+    };
+  }
 
   if (state.period === 'monthly') {
     return data.municipalityMonthly.find(function(d) {
@@ -372,18 +447,25 @@ function colorForCount(value, max) {
 
 function layersForState() {
   const events = filteredEvents();
+  const retro = isRetroMonth() && retroEligible();
 
   if (state.view === 'points') {
     return [
       new ScatterplotLayer({
-        id: 'points-' + state.month + '-' + state.period,
+        id: 'points-' + state.month + '-' + state.period + '-' + (retro ? 'retro' : 'exact'),
         data: events,
         getPosition: function(d) { return [d.lon, d.lat]; },
-        getRadius: 36,
-        radiusMinPixels: 4,
-        radiusMaxPixels: 10,
-        getFillColor: COLORS.accent,
-        getLineColor: [255, 255, 255, 220],
+        getRadius: function(d) {
+          if (!retro) return 36;
+          return d.quality === 'address_or_parcel' ? 38 : 58;
+        },
+        radiusMinPixels: retro ? 3 : 4,
+        radiusMaxPixels: retro ? 12 : 10,
+        getFillColor: function(d) {
+          if (!retro) return COLORS.exact;
+          return d.quality === 'address_or_parcel' ? COLORS.retroStrict : COLORS.retroTown;
+        },
+        getLineColor: retro ? [255, 250, 236, 150] : [255, 255, 255, 220],
         lineWidthMinPixels: 1,
         stroked: true,
         pickable: true,
@@ -395,12 +477,14 @@ function layersForState() {
   if (state.view === 'heatmap') {
     return [
       new HeatmapLayer({
-        id: 'heat-' + state.month + '-' + state.period,
+        id: 'heat-' + state.month + '-' + state.period + '-' + (retro ? 'retro' : 'exact'),
         data: events,
         getPosition: function(d) { return [d.lon, d.lat]; },
-        getWeight: 1,
-        radiusPixels: 46,
-        intensity: 1.1,
+        getWeight: function(d) {
+          return retro && d.quality === 'town_centroid' ? 0.7 : 1;
+        },
+        radiusPixels: retro ? 54 : 46,
+        intensity: retro ? 1.25 : 1.1,
         threshold: 0.03
       })
     ];
@@ -409,24 +493,33 @@ function layersForState() {
   if (state.view === 'hexagon') {
     return [
       new HexagonLayer({
-        id: 'hex-' + state.month + '-' + state.period,
+        id: 'hex-' + state.month + '-' + state.period + '-' + (retro ? 'retro' : 'exact'),
         data: events,
         getPosition: function(d) { return [d.lon, d.lat]; },
-        radius: 350,
+        radius: retro ? 450 : 350,
         extruded: true,
-        elevationScale: 22,
+        elevationScale: retro ? 13 : 22,
         elevationRange: [0, 1600],
         coverage: 0.82,
         upperPercentile: 100,
         pickable: true,
-        colorRange: [
-          [240, 221, 181],
-          [231, 190, 131],
-          [220, 141, 87],
-          [199, 91, 61],
-          [159, 55, 45],
-          [106, 38, 40]
-        ]
+        colorRange: retro
+          ? [
+              [244, 226, 176],
+              [239, 200, 126],
+              [228, 164, 73],
+              [202, 123, 44],
+              [158, 88, 39],
+              [112, 60, 36]
+            ]
+          : [
+              [240, 221, 181],
+              [231, 190, 131],
+              [220, 141, 87],
+              [199, 91, 61],
+              [159, 55, 45],
+              [106, 38, 40]
+            ]
       })
     ];
   }
@@ -463,9 +556,17 @@ function makeTooltip(info) {
   const object = info.object;
 
   if (object.facility_name) {
+    let evidence = '';
+    if (object.evidence === 'retrospective_partial_survivor_biased') {
+      const precision = object.quality === 'address_or_parcel'
+        ? '番地/地番レベル'
+        : '町丁目代表点';
+      evidence = '<div style="color:#f2c36f">参考復元・不完全 / ' + precision + '</div>';
+    }
     return {
       html:
         '<strong>' + escapeHtml(object.facility_name) + '</strong>'
+        + evidence
         + '<div>' + escapeHtml(object.business_type || '') + '</div>'
         + '<div>' + escapeHtml(object.date || '') + '</div>'
         + '<div style="opacity:.68">' + escapeHtml(object.address || '') + '</div>'
@@ -487,7 +588,7 @@ function makeTooltip(info) {
   }
 
   if (object.points) {
-    return {text: String(object.points.length) + ' high-precision permit points'};
+    return {text: String(object.points.length) + ' displayed permit points'};
   }
 
   return null;
@@ -510,6 +611,10 @@ function coverageStatus() {
     return {label: '12か月不足', cls: 'unavailable'};
   }
 
+  if (isRetroMonth() && retroEligible()) {
+    return {label: '参考復元・不完全', cls: 'partial'};
+  }
+
   const authority = authorityForMunicipality(state.municipality);
   const row = data.coverage.find(function(d) {
     return d.authority === authority && d.month === state.month;
@@ -528,6 +633,7 @@ function coverageStatus() {
 
 function updateAll(fly) {
   syncTimeline();
+  normalizeViewForMonth();
   syncButtons();
 
   overlay.setProps({
@@ -540,6 +646,10 @@ function updateAll(fly) {
   const mesh = state.view === 'mesh1' || state.view === 'mesh500'
     ? selectedMeshData()
     : null;
+  const retro = isRetroMonth() && retroEligible();
+
+  els.totalLabel.textContent = retro ? '参考復元件数' : '新規飲食店許可';
+  els.pointsLabel.textContent = retro ? '表示地点（町丁目以上）' : '高精度地点';
 
   els.total.textContent = municipality
     ? municipality.new_restaurant_permits.toLocaleString('ja-JP')
@@ -550,6 +660,9 @@ function updateAll(fly) {
   if (mesh) {
     els.thirdLabel.textContent = '表示セル';
     els.third.textContent = mesh.features.length.toLocaleString('ja-JP');
+  } else if (retro && municipality) {
+    els.thirdLabel.textContent = '番地/地番';
+    els.third.textContent = Number(municipality.strict_address_or_parcel).toLocaleString('ja-JP');
   } else {
     els.thirdLabel.textContent = state.period === 'rolling12' ? '対象月数' : '対象月';
     els.third.textContent = state.period === 'rolling12' ? '12' : '1';
@@ -574,13 +687,17 @@ function updateAll(fly) {
   const municipalityName = municipalityInfo ? municipalityInfo.name : '';
 
   els.caption.textContent =
-    municipalityName + ' / ' + state.month + ' / ' + viewLabel();
+    municipalityName + ' / ' + state.month + ' / ' + viewLabel()
+    + (retro ? ' / 参考復元' : '');
 
   const empty = mesh ? mesh.features.length === 0 : filtered.length === 0;
   els.empty.hidden = !empty;
 
   if (empty) {
-    if (state.municipality === '382019') {
+    if (retro) {
+      els.emptyDetail.textContent =
+        'この参考復元月には町丁目以上で表示できる地点がありません。';
+    } else if (state.municipality === '382019') {
       els.emptyDetail.textContent =
         '選択した月・業種・精度条件に該当する地点がありません。';
     } else {
