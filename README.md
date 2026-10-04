@@ -168,3 +168,21 @@ Key outputs include:
 The dominant long-run cores are Dogo and Mitsu. The strongest exact-period scene is 2026-02 in Dogo, while 2024-09 is the mandatory retrospective-to-exact evidence transition.
 
 See [`docs/design/MATSUYAMA_CINEMATIC_SCENE_EXTRACTION.md`](docs/design/MATSUYAMA_CINEMATIC_SCENE_EXTRACTION.md).
+
+
+## Stage 9 — Cinematic motion specification
+
+The quantitative storyboard is now specified as an **80-second silent-first guided data film**.
+
+The specification fixes:
+- second-by-second timing;
+- camera keyframes;
+- permit ignition, glow, decay and long-term memory;
+- evidence-quality transition at 2024-09;
+- scene-specific annotation and KPI choreography;
+- desktop/mobile and reduced-motion behavior;
+- rendering performance budgets.
+
+The 2026-02 Dogo surge is the main climax; 2024-09 is the mandatory evidence transition.
+
+See [`docs/design/CINEMATIC_MOTION_SPEC.md`](docs/design/CINEMATIC_MOTION_SPEC.md).
