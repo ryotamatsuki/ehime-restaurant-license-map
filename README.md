@@ -68,7 +68,7 @@ Stage 2: complete
 Stage 3: **complete** — historical coverage reconstructed and audited  
 Stage 4: **complete** — addresses normalized, coordinates and precision flags attached  
 Stage 5: **complete** — monthly/rolling spatial indicators and visualization-ready GeoJSON built  
-Stage 6: pending  
+Stage 6: **complete** — interactive MapLibre/deck.gl time map built and browser-tested  
 Stage 7: pending
 
 Stage 3 summary:
@@ -101,3 +101,16 @@ Stage 5 summary:
 - CSV + GeoJSON outputs are ready for MapLibre/deck.gl
 
 See [`docs/research/STAGE5_SPATIAL_METRICS.md`](docs/research/STAGE5_SPATIAL_METRICS.md).
+
+Stage 6 summary:
+- MapLibre GL JS + deck.gl interactive application implemented
+- Points / Heatmap / Hexagon / 1km / 500m modes
+- municipality and business-type filters
+- monthly / rolling-12 toggle
+- coverage-aware timeline and autoplay
+- explicit precision / completeness indicators
+- compact web dataset: 822 strict new-permit points across 20 business categories
+- production Vite build: ~4.65 MB
+- desktop and mobile Chromium QA: PASS
+
+See [`docs/research/STAGE6_INTERACTIVE_MAP.md`](docs/research/STAGE6_INTERACTIVE_MAP.md).
