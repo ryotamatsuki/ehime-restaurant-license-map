@@ -216,3 +216,22 @@ Implemented the Stage 9 specification in the public application:
 See `docs/research/STAGE10_CINEMATIC_IMPLEMENTATION_QA.md`.
 
 Future work is visual polish/performance refinement rather than a Stage 10 completion blocker.
+
+
+## Stage 11 — Cinematic polish
+
+**Status: COMPLETE (2026-10-04)**
+
+Polished Cinematic Mode into a continuous 80-second data film:
+- all 62 months advance in order;
+- methodology explanation reduced to a small period note;
+- time-synchronized camera keyframe interpolation;
+- core / halo / historical-memory point grammar;
+- scoped citywide vs 1km-local KPIs;
+- Dogo/Mitsu exact-period comparison sparklines;
+- authored quiet holds and simplified subtitles;
+- final Dogo/Mitsu Explore handoff;
+- full desktop/mobile 80-second Chromium playback QA;
+- public GitHub Pages deployment and public-data smoke test.
+
+See `docs/research/STAGE11_CINEMATIC_POLISH_QA.md`.
