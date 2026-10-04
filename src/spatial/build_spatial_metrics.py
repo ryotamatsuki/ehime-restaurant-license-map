@@ -341,6 +341,74 @@ def monthly_concentration(mesh_1km: pd.DataFrame, valid_months: list[str]) -> pd
     return pd.DataFrame(rows)
 
 
+
+def json_scalar(v):
+    if pd.isna(v):
+        return None
+    if isinstance(v, (np.integer,)):
+        return int(v)
+    if isinstance(v, (np.floating,)):
+        return float(v)
+    if isinstance(v, (np.bool_,)):
+        return bool(v)
+    return v
+
+
+def write_mesh_geojson(df: pd.DataFrame, mesh_col: str, path: Path) -> None:
+    features = []
+    if not df.empty:
+        for _, r in df.iterrows():
+            s = float(r[f"{mesh_col}_south"])
+            w = float(r[f"{mesh_col}_west"])
+            n = float(r[f"{mesh_col}_north"])
+            e = float(r[f"{mesh_col}_east"])
+            props = {
+                k: json_scalar(v)
+                for k, v in r.items()
+                if k not in {
+                    f"{mesh_col}_south", f"{mesh_col}_west",
+                    f"{mesh_col}_north", f"{mesh_col}_east"
+                }
+            }
+            features.append({
+                "type": "Feature",
+                "properties": props,
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[
+                        [w, s], [e, s], [e, n], [w, n], [w, s]
+                    ]],
+                },
+            })
+    path.write_text(
+        json.dumps({"type": "FeatureCollection", "features": features}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+
+def write_point_geojson(df: pd.DataFrame, path: Path, lat_col: str, lon_col: str) -> None:
+    features = []
+    for _, r in df.iterrows():
+        try:
+            lat = float(r[lat_col])
+            lon = float(r[lon_col])
+        except Exception:
+            continue
+        props = {
+            k: json_scalar(v)
+            for k, v in r.items()
+            if k not in {lat_col, lon_col}
+        }
+        features.append({
+            "type": "Feature",
+            "properties": props,
+            "geometry": {"type": "Point", "coordinates": [lon, lat]},
+        })
+    path.write_text(
+        json.dumps({"type": "FeatureCollection", "features": features}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
 def main() -> int:
     events = pd.read_csv(EVENTS, dtype=str, keep_default_na=False)
     coverage = pd.read_csv(COVERAGE, dtype=str, keep_default_na=False)
@@ -378,15 +446,31 @@ def main() -> int:
     mesh500 = mesh_monthly(strict, "mesh_500m")
     mesh1.to_csv(OUT / "matsuyama_mesh_1km_monthly.csv", index=False, encoding="utf-8")
     mesh500.to_csv(OUT / "matsuyama_mesh_500m_monthly.csv", index=False, encoding="utf-8")
+    write_mesh_geojson(mesh1, "mesh_1km", OUT / "matsuyama_mesh_1km_monthly.geojson")
+    write_mesh_geojson(mesh500, "mesh_500m", OUT / "matsuyama_mesh_500m_monthly.geojson")
 
     rolling_ends = complete_12m_end_months(coverage, "松山市")
     roll1 = rolling_mesh(mesh1, "mesh_1km", rolling_ends)
     roll500 = rolling_mesh(mesh500, "mesh_500m", rolling_ends)
     roll1.to_csv(OUT / "matsuyama_mesh_1km_rolling12.csv", index=False, encoding="utf-8")
     roll500.to_csv(OUT / "matsuyama_mesh_500m_rolling12.csv", index=False, encoding="utf-8")
+    write_mesh_geojson(roll1, "mesh_1km", OUT / "matsuyama_mesh_1km_rolling12.geojson")
+    write_mesh_geojson(roll500, "mesh_500m", OUT / "matsuyama_mesh_500m_rolling12.geojson")
 
     centroid = centroid_monthly(matsu)
     centroid.to_csv(OUT / "matsuyama_spatial_centroid_monthly.csv", index=False, encoding="utf-8")
+    write_point_geojson(
+        centroid,
+        OUT / "matsuyama_spatial_centroid_monthly.geojson",
+        "centroid_latitude",
+        "centroid_longitude",
+    )
+    write_point_geojson(
+        strict,
+        OUT / "matsuyama_new_restaurant_points_strict.geojson",
+        "latitude_num",
+        "longitude_num",
+    )
 
     matsu_exact_months = sorted(
         coverage.loc[
@@ -436,10 +520,16 @@ def main() -> int:
             "data/processed/spatial/municipality_monthly_new_restaurants.csv",
             "data/processed/spatial/matsuyama_mesh_1km_monthly.csv",
             "data/processed/spatial/matsuyama_mesh_500m_monthly.csv",
+            "data/processed/spatial/matsuyama_mesh_1km_monthly.geojson",
+            "data/processed/spatial/matsuyama_mesh_500m_monthly.geojson",
             "data/processed/spatial/matsuyama_mesh_1km_rolling12.csv",
             "data/processed/spatial/matsuyama_mesh_500m_rolling12.csv",
+            "data/processed/spatial/matsuyama_mesh_1km_rolling12.geojson",
+            "data/processed/spatial/matsuyama_mesh_500m_rolling12.geojson",
+            "data/processed/spatial/matsuyama_new_restaurant_points_strict.geojson",
             "data/processed/spatial/matsuyama_hotspot_top10_1km_rolling12.csv",
             "data/processed/spatial/matsuyama_spatial_centroid_monthly.csv",
+            "data/processed/spatial/matsuyama_spatial_centroid_monthly.geojson",
             "data/processed/spatial/matsuyama_monthly_spatial_concentration.csv",
         ],
     }
