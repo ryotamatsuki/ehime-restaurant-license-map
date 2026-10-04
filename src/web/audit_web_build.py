@@ -18,12 +18,16 @@ def main() -> int:
     manifest = json.loads((PUBLIC_DATA / "manifest.json").read_text(encoding="utf-8"))
     events = json.loads((PUBLIC_DATA / "strict_new_events.json").read_text(encoding="utf-8"))
     retro_events = json.loads((PUBLIC_DATA / "matsuyama_retrospective_events.json").read_text(encoding="utf-8"))
+    cinematic = json.loads((PUBLIC_DATA / "cinematic_timeline_v2.json").read_text(encoding="utf-8"))
+    focus = json.loads((PUBLIC_DATA / "cinematic_focus_series.json").read_text(encoding="utf-8"))
 
     required_data = [
         "manifest.json",
         "strict_new_events.json",
         "matsuyama_retrospective_events.json",
         "matsuyama_retrospective_monthly.json",
+        "cinematic_timeline_v2.json",
+        "cinematic_focus_series.json",
         "coverage.json",
         "municipality_monthly.json",
         "matsuyama_mesh_1km_monthly.geojson",
@@ -48,6 +52,10 @@ def main() -> int:
         "retrospective_visible_events": len(retro_events),
         "matsuyama_retrospective_months": len(manifest.get("matsuyama_retrospective_months", [])),
         "matsuyama_hybrid_months": len(manifest.get("matsuyama_hybrid_months", [])),
+        "cinematic_runtime_seconds": cinematic.get("runtime_seconds"),
+        "cinematic_month_schedule_count": len(cinematic.get("month_schedule", [])),
+        "dogo_exact_active_months": focus.get("dogo", {}).get("exact_active_months"),
+        "mitsu_exact_active_months": focus.get("mitsu", {}).get("exact_active_months"),
         "matsuyama_exact_months": len(
             manifest.get("exact_months_by_authority", {}).get("松山市", [])
         ),
@@ -87,6 +95,12 @@ def main() -> int:
     if report["matsuyama_retrospective_months"] != 39:
         return 2
     if report["matsuyama_hybrid_months"] != 62:
+        return 2
+    if report["cinematic_runtime_seconds"] != 80:
+        return 2
+    if report["cinematic_month_schedule_count"] != 62:
+        return 2
+    if report["dogo_exact_active_months"] != 19 or report["mitsu_exact_active_months"] != 15:
         return 2
     if report["matsuyama_exact_months"] != 23:
         return 2
