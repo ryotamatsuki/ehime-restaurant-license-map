@@ -154,3 +154,23 @@ See `docs/research/STAGE6_INTERACTIVE_MAP.md`.
 Stage 7 public URL: https://ryotamatsuki.github.io/ehime-restaurant-license-map/
 
 See `docs/research/STAGE7_PUBLICATION_QA.md`.
+
+
+## Stage 8 — Cinematic insight extraction
+
+**Status: COMPLETE (2026-10-04)**
+
+Post-publication cinematic-mode analysis.
+
+Completed:
+- 62-month scene metric panel
+- strict 1km comparable spatial analysis across retrospective + exact eras
+- evidence-aware visual-interest scoring
+- hotspot surge / after-quiet re-emergence detection
+- persistent hotspot trajectory classification
+- camera-target locality extraction
+- 12-scene storyboard seed
+
+See `docs/design/MATSUYAMA_CINEMATIC_SCENE_EXTRACTION.md`.
+
+Next: cinematic design specification and implementation.
