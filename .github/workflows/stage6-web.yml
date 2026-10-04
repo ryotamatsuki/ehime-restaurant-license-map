@@ -16,6 +16,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: ehime-repo-writes
+  cancel-in-progress: false
+
 jobs:
   web:
     runs-on: ubuntu-latest
@@ -56,5 +60,6 @@ jobs:
             echo "No Stage 6 generated changes"
           else
             git commit -m "web: build and QA Stage 6 time-map assets"
+            git pull --rebase origin main
             git push
           fi
