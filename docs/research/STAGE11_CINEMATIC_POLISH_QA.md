@@ -185,13 +185,21 @@ Mobile browser QA additionally asserts that local focal geometry remains above t
 
 ## Public deployment QA
 
-GitHub Pages deployment is considered Stage 11-complete only after the current main is deployed and:
+Final GitHub Pages deployment:
+- workflow run: **37185856787**
+- build: **SUCCESS**
+- deploy: **SUCCESS**
+- public smoke test: **SUCCESS**
+
+The public smoke test verified:
 - public HTML loads;
 - `cinematic_timeline_v2.json` is public;
 - `cinematic_focus_series.json` is public;
 - public timeline has 62 months / 80 seconds;
 - public Dogo/Mitsu exact-active counts are 19/15;
 - public numeric checks include 2025-05 citywide 165 and 2026-02 Dogo 14.
+
+The general web-fetch and container environments used by the assistant could not independently resolve/access the GitHub Pages hostname in this session, so the public URL verification is grounded in the successful GitHub Pages deployment job's own network smoke test rather than an additional external fetch.
 
 ## Remaining constraints
 
