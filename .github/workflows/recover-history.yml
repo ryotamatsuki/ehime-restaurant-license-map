@@ -1,0 +1,38 @@
+name: Recover archived permit history
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/research/recover_history.py"
+      - ".github/workflows/recover-history.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install pandas openpyxl requests beautifulsoup4
+      - name: Recover historical sanitized snapshots
+        run: python src/research/recover_history.py
+      - name: Commit recovered sanitized history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/snapshots/history docs/research/HISTORY_RECOVERY.json
+          if git diff --cached --quiet; then
+            echo "No recovered-history changes"
+          else
+            git commit -m "data: recover sanitized historical permit snapshots"
+            git pull --rebase origin main
+            git push
+          fi
