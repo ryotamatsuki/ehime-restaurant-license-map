@@ -119,6 +119,8 @@ See `docs/research/STAGE5_SPATIAL_METRICS.md`.
 
 ## Stage 6 — Interactive visualization
 
+**Status: COMPLETE (2026-10-04)**
+
 Target stack:
 - static hosting: GitHub Pages
 - map: MapLibre GL JS
@@ -126,13 +128,18 @@ Target stack:
 - data: GeoJSON for light layers; Parquet/Arrow if scale requires it
 
 Core interactions:
-- month slider + autoplay
-- new-permit pulse animation
-- Points / Heatmap / Hexagon
-- business-type filter
-- municipality filter
-- monthly vs rolling-12-month toggle
-- source/coverage indicator
+- [x] month slider + autoplay
+- [x] new-permit point display
+- [x] Points / Heatmap / Hexagon
+- [x] 1km / 500m standard mesh modes
+- [x] business-type filter
+- [x] municipality filter
+- [x] monthly vs rolling-12-month toggle
+- [x] source/coverage indicator
+- [x] responsive mobile/desktop UI
+- [x] production build and Playwright browser QA
+
+See `docs/research/STAGE6_INTERACTIVE_MAP.md`.
 
 ## Stage 7 — Publication / QA
 
