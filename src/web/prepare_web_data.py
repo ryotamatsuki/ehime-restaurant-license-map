@@ -190,6 +190,11 @@ def main() -> None:
     }
     json_dump(PUBLIC / "manifest.json", manifest)
 
+    cinematic_timeline = ROOT / "data" / "processed" / "cinematic" / "cinematic_timeline_v1.json"
+    if not cinematic_timeline.exists():
+        raise FileNotFoundError(cinematic_timeline)
+    shutil.copyfile(cinematic_timeline, PUBLIC / "cinematic_timeline_v1.json")
+
     for name in [
         "matsuyama_mesh_1km_monthly.geojson",
         "matsuyama_mesh_500m_monthly.geojson",
