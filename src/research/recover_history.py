@@ -12,7 +12,7 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-from src.acquire.current import parse_excel, sanitize_frame, audit_output
+from src.acquire.current import find_header_row, sanitize_frame, audit_output
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "data" / "snapshots" / "history"
@@ -64,13 +64,31 @@ def archive_bytes(timestamp: str, original: str) -> bytes:
             r = S.get(url, timeout=90)
             r.raise_for_status()
             data = r.content
-            if not data.startswith(b"PK"):
-                raise ValueError(f"not XLSX/ZIP signature: content-type={r.headers.get('content-type')}")
+            is_xlsx = data.startswith(b"PK")
+            is_xls = data.startswith(bytes.fromhex("D0CF11E0A1B11AE1"))
+            if not (is_xlsx or is_xls):
+                raise ValueError(f"not Excel signature: content-type={r.headers.get('content-type')}")
             return data
         except Exception as e:
             last = e
             time.sleep(1.5 * (i + 1))
     raise RuntimeError(f"archive download failed: {last}")
+
+
+def parse_workbook(data: bytes):
+    engine = "openpyxl" if data.startswith(b"PK") else "xlrd"
+    xls = pd.ExcelFile(BytesIO(data), engine=engine)
+    results = []
+    for sheet in xls.sheet_names:
+        raw = pd.read_excel(BytesIO(data), sheet_name=sheet, header=None, engine=engine)
+        header_row = find_header_row(raw)
+        if header_row is None:
+            results.append({"sheet": sheet, "status": "no_header", "raw_shape": list(raw.shape)})
+            continue
+        df = pd.read_excel(BytesIO(data), sheet_name=sheet, header=header_row, engine=engine)
+        df = df.dropna(how="all")
+        results.append({"sheet": sheet, "status": "parsed", "header_row": header_row, "df": df})
+    return results
 
 
 def file_sha(data: bytes) -> str:
@@ -119,7 +137,7 @@ def recover_ehime(report: dict):
         original = row.get("original", "")
         ts = row.get("timestamp", "")
         decoded_name = requests.utils.unquote(original)
-        if ".xlsx" not in decoded_name.lower():
+        if not re.search(r"\.xlsx?(?:$|\?)", decoded_name.lower()):
             continue
         if "dataset/2344/resource/" not in decoded_name:
             continue
@@ -151,7 +169,7 @@ def recover_ehime(report: dict):
             try:
                 data = archive_bytes(ts, original)
                 sha = file_sha(data)
-                parsed = parse_excel(data)
+                parsed = parse_workbook(data)
                 new_sheets = [p for p in parsed if p.get("status") == "parsed" and "新規" in p.get("sheet", "")]
                 if not new_sheets:
                     raise ValueError("no parsed new-permit sheet")
