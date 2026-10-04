@@ -89,13 +89,30 @@ jobs:
           assert m["retrospective_visible_event_count"] >= 3500
           print("Public Pages data QA: PASS")
           PY
-          curl --fail --location --retry 12 --retry-delay 5 --retry-all-errors "${PAGE_URL}data/cinematic_timeline_v1.json" > /tmp/cinematic.json
+          curl --fail --location --retry 12 --retry-delay 5 --retry-all-errors "${PAGE_URL}data/cinematic_focus_series.json" > /tmp/focus.json
+          python - <<'PY'
+          import json
+          with open("/tmp/focus.json", encoding="utf-8") as f:
+              x = json.load(f)
+          assert x["dogo"]["exact_active_months"] == 19
+          assert x["mitsu"]["exact_active_months"] == 15
+          assert len(x["dogo"]["series"]) == 23
+          assert len(x["mitsu"]["series"]) == 23
+          print("Public Stage 11 focus-series QA: PASS")
+          PY
+          curl --fail --location --retry 12 --retry-delay 5 --retry-all-errors "${PAGE_URL}data/cinematic_timeline_v2.json" > /tmp/cinematic.json
           python - <<'PY'
           import json
           with open("/tmp/cinematic.json", encoding="utf-8") as f:
               c = json.load(f)
           assert c["runtime_seconds"] == 80
-          assert any(s["month"] == "2024-09" and s["type"] == "evidence_transition" for s in c["scenes"])
-          assert any(s["month"] == "2026-02" and s["primary_kpi"]["value"] == 158 for s in c["scenes"])
-          print("Public Cinematic Mode data QA: PASS")
+          assert len(c["month_schedule"]) == 62
+          assert c["month_schedule"][0]["month"] == "2021-06"
+          assert c["month_schedule"][-1]["month"] == "2026-07"
+          assert c["numeric_checks"]["2025-05_city_total"] == 165
+          assert c["numeric_checks"]["2026-02_dogo"] == 14
+          assert c["numeric_checks"]["dogo_exact_active"] == 19
+          assert c["numeric_checks"]["mitsu_exact_active"] == 15
+          assert not any(b.get("id") == "evidence_transition" for b in c["beats"])
+          print("Public Stage 11 Cinematic data QA: PASS")
           PY
