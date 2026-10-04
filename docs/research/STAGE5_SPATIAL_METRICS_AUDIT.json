@@ -65,10 +65,16 @@
     "data/processed/spatial/municipality_monthly_new_restaurants.csv",
     "data/processed/spatial/matsuyama_mesh_1km_monthly.csv",
     "data/processed/spatial/matsuyama_mesh_500m_monthly.csv",
+    "data/processed/spatial/matsuyama_mesh_1km_monthly.geojson",
+    "data/processed/spatial/matsuyama_mesh_500m_monthly.geojson",
     "data/processed/spatial/matsuyama_mesh_1km_rolling12.csv",
     "data/processed/spatial/matsuyama_mesh_500m_rolling12.csv",
+    "data/processed/spatial/matsuyama_mesh_1km_rolling12.geojson",
+    "data/processed/spatial/matsuyama_mesh_500m_rolling12.geojson",
+    "data/processed/spatial/matsuyama_new_restaurant_points_strict.geojson",
     "data/processed/spatial/matsuyama_hotspot_top10_1km_rolling12.csv",
     "data/processed/spatial/matsuyama_spatial_centroid_monthly.csv",
+    "data/processed/spatial/matsuyama_spatial_centroid_monthly.geojson",
     "data/processed/spatial/matsuyama_monthly_spatial_concentration.csv"
   ]
 }
