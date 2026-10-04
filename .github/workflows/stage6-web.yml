@@ -1,0 +1,60 @@
+name: Stage 6 build and test time map
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "web/**"
+      - "src/web/**"
+      - "package.json"
+      - "vite.config.js"
+      - "playwright.config.js"
+      - "tests/**"
+      - ".github/workflows/stage6-web.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Python dependency
+        run: pip install pandas
+
+      - name: Install pinned frontend dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build visualization
+        run: npm run build:web
+
+      - name: Audit built data and bundle
+        run: python src/web/audit_web_build.py
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser QA
+        run: npm run test:web
+
+      - name: Commit lockfile, prepared web data and audit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json web/public/data docs/research/STAGE6_BUILD_AUDIT.json
+          if git diff --cached --quiet; then
+            echo "No Stage 6 generated changes"
+          else
+            git commit -m "web: build and QA Stage 6 time-map assets"
+            git push
+          fi
