@@ -15,6 +15,7 @@ DOCS = ROOT / "docs" / "research"
 OUT.mkdir(parents=True, exist_ok=True)
 DOCS.mkdir(parents=True, exist_ok=True)
 
+# Stage 3 audited reconstruction window.
 START_MONTH = "2021-12"
 END_MONTH = "2026-08"
 
