@@ -62,6 +62,20 @@
 
 ## Status
 
-Stage 0: in progress  
-Stage 1: in progress  
-Stage 2: in progress
+Stage 0: complete  
+Stage 1: complete  
+Stage 2: complete  
+Stage 3: **complete** — historical coverage reconstructed and audited  
+Stage 4: pending  
+Stage 5: pending  
+Stage 6: pending  
+Stage 7: pending
+
+Stage 3 summary:
+- exact observed events: 4,240
+- exact observed 飲食店営業 events: 3,300
+- 愛媛県 exact monthly coverage: 2021-12–2022-04 plus 2026-08
+- 松山市 exact monthly coverage: 2024-09–2026-07 (23 consecutive months)
+- all other months are explicitly flagged partial or unavailable in `data/processed/coverage_matrix.csv`
+
+See [`docs/research/STAGE3_HISTORICAL_RECONSTRUCTION.md`](docs/research/STAGE3_HISTORICAL_RECONSTRUCTION.md).
