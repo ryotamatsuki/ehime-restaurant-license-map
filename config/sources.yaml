@@ -1,4 +1,4 @@
-version: 1
+version: 2
 sources:
   ehime_prefecture:
     authority: "愛媛県"
@@ -20,27 +20,44 @@ sources:
     update_frequency: "monthly"
     retention_note: "新規又は更新施設を毎月更新（過去1年分）"
     license: "CC BY"
+    audited_notes:
+      - "所在地＿連結表記は現行月次12シートで欠損0"
+      - "緯度・経度の列は存在するが現行取得データでは値が空"
+      - "申請区分の列は存在するが現行取得データでは値が空"
+      - "新規/更新の判別は初回許可年月日と許可年月日の比較を候補とする"
   matsuyama_all:
     authority: "松山市"
     coverage: "松山市"
     landing_url: "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhin.html"
     update_frequency: "annual"
     license: "CC BY"
+    audited_notes:
+      - "令和3年5月末以前と令和3年6月以降の2ファイルに分割"
+      - "許可番号は年度等を跨いで単独では一意でないため、行IDには使用しない"
 privacy:
   commit_allowlist:
+    - source_authority
+    - source_snapshot_date
     - permit_number
+    - initial_permit_date
     - permit_date
     - permit_expiry_date
     - business_type
     - facility_name
     - facility_address
-    - source_authority
-    - source_snapshot_date
+    - municipality_code
+    - town_id
+    - latitude
+    - longitude
+    - application_type
     - record_scope
     - source_url
     - source_sha256
   never_commit:
     - applicant_name
     - applicant_kana
-    - phone_number
     - applicant_address
+    - applicant_personal_name
+    - corporate_representative_name
+    - phone_number
+    - email_address
