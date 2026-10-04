@@ -125,11 +125,27 @@ def build_exact():
         return pd.DataFrame(),manifest,0
     panel=pd.concat(frames,ignore_index=True)
     before=len(panel)
+    duplicate_groups = []
+    dup = panel[panel["event_id"].duplicated(keep=False)].copy()
+    if len(dup):
+        for event_id, g in dup.groupby("event_id"):
+            duplicate_groups.append({
+                "event_id": event_id,
+                "rows": int(len(g)),
+                "authority": sorted(g["source_authority"].unique().tolist()),
+                "coverage_months": sorted(g["coverage_month"].unique().tolist()),
+                "permit_numbers": sorted(g["permit_number"].unique().tolist()),
+                "permit_dates": sorted(g["permit_date"].unique().tolist()),
+                "business_types": sorted(g["business_type"].unique().tolist()),
+                "facility_names": sorted(g["facility_name"].unique().tolist()),
+                "facility_addresses": sorted(g["facility_address"].unique().tolist()),
+                "source_kinds": sorted(g["source_kind"].unique().tolist()),
+            })
     panel=panel.sort_values(
         ["source_authority","permit_date","permit_number","business_type","facility_name","facility_address","source_kind"],
         kind="stable"
     ).drop_duplicates("event_id",keep="last").reset_index(drop=True)
-    return panel,manifest,before-len(panel)
+    return panel,manifest,before-len(panel),duplicate_groups
 
 
 def retrospective_sources():
@@ -241,7 +257,7 @@ def contiguous_windows(months):
 
 
 def main():
-    exact, exact_manifest, deduped = build_exact()
+    exact, exact_manifest, deduped, duplicate_groups = build_exact()
     retro, retro_manifest = build_retrospective()
     coverage=coverage_matrix(exact,retro)
 
@@ -276,6 +292,7 @@ def main():
         "exact_rows_after_dedup":int(len(exact)),
         "exact_restaurant_rows":int(exact["is_restaurant"].sum()) if len(exact) else 0,
         "event_id_duplicates_removed":int(deduped),
+        "duplicate_event_groups": duplicate_groups,
         "event_type_counts":exact["event_type"].value_counts().to_dict() if len(exact) else {},
         "exact_months":exact_months,
         "coverage_status_counts":(
