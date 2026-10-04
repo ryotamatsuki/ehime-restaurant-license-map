@@ -99,28 +99,52 @@
 
     <section id="cinematic-shell" class="cinematic-shell" hidden aria-label="Cinematic Mode">
       <div class="cinematic-veil"></div>
+
       <div class="cinematic-top">
         <div>
           <p class="cinematic-kicker">MATSUYAMA / 62 MONTHS</p>
           <div id="cinematic-month" class="cinematic-month">2021.06</div>
         </div>
         <div class="cinematic-top-actions">
-          <span id="cinematic-evidence" class="cinematic-evidence retro">参考復元・不完全</span>
+          <span id="cinematic-evidence" class="cinematic-period-note">2021-06〜2024-08：参考復元</span>
           <button id="cinematic-exit" type="button" aria-label="Cinematic Modeを終了">Exploreへ戻る</button>
         </div>
       </div>
+
+      <div id="cinematic-title" class="cinematic-title"></div>
+
       <div class="cinematic-hud">
-        <div id="cinematic-kpi-label" class="cinematic-kpi-label"></div>
-        <div id="cinematic-kpi" class="cinematic-kpi"></div>
+        <div id="cinematic-place" class="cinematic-place"></div>
+        <div id="cinematic-kpi-wrap" class="cinematic-kpi-wrap">
+          <div id="cinematic-kpi-label" class="cinematic-kpi-label"></div>
+          <div id="cinematic-kpi" class="cinematic-kpi"></div>
+          <div id="cinematic-scope" class="cinematic-scope"></div>
+        </div>
         <div id="cinematic-support" class="cinematic-support"></div>
+        <div id="cinematic-chart" class="cinematic-chart"></div>
         <div id="cinematic-annotation" class="cinematic-annotation"></div>
       </div>
+
       <div class="cinematic-controls">
         <button id="cinematic-play" type="button" aria-label="Cinematic再生・一時停止">Ⅱ</button>
-        <div class="cinematic-progress-track"><div id="cinematic-progress" class="cinematic-progress"></div></div>
+        <div class="cinematic-progress-track" aria-hidden="true"><div id="cinematic-progress" class="cinematic-progress"></div></div>
         <button id="cinematic-next" type="button">次の見せ場</button>
       </div>
-      <div class="cinematic-disclaimer">営業許可の発生を可視化。開店・閉店そのものではありません。</div>
+
+      <div id="cinematic-final" class="cinematic-final" aria-live="polite">
+        <div class="cinematic-final-label">月次観測23か月・同じ1km区画・高精度地点</div>
+        <div id="cinematic-closing-stats" class="cinematic-closing-stats"></div>
+        <div class="cinematic-targets" role="group" aria-label="探索する場所">
+          <button id="cinematic-target-dogo" class="active" type="button">道後</button>
+          <button id="cinematic-target-mitsu" type="button">三津</button>
+        </div>
+        <div class="cinematic-final-actions">
+          <button id="cinematic-explore" type="button">道後の時間を、自分で見る</button>
+          <button id="cinematic-replay" type="button">もう一度見る</button>
+        </div>
+      </div>
+
+      <div class="cinematic-disclaimer">光は営業許可の記録です。開店・閉店そのものではありません。詳しいデータ条件はExploreの説明から確認できます。</div>
     </section>
   </div>
   <script type="module" src="/src/main.js"></script>
