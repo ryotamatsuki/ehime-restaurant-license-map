@@ -7,7 +7,7 @@ test('desktop time-map controls and views work', async ({page}) => {
   await page.setViewportSize({width: 1440, height: 900});
   await page.goto('/');
   await expect(page.locator('h1')).toContainText('Ehime Restaurant License Map');
-  await expect(page.locator('#map canvas')).toBeVisible({timeout: 20000});
+  await expect(page.locator('canvas.maplibregl-canvas')).toBeVisible({timeout: 20000});
   await expect(page.locator('#coverage-badge')).toContainText('完全観測');
   await expect(page.locator('#municipality-select')).toHaveValue('382019');
   await expect(page.locator('#business-select')).toHaveValue('飲食店営業');
@@ -41,7 +41,7 @@ test('mobile layout remains usable', async ({page}) => {
 
   await page.setViewportSize({width: 390, height: 844});
   await page.goto('/');
-  await expect(page.locator('#map canvas')).toBeVisible({timeout: 20000});
+  await expect(page.locator('canvas.maplibregl-canvas')).toBeVisible({timeout: 20000});
   await expect(page.locator('.panel')).toBeVisible();
   await expect(page.locator('#municipality-select')).toBeVisible();
   await expect(page.locator('#month-slider')).toBeVisible();
