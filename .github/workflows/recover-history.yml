@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install pandas openpyxl requests beautifulsoup4
+        run: pip install pandas openpyxl xlrd requests beautifulsoup4
       - name: Recover historical sanitized snapshots
         run: python src/research/recover_history.py
       - name: Commit recovered sanitized history
