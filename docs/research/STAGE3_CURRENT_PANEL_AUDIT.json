@@ -1,0 +1,104 @@
+{
+  "input_files": {
+    "ehime_prefecture_2026-08-31_new.csv": 57,
+    "matsuyama_monthly_2025-08.csv": 154,
+    "matsuyama_monthly_2025-09.csv": 120,
+    "matsuyama_monthly_2025-10.csv": 64,
+    "matsuyama_monthly_2025-11.csv": 116,
+    "matsuyama_monthly_2025-12.csv": 154,
+    "matsuyama_monthly_2026-01.csv": 54,
+    "matsuyama_monthly_2026-02.csv": 183,
+    "matsuyama_monthly_2026-03.csv": 186,
+    "matsuyama_monthly_2026-04.csv": 86,
+    "matsuyama_monthly_2026-05.csv": 174,
+    "matsuyama_monthly_2026-06.csv": 191,
+    "matsuyama_monthly_2026-07.csv": 127
+  },
+  "rows_before_event_dedup": 1666,
+  "duplicate_event_rows_before_dedup": 0,
+  "duplicate_event_ids_sample": [],
+  "rows_after_event_dedup": 1666,
+  "restaurant_rows": 1374,
+  "missing_permit_date": 0,
+  "missing_facility_address": 11,
+  "event_type_counts": {
+    "new": 1407,
+    "renewal": 259
+  },
+  "coverage_by_authority_month": [
+    {
+      "source_authority": "愛媛県",
+      "event_month": "2026-08",
+      "rows": 57
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2025-08",
+      "rows": 154
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2025-09",
+      "rows": 120
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2025-10",
+      "rows": 64
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2025-11",
+      "rows": 116
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2025-12",
+      "rows": 154
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2026-01",
+      "rows": 54
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2026-02",
+      "rows": 183
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2026-03",
+      "rows": 186
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2026-04",
+      "rows": 86
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2026-05",
+      "rows": 174
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2026-06",
+      "rows": 191
+    },
+    {
+      "source_authority": "松山市",
+      "event_month": "2026-07",
+      "rows": 127
+    }
+  ],
+  "outputs": [
+    "data/processed/permit_events_current.csv",
+    "data/processed/restaurant_permit_events_current.csv"
+  ],
+  "event_id_rule": "sha256(authority|permit_date|permit_number|business_type|facility_name|facility_address)[:24]",
+  "event_type_rule": {
+    "Ehime_prefecture_new_sheet": "new",
+    "Matsuyama_monthly": "new if initial_permit_date == permit_date, else renewal; unknown if dates missing"
+  }
+}
