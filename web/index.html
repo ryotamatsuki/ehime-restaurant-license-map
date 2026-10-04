@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="愛媛県・松山市の食品営業許可オープンデータから、新規飲食店営業許可の空間変化を可視化する研究用タイムマップ。" />
+  <title>Ehime Restaurant License Map</title>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">OPEN DATA / SPATIAL RESEARCH</p>
+        <h1>Ehime Restaurant License Map</h1>
+      </div>
+      <div class="header-status">
+        <span id="coverage-badge" class="badge">読込中</span>
+        <span id="period-label" class="period-label">—</span>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="panel" aria-label="表示設定">
+        <section>
+          <h2>対象</h2>
+          <label>市町<select id="municipality-select"></select></label>
+          <label>業種<select id="business-select"></select></label>
+        </section>
+
+        <section>
+          <h2>表示</h2>
+          <div id="view-switcher" class="segmented grid-3" role="group" aria-label="地図表示">
+            <button data-view="points" class="active">Points</button>
+            <button data-view="heatmap">Heatmap</button>
+            <button data-view="hexagon">Hexagon</button>
+            <button data-view="mesh1">1km</button>
+            <button data-view="mesh500">500m</button>
+          </div>
+          <div id="period-switcher" class="segmented" role="group" aria-label="集計期間">
+            <button data-period="monthly" class="active">月次</button>
+            <button data-period="rolling12">12か月</button>
+          </div>
+          <p id="mode-note" class="note"></p>
+        </section>
+
+        <section class="timeline-section">
+          <div class="timeline-header">
+            <h2>時点</h2>
+            <button id="play-button" class="play-button" aria-label="アニメーション再生">▶</button>
+          </div>
+          <input id="month-slider" type="range" min="0" max="0" value="0" step="1" />
+          <div class="timeline-ends">
+            <span id="timeline-start">—</span>
+            <strong id="timeline-current">—</strong>
+            <span id="timeline-end">—</span>
+          </div>
+        </section>
+
+        <section class="metrics">
+          <article><span>新規飲食店許可</span><strong id="metric-total">—</strong></article>
+          <article><span>高精度地点</span><strong id="metric-points">—</strong></article>
+          <article><span id="metric-third-label">表示セル</span><strong id="metric-third">—</strong></article>
+        </section>
+
+        <section class="legend-block">
+          <h2>精度・完全性</h2>
+          <p><span class="dot dot-strict"></span>Points / Heatmap / Hexagon は番地・地番レベル座標のみ。</p>
+          <p><span class="dot dot-mesh"></span>メッシュも同じ高精度地点のみを集計。</p>
+          <p>県の2021–2022年旧データは市町村レベルのため、市町別件数には使いますが施設点にはしません。</p>
+        </section>
+
+        <details class="method">
+          <summary>データと注意事項</summary>
+          <p>営業許可は開店・閉店そのものではありません。「新規営業許可の発生」を表示します。</p>
+          <p>12か月表示は12か月すべてが完全観測できる場合だけ生成します。</p>
+          <p><a href="https://github.com/ryotamatsuki/ehime-restaurant-license-map" target="_blank" rel="noreferrer">GitHub / methodology</a></p>
+        </details>
+      </aside>
+
+      <section class="map-wrap" aria-label="地図">
+        <div id="map"></div>
+        <div id="empty-state" class="empty-state" hidden>
+          <strong>この条件では高精度地点を表示できません</strong>
+          <span id="empty-detail"></span>
+        </div>
+        <div class="map-caption">
+          <span id="map-caption-main">新規飲食店営業許可</span>
+          <span>位置精度を明示した研究用可視化</span>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
