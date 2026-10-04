@@ -99,6 +99,12 @@ def main() -> int:
     df["map_usable_strict"] = df["map_usable_strict"].map(boolify)
     df["map_usable_town_or_better"] = df["map_usable_town_or_better"].map(boolify)
 
+    no_source_address = df["facility_address"].astype(str).str.strip().eq("")
+    df.loc[no_source_address, "geocode_quality"] = "no_source_address"
+    df.loc[no_source_address, "geocode_error"] = "source facility_address is empty"
+    df.loc[no_source_address, "map_usable_strict"] = False
+    df.loc[no_source_address, "map_usable_town_or_better"] = False
+
     lat_num = pd.to_numeric(df["latitude"], errors="coerce")
     lon_num = pd.to_numeric(df["longitude"], errors="coerce")
     has_point = lat_num.notna() & lon_num.notna()
@@ -145,7 +151,8 @@ def main() -> int:
             "town_centroid": "point_level 3; may be used for aggregated/context views, not presented as exact facility coordinate",
             "municipality_centroid": "point_level 2; retained for provenance/context only and excluded from point maps",
             "prefecture_centroid": "point_level 1; excluded from point maps",
-            "failed": "no usable coordinate returned",
+            "no_source_address": "source facility_address is empty; no coordinate is guessed",
+            "failed": "address was present but no usable coordinate returned",
         },
         "outputs": [
             str(all_path.relative_to(ROOT)),
