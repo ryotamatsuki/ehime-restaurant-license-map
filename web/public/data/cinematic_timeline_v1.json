@@ -1,0 +1,444 @@
+{
+  "version": "1.0.0",
+  "runtime_seconds": 80,
+  "default_camera": {
+    "lon": 132.755,
+    "lat": 33.84,
+    "zoom": 11.1,
+    "pitch": 32,
+    "bearing": -8
+  },
+  "motion": {
+    "camera_easing": "easeInOutCubic",
+    "focus_easing": "easeOutCubic",
+    "max_pitch": 50,
+    "max_zoom": 14,
+    "max_bearing_delta": 28,
+    "ignition_ms": 420,
+    "jitter_ms": [
+      0,
+      180
+    ],
+    "memory_opacity": {
+      "fresh_exact": 0.92,
+      "fresh_retro": 0.72,
+      "months_1_3": [
+        0.55,
+        0.34
+      ],
+      "months_4_12": [
+        0.24,
+        0.1
+      ],
+      "older_exact": 0.045,
+      "older_retro": 0.035
+    },
+    "hotspot_scale": "sqrt(count)",
+    "focal_breathe_ms": [
+      900,
+      1200
+    ]
+  },
+  "evidence": {
+    "retrospective_partial": {
+      "label": "参考復元・不完全",
+      "confidence": 65
+    },
+    "exact_monthly": {
+      "label": "完全観測・月次",
+      "confidence": 100
+    }
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "start": 0,
+      "end": 6,
+      "month": "2021-06",
+      "type": "source_boundary_opening",
+      "camera": {
+        "from": [
+          132.755,
+          33.84,
+          11,
+          28,
+          -8
+        ],
+        "to": [
+          132.763,
+          33.839,
+          11.2,
+          32,
+          -8
+        ]
+      },
+      "primary_kpi": {
+        "label": "復元できた許可",
+        "value": 202
+      },
+      "support": [
+        [
+          "厳密地点",
+          60
+        ]
+      ],
+      "annotation": "ここからは参考復元。月次の全件ではありません",
+      "evidence": "retrospective_partial"
+    },
+    {
+      "id": "s02",
+      "start": 6,
+      "end": 11.5,
+      "month": "2021-08",
+      "type": "centroid_shift",
+      "camera": {
+        "to": [
+          132.7691,
+          33.8343,
+          11.4,
+          32,
+          -8
+        ]
+      },
+      "primary_kpi": {
+        "label": "重心移動",
+        "value": 2.69,
+        "unit": "km"
+      },
+      "annotation": "復元地点の重心が大きく移動",
+      "evidence": "retrospective_partial"
+    },
+    {
+      "id": "s03",
+      "start": 11.5,
+      "end": 17,
+      "month": "2022-08",
+      "type": "spatial_reconfiguration",
+      "camera": {
+        "keyframes": [
+          [
+            11.5,
+            132.755,
+            33.84,
+            11.1,
+            30,
+            -8
+          ],
+          [
+            14,
+            132.757,
+            33.831,
+            11.6,
+            34,
+            -8
+          ],
+          [
+            17,
+            132.755,
+            33.84,
+            11.1,
+            30,
+            -8
+          ]
+        ]
+      },
+      "primary_kpi": {
+        "label": "空間配置",
+        "value": "変化"
+      },
+      "support": [
+        [
+          "strict地点",
+          26
+        ]
+      ],
+      "annotation": "活動の分布が組み替わる",
+      "evidence": "retrospective_partial"
+    },
+    {
+      "id": "s04",
+      "start": 17,
+      "end": 23,
+      "month": "2024-02",
+      "type": "persistent_core",
+      "camera": {
+        "to": [
+          132.78125,
+          33.85417,
+          13.2,
+          44,
+          8
+        ]
+      },
+      "primary_kpi": {
+        "label": "道後",
+        "value": "持続する核"
+      },
+      "support": [
+        [
+          "strict地点",
+          48
+        ]
+      ],
+      "annotation": "参考復元期でも、道後の集積は繰り返し現れる",
+      "evidence": "retrospective_partial"
+    },
+    {
+      "id": "s05",
+      "start": 23,
+      "end": 29,
+      "month": "2024-05",
+      "type": "concentration_change",
+      "camera": {
+        "to": [
+          132.75625,
+          33.82917,
+          13.1,
+          42,
+          -12
+        ]
+      },
+      "primary_kpi": {
+        "label": "竹原・藤原",
+        "value": "集積変化"
+      },
+      "support": [
+        [
+          "strict地点",
+          33
+        ]
+      ],
+      "annotation": "別の集積軸が浮かび、都市は一極ではない",
+      "evidence": "retrospective_partial"
+    },
+    {
+      "id": "s06",
+      "start": 29,
+      "end": 38,
+      "month": "2024-08",
+      "type": "evidence_boundary_approach",
+      "camera": {
+        "to": [
+          132.755,
+          33.84,
+          11.1,
+          30,
+          -8
+        ]
+      },
+      "primary_kpi": {
+        "label": "次の月から",
+        "value": "完全観測"
+      },
+      "annotation": "2024.09",
+      "evidence": "retrospective_partial"
+    },
+    {
+      "id": "s07",
+      "start": 38,
+      "end": 44.5,
+      "month": "2024-09",
+      "type": "evidence_transition",
+      "camera": {
+        "to": [
+          132.78125,
+          33.85417,
+          13.4,
+          46,
+          10
+        ]
+      },
+      "primary_kpi": {
+        "label": "新規許可",
+        "value": 139
+      },
+      "support": [
+        [
+          "道後 strict",
+          15
+        ],
+        [
+          "前月比",
+          14
+        ]
+      ],
+      "annotation": "ここから月次を完全観測。道後で強い集中",
+      "secondary_cue": {
+        "locality": "東石井",
+        "text": "東石井でも再浮上"
+      },
+      "evidence": "exact_monthly"
+    },
+    {
+      "id": "s08",
+      "start": 44.5,
+      "end": 50,
+      "month": "2024-11",
+      "type": "concentration_change",
+      "camera": {
+        "to": [
+          132.74375,
+          33.82917,
+          13,
+          42,
+          -8
+        ]
+      },
+      "primary_kpi": {
+        "label": "新規許可",
+        "value": 123
+      },
+      "annotation": "集中の形が変わり、空港通・竹原側へ視線が移る",
+      "evidence": "exact_monthly"
+    },
+    {
+      "id": "s09",
+      "start": 50,
+      "end": 56,
+      "month": "2025-05",
+      "type": "volume_spike",
+      "camera": {
+        "to": [
+          132.751,
+          33.845,
+          11.2,
+          32,
+          -8
+        ]
+      },
+      "primary_kpi": {
+        "label": "新規許可",
+        "value": 165
+      },
+      "annotation": "局所ではなく、市全体で許可発生が強まる",
+      "evidence": "exact_monthly"
+    },
+    {
+      "id": "s10",
+      "start": 56,
+      "end": 62,
+      "month": "2025-08",
+      "type": "hotspot_reacceleration",
+      "camera": {
+        "to": [
+          132.71875,
+          33.8625,
+          13.3,
+          44,
+          -18
+        ]
+      },
+      "primary_kpi": {
+        "label": "三津周辺",
+        "value": 5,
+        "unit": "件"
+      },
+      "support": [
+        [
+          "直前3か月",
+          1
+        ]
+      ],
+      "annotation": "長く続く西の核が、静穏期から再加速",
+      "evidence": "exact_monthly"
+    },
+    {
+      "id": "s11",
+      "start": 62,
+      "end": 67.5,
+      "month": "2025-12",
+      "type": "volume_spike",
+      "camera": {
+        "to": [
+          132.762,
+          33.832,
+          11.3,
+          32,
+          -4
+        ]
+      },
+      "primary_kpi": {
+        "label": "新規許可",
+        "value": 131
+      },
+      "annotation": "年末、再び広い範囲で発生",
+      "evidence": "exact_monthly"
+    },
+    {
+      "id": "s12",
+      "start": 67.5,
+      "end": 75,
+      "month": "2026-02",
+      "type": "climax_hotspot_surge",
+      "camera": {
+        "to": [
+          132.78125,
+          33.85417,
+          13.7,
+          48,
+          12
+        ]
+      },
+      "primary_kpi": {
+        "label": "新規許可",
+        "value": 158
+      },
+      "support": [
+        [
+          "道後",
+          14
+        ],
+        [
+          "前月比",
+          14
+        ],
+        [
+          "重心移動",
+          2.71,
+          "km"
+        ]
+      ],
+      "annotation": "完全観測期で最も強い変化。道後が再び大きく発光",
+      "evidence": "exact_monthly"
+    },
+    {
+      "id": "outro",
+      "start": 75,
+      "end": 80,
+      "month": "2026-07",
+      "type": "closing",
+      "camera": {
+        "to": [
+          132.755,
+          33.84,
+          10.9,
+          28,
+          -8
+        ]
+      },
+      "primary_kpi": {
+        "label": "期間",
+        "value": 62,
+        "unit": "か月"
+      },
+      "support": [
+        [
+          "道後 活動月",
+          "50/62"
+        ],
+        [
+          "三津 活動月",
+          "47/62"
+        ]
+      ],
+      "annotation": "一時の点ではなく、繰り返し現れる都市の核が残る",
+      "cta": "自分で時間を動かして見る →",
+      "evidence": "exact_monthly",
+      "optional_cue": {
+        "month": "2026-03",
+        "locality": "余戸・保免",
+        "duration_ms": 450
+      }
+    }
+  ]
+}
