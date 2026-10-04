@@ -402,6 +402,83 @@ def location_candidates(months: list[str], mesh: pd.DataFrame) -> pd.DataFrame:
     ).reset_index(drop=True)
 
 
+
+def hotspot_trajectories(mesh: pd.DataFrame, months: list[str]) -> pd.DataFrame:
+    if mesh.empty:
+        return pd.DataFrame()
+
+    month_index = {m: i for i, m in enumerate(months)}
+    rank_map = {}
+    for month, g in mesh.groupby("month"):
+        ranked = g.sort_values(["count", "mesh_1km"], ascending=[False, True]).reset_index(drop=True)
+        for i, (_, r) in enumerate(ranked.iterrows(), 1):
+            rank_map[(month, r["mesh_1km"])] = i
+
+    rows = []
+    for mesh_id, g in mesh.groupby("mesh_1km"):
+        g = g.sort_values("month")
+        active_months = g["month"].tolist()
+        active_idx = sorted(month_index[m] for m in active_months)
+        longest = 0
+        current = 0
+        prev = None
+        for idx in active_idx:
+            if prev is not None and idx == prev + 1:
+                current += 1
+            else:
+                current = 1
+            longest = max(longest, current)
+            prev = idx
+
+        peak = g.sort_values(["count", "month"], ascending=[False, True]).iloc[0]
+        rank1 = sum(rank_map[(r["month"], mesh_id)] == 1 for _, r in g.iterrows())
+        top3 = sum(rank_map[(r["month"], mesh_id)] <= 3 for _, r in g.iterrows())
+        retro_active = int((g["evidence_tier"] == "retrospective_partial").sum())
+        exact_active = int((g["evidence_tier"] == "exact_monthly").sum())
+
+        score = (
+            1.0 * len(active_months)
+            + 1.5 * longest
+            + 2.0 * top3
+            + 3.0 * rank1
+            + 0.5 * int(g["count"].sum())
+            + 1.0 * int(peak["count"])
+        )
+
+        if longest >= 12 or len(active_months) >= 30:
+            klass = "persistent_city_core"
+        elif exact_active >= 5 and retro_active <= 2:
+            klass = "emerging_exact_period_cluster"
+        elif longest >= 5:
+            klass = "recurring_cluster"
+        else:
+            klass = "episodic_cluster"
+
+        rows.append({
+            "mesh_1km": mesh_id,
+            "trajectory_class": klass,
+            "trajectory_score": round(float(score), 3),
+            "active_months": int(len(active_months)),
+            "longest_active_streak": int(longest),
+            "retrospective_active_months": retro_active,
+            "exact_active_months": exact_active,
+            "rank1_months": int(rank1),
+            "top3_months": int(top3),
+            "total_strict_events": int(g["count"].sum()),
+            "first_active_month": active_months[0],
+            "last_active_month": active_months[-1],
+            "peak_month": peak["month"],
+            "peak_count": int(peak["count"]),
+            "peak_locality_label": peak["locality_label"],
+            "mesh_center_lat": float(peak["mesh_center_lat"]),
+            "mesh_center_lon": float(peak["mesh_center_lon"]),
+        })
+
+    return pd.DataFrame(rows).sort_values(
+        ["trajectory_score", "active_months", "mesh_1km"],
+        ascending=[False, False, True],
+    ).reset_index(drop=True)
+
 def score_months(metrics: pd.DataFrame, locations: pd.DataFrame) -> pd.DataFrame:
     out = metrics.copy()
     emerg = (
@@ -459,6 +536,7 @@ def score_months(metrics: pd.DataFrame, locations: pd.DataFrame) -> pd.DataFrame
     out["evidence_confidence_score"] = np.where(
         out["evidence_tier"] == "exact_monthly", 100.0, 65.0
     )
+    out["source_boundary_flag"] = out["month"].eq(START)
     out["editorial_priority_score"] = (
         0.80 * out["visual_interest_score"]
         + 0.20 * out["evidence_confidence_score"]
@@ -468,6 +546,8 @@ def score_months(metrics: pd.DataFrame, locations: pd.DataFrame) -> pd.DataFrame
     out.loc[out["month"] == EXACT_START, "editorial_priority_score"] = 100.0
 
     def primary_type(r):
+        if r["month"] == START:
+            return "source_boundary_opening"
         if r["month"] == EXACT_START:
             return "evidence_transition"
         comps = {
@@ -502,15 +582,44 @@ def score_months(metrics: pd.DataFrame, locations: pd.DataFrame) -> pd.DataFrame
 def choose_storyboard(scored: pd.DataFrame, locations: pd.DataFrame) -> list[dict]:
     scenes = []
     by_month = scored.set_index("month")
+    used_focus_meshes = Counter()
+
+    def location_for_month(month: str, scene_type: str):
+        r = by_month.loc[month]
+        target = locations[locations["month"] == month].sort_values(
+            ["visual_target_score", "rank_in_month"], ascending=[False, True]
+        )
+
+        # Movement/reconfiguration should be shown citywide around the centroid,
+        # not incorrectly forced onto the strongest hotspot.
+        if scene_type in {"centroid_shift", "spatial_reconfiguration", "source_boundary_opening"}:
+            return {
+                "mesh_1km": "",
+                "locality": "",
+                "lat": None if pd.isna(r["centroid_lat"]) else float(r["centroid_lat"]),
+                "lon": None if pd.isna(r["centroid_lon"]) else float(r["centroid_lon"]),
+            }
+
+        if len(target):
+            loc = target.iloc[0]
+            return {
+                "mesh_1km": loc["mesh_1km"],
+                "locality": loc["locality_label"],
+                "lat": float(loc["mesh_center_lat"]),
+                "lon": float(loc["mesh_center_lon"]),
+            }
+        return {
+            "mesh_1km": r["top_mesh"],
+            "locality": r["top_mesh_locality"],
+            "lat": None if pd.isna(r["top_mesh_center_lat"]) else float(r["top_mesh_center_lat"]),
+            "lon": None if pd.isna(r["top_mesh_center_lon"]) else float(r["top_mesh_center_lon"]),
+        }
 
     def add_scene(month: str, role: str, reason: str):
         if month not in by_month.index:
             return
         r = by_month.loc[month]
-        target = locations[locations["month"] == month].sort_values(
-            ["visual_target_score", "rank_in_month"], ascending=[False, True]
-        )
-        loc = target.iloc[0] if len(target) else None
+        target = location_for_month(month, r["primary_scene_type"])
         scenes.append({
             "month": month,
             "role": role,
@@ -522,25 +631,24 @@ def choose_storyboard(scored: pd.DataFrame, locations: pd.DataFrame) -> list[dic
             "strict_events": int(r["strict_events"]),
             "top_mesh": r["top_mesh"],
             "top_mesh_locality": r["top_mesh_locality"],
-            "camera_target": {
-                "mesh_1km": loc["mesh_1km"] if loc is not None else r["camera_mesh"],
-                "locality": loc["locality_label"] if loc is not None else r["camera_locality"],
-                "lat": float(loc["mesh_center_lat"]) if loc is not None else (
-                    None if pd.isna(r["camera_lat"]) else float(r["camera_lat"])
-                ),
-                "lon": float(loc["mesh_center_lon"]) if loc is not None else (
-                    None if pd.isna(r["camera_lon"]) else float(r["camera_lon"])
-                ),
-            },
+            "camera_target": target,
             "reason": reason,
         })
+        if target["mesh_1km"]:
+            used_focus_meshes[target["mesh_1km"]] += 1
 
-    # Fixed narrative anchors.
-    add_scene(START, "opening", "Start of the 62-month reconstructed Matsuyama timeline.")
-    add_scene(EXACT_START, "evidence_transition", "Explicit transition from retrospective reconstruction to complete monthly observation.")
+    add_scene(
+        START,
+        "opening",
+        "Source-boundary opening. The retrospective source begins here, so the high June count is not interpreted as a real volume spike."
+    )
+    add_scene(
+        EXACT_START,
+        "evidence_transition",
+        "Explicit transition from retrospective reconstruction to complete monthly observation."
+    )
     add_scene(END, "closing", "End-state frame for comparison with the opening.")
 
-    # Select high-priority scenes with spacing, separately by evidence era.
     for tier, max_scenes, spacing in [
         ("retrospective_partial", 4, 3),
         ("exact_monthly", 5, 2),
@@ -555,6 +663,12 @@ def choose_storyboard(scored: pd.DataFrame, locations: pd.DataFrame) -> list[dic
             p = pd.Period(r["month"], freq="M")
             if any(abs(p.ordinal - pd.Period(m, freq="M").ordinal) < spacing for m in selected):
                 continue
+
+            target = location_for_month(r["month"], r["primary_scene_type"])
+            # Avoid a storyboard that repeatedly zooms to the same dominant mesh.
+            if target["mesh_1km"] and used_focus_meshes[target["mesh_1km"]] >= 2:
+                continue
+
             selected.append(r["month"])
             add_scene(
                 r["month"],
@@ -569,7 +683,6 @@ def choose_storyboard(scored: pd.DataFrame, locations: pd.DataFrame) -> list[dic
         scene["sequence"] = i
     return scenes
 
-
 def main() -> int:
     events, exact = load_unified()
     months = month_range(START, END)
@@ -580,12 +693,14 @@ def main() -> int:
     mesh = build_mesh_panel(events)
     metrics = monthly_metrics(events, mesh)
     locations = location_candidates(months, mesh)
+    trajectories = hotspot_trajectories(mesh, months)
     scored = score_months(metrics, locations)
     storyboard = choose_storyboard(scored, locations)
 
     metrics.to_csv(OUT / "matsuyama_62m_month_metrics.csv", index=False, encoding="utf-8")
     mesh.to_csv(OUT / "matsuyama_62m_strict_mesh_1km.csv", index=False, encoding="utf-8")
     locations.to_csv(OUT / "matsuyama_location_scene_candidates.csv", index=False, encoding="utf-8")
+    trajectories.to_csv(OUT / "matsuyama_hotspot_trajectories.csv", index=False, encoding="utf-8")
     scored.to_csv(OUT / "matsuyama_scene_candidates_ranked.csv", index=False, encoding="utf-8")
     (OUT / "cinematic_storyboard_seed.json").write_text(
         json.dumps(storyboard, ensure_ascii=False, indent=2), encoding="utf-8"
@@ -604,6 +719,8 @@ def main() -> int:
         "persistent_emergence", "surge_vs_prev", "visual_target_score",
     ]].to_dict(orient="records")
 
+    top_trajectories = trajectories.head(15).to_dict(orient="records")
+
     audit = {
         "stage": 8,
         "timeline": [START, END],
@@ -616,6 +733,7 @@ def main() -> int:
         "strict_mesh_rows": int(len(mesh)),
         "location_candidate_rows": int(len(locations)),
         "storyboard_scene_count": len(storyboard),
+        "hotspot_trajectory_rows": int(len(trajectories)),
         "scoring": {
             "visual_interest_weights": {
                 "volume": 0.25,
@@ -631,11 +749,13 @@ def main() -> int:
         },
         "top_months": top_months,
         "top_locations": top_locations,
+        "top_hotspot_trajectories": top_trajectories,
         "storyboard": storyboard,
         "outputs": [
             "data/processed/cinematic/matsuyama_62m_month_metrics.csv",
             "data/processed/cinematic/matsuyama_62m_strict_mesh_1km.csv",
             "data/processed/cinematic/matsuyama_location_scene_candidates.csv",
+            "data/processed/cinematic/matsuyama_hotspot_trajectories.csv",
             "data/processed/cinematic/matsuyama_scene_candidates_ranked.csv",
             "data/processed/cinematic/cinematic_storyboard_seed.json",
         ],
