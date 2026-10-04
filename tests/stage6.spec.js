@@ -68,3 +68,50 @@ test('mobile layout remains usable', async ({page}) => {
   await expect(page.locator('#timeline-current')).not.toHaveText('—');
   expect(pageErrors).toEqual([]);
 });
+
+
+test('cinematic mode enters, navigates scenes, and exits cleanly', async ({page}) => {
+  const pageErrors = [];
+  page.on('pageerror', error => pageErrors.push(String(error)));
+  await page.setViewportSize({width: 1440, height: 900});
+  await page.goto('/');
+  await expect(page.locator('canvas.maplibregl-canvas')).toBeVisible({timeout: 20000});
+
+  await page.locator('#cinematic-enter').click();
+  await expect(page.locator('#cinematic-shell')).toBeVisible();
+  await expect(page.locator('#cinematic-month')).toHaveText('2021.06');
+  await expect(page.locator('#cinematic-evidence')).toContainText('参考復元');
+
+  await page.locator('#cinematic-next').click();
+  await expect(page.locator('#cinematic-month')).toHaveText('2021.08');
+  await expect(page.locator('#cinematic-kpi-label')).toContainText('重心移動');
+
+  for (let i = 0; i < 5; i += 1) await page.locator('#cinematic-next').click();
+  await expect(page.locator('#cinematic-month')).toHaveText('2024.09');
+  await expect(page.locator('#cinematic-evidence')).toContainText('完全観測');
+  await expect(page.locator('#cinematic-kpi')).toHaveText('139');
+
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#cinematic-shell')).toBeHidden();
+  await expect(page.locator('.panel')).toBeVisible();
+  expect(pageErrors).toEqual([]);
+});
+
+test('cinematic mobile and reduced-motion mode remain usable', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'reduce'});
+  await page.setViewportSize({width: 390, height: 844});
+  await page.goto('/');
+  await page.locator('#cinematic-enter').click();
+
+  await expect(page.locator('#cinematic-shell')).toBeVisible();
+  await expect(page.locator('#cinematic-play')).toHaveText('▶');
+  await expect(page.locator('.cinematic-hud')).toBeVisible();
+
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('#cinematic-month')).toHaveText('2021.08');
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.locator('#cinematic-month')).toHaveText('2021.06');
+
+  await page.locator('#cinematic-exit').click();
+  await expect(page.locator('#cinematic-shell')).toBeHidden();
+});
