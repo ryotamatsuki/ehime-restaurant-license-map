@@ -14,7 +14,7 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
   await page.locator('#cinematic-enter').click();
   await expect(page.locator('#cinematic-shell')).toBeVisible();
 
-  const captureTimes = new Set([0, 5, 20, 23, 40, 50, 62, 66, 78]);
+  const captureTimes = new Set([0, 5, 20, 23, 40, 50, 66, 78]);
   const telemetry = [];
   const start = Date.now();
 
@@ -33,28 +33,29 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
         camera: d.camera,
         focusPixel: d.focusPixel,
         hudRect: d.hudRect,
-        seenMonthCount: d.seenMonths?.length || 0
+        seenMonthCount: d.seenMonths?.length || 0,
+        kpi: document.querySelector('#cinematic-kpi').textContent,
+        kpiVisible: document.querySelector('#cinematic-kpi-wrap').classList.contains('is-visible'),
+        place: document.querySelector('#cinematic-place').textContent,
+        scope: document.querySelector('#cinematic-scope').textContent,
+        supportVisible: document.querySelector('#cinematic-support').classList.contains('is-visible'),
+        chartVisible: document.querySelector('#cinematic-chart').classList.contains('is-visible'),
+        caption: document.querySelector('#cinematic-annotation').textContent,
+        captionVisible: document.querySelector('#cinematic-annotation').classList.contains('is-visible')
       };
     });
 
     sample.second = second;
-    sample.kpi = await page.locator('#cinematic-kpi').textContent();
-    sample.place = await page.locator('#cinematic-place').textContent();
-    sample.scope = await page.locator('#cinematic-scope').textContent();
-    sample.supportVisible = await page.locator('#cinematic-support').evaluate(el => el.classList.contains('is-visible'));
-    sample.chartVisible = await page.locator('#cinematic-chart').evaluate(el => el.classList.contains('is-visible'));
-    sample.caption = await page.locator('#cinematic-annotation').textContent();
-    sample.captionVisible = await page.locator('#cinematic-annotation').evaluate(el => el.classList.contains('is-visible'));
     telemetry.push(sample);
 
-    if (second === 62) {
+    if (sample.elapsed >= 61.5 && sample.elapsed <= 63.25) {
       expect(sample.kpi).toBe('158件');
       expect(sample.place).toBe('松山市全体');
       expect(sample.scope).toBe('松山市全体');
       expect(sample.supportVisible).toBe(false);
       expect(sample.chartVisible).toBe(false);
     }
-    if (second === 66) {
+    if (sample.elapsed >= 64.55 && sample.elapsed <= 69.0) {
       expect(sample.kpi).toBe('14件');
       expect(sample.place).toBe('道後');
       expect(sample.scope).toBe('道後周辺の1km区画・高精度地点');
@@ -82,6 +83,24 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
     testInfo.outputPath(prefix + '-playback-telemetry.json'),
     JSON.stringify(telemetry, null, 2)
   );
+
+  // Wall-clock sampling can be late while CI captures screenshots. Verify the
+  // exact film-clock frames separately after the uninterrupted 80-second run.
+  for (const second of [62, 66]) {
+    await page.evaluate(t => window.__CINEMATIC_TEST_API__.seek(t), second);
+    await expect(page.locator('#cinematic-kpi')).toHaveText(second === 62 ? '158件' : '14件');
+    await expect(page.locator('#cinematic-place')).toHaveText(second === 62 ? '松山市全体' : '道後');
+    await expect(page.locator('#cinematic-scope')).toHaveText(
+      second === 62 ? '松山市全体' : '道後周辺の1km区画・高精度地点'
+    );
+    if (second === 62) {
+      await expect(page.locator('#cinematic-support')).not.toHaveClass(/is-visible/);
+      await expect(page.locator('#cinematic-chart')).not.toHaveClass(/is-visible/);
+    } else {
+      await expect(page.locator('#cinematic-chart')).toHaveClass(/is-visible/);
+    }
+    await page.screenshot({path: testInfo.outputPath(prefix + '-' + second + 's.png'), fullPage: true});
+  }
 }
 
 test('Stage 11 full 80-second desktop playback', async ({page}, testInfo) => {
