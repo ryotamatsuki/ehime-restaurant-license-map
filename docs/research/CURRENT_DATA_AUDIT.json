@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-04T02:04:39.538255+00:00",
+  "generated_at_utc": "2026-10-04T02:07:48.087410+00:00",
   "repository": "ryotamatsuki/ehime-restaurant-license-map",
   "privacy_policy": {
     "raw_files_committed": false,
@@ -9,7 +9,7 @@
     "ehime_prefecture": {
       "authority": "愛媛県",
       "source_url": "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/29480/%E6%96%B0%E8%A6%8F%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD(R8.8%E6%9C%88)%E3%83%BB%E5%85%A8%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD(R8.8.31%E7%8F%BE%E5%9C%A8)%20.xlsx",
-      "resource_id": 17344,
+      "resource_internal_id": 17344,
       "resource_name": "新規営業許可施設(R8.8月)・全営業許可施設(R8.8.31現在) .xlsx",
       "sha256": "25a87cae539181514c03f62ec6dcbff14cc683358a8b0cd9cb26b803479ceee1",
       "bytes": 1286697,
@@ -34,16 +34,24 @@
           ],
           "mapping": {
             "permit_number": "許可番号",
+            "initial_permit_date": "新規許可日",
             "permit_date": "新規許可日",
             "permit_expiry_date": "許可有効期限",
             "business_type": "営業の種類",
             "facility_name": "営業所名称",
-            "facility_address": "営業所所在地"
+            "facility_address": "営業所所在地",
+            "municipality_code": null,
+            "town_id": null,
+            "latitude": null,
+            "longitude": null,
+            "application_type": null
           },
           "rows": 57,
           "missing_permit_date": 0,
           "missing_facility_address": 11,
           "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
           "business_type_top10": {
             "① 飲食店営業": 41,
             "㉕ そうざい製造業": 9,
@@ -74,16 +82,24 @@
           ],
           "mapping": {
             "permit_number": "許可番号",
+            "initial_permit_date": "新規許可日",
             "permit_date": "新規許可日",
             "permit_expiry_date": "許可有効期限",
             "business_type": "営業の種類",
             "facility_name": "営業所名称",
-            "facility_address": "営業所所在地"
+            "facility_address": "営業所所在地",
+            "municipality_code": null,
+            "town_id": null,
+            "latitude": null,
+            "longitude": null,
+            "application_type": null
           },
           "rows": 10897,
           "missing_permit_date": 0,
           "missing_facility_address": 981,
           "duplicate_permit_number_rows": 26,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
           "business_type_top10": {
             "① 飲食店営業": 7164,
             "⑪ 菓子製造業": 1199,
@@ -106,14 +122,13 @@
     "matsuyama_monthly": {
       "authority": "松山市",
       "source_url": "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.files/shokuhinsinki.xlsx",
-      "anchor_text": "é£åå¶æ¥­è¨±å¯æ°è¦åã¯æ´æ°æ½è¨­ä¸è¦§ï¼ã¨ã¯ã»ã«ï¼364KBï¼",
+      "anchor_text": "食品営業許可新規又は更新施設一覧（エクセル：364KB）",
       "sha256": "076ab31512db6c0d16c1b33f07ef1bd543cdc99cc8d394f932db4b2b7560bd84",
       "bytes": 372981,
       "sheets": [
         {
           "sheet": "2025年8月",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -151,12 +166,39 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 154,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 126,
+            "菓子製造業": 16,
+            "そうざい製造業": 4,
+            "食肉販売業": 3,
+            "魚介類販売業": 3,
+            "冷凍食品製造業": 2
+          }
         },
         {
           "sheet": "2025年9月",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -194,12 +236,42 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 120,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 98,
+            "菓子製造業": 11,
+            "魚介類販売業": 3,
+            "そうざい製造業": 2,
+            "冷凍食品製造業": 2,
+            "食肉販売業": 1,
+            "豆腐製造業": 1,
+            "麺類製造業": 1,
+            "食品の小分け業": 1
+          }
         },
         {
           "sheet": "2025年10月",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -237,12 +309,38 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 64,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 58,
+            "菓子製造業": 3,
+            "魚介類販売業": 1,
+            "酒類製造業": 1,
+            "そうざい製造業": 1
+          }
         },
         {
           "sheet": "2025年11月",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -280,12 +378,43 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 116,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 87,
+            "菓子製造業": 8,
+            "魚介類販売業": 4,
+            "そうざい製造業": 3,
+            "冷凍食品製造業": 3,
+            "食肉販売業": 2,
+            "食肉処理業": 2,
+            "アイスクリーム類製造業": 1,
+            "乳製品製造業": 1,
+            "水産製品製造業": 1
+          }
         },
         {
           "sheet": "2025年12月",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -323,12 +452,43 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 154,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 131,
+            "菓子製造業": 7,
+            "食肉販売業": 5,
+            "魚介類販売業": 4,
+            "そうざい製造業": 2,
+            "食肉処理業": 1,
+            "食肉製品製造業": 1,
+            "水産製品製造業": 1,
+            "麺類製造業": 1,
+            "密封包装食品製造業": 1
+          }
         },
         {
           "sheet": "2026年1月",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -366,12 +526,39 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 54,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 45,
+            "菓子製造業": 5,
+            "食肉販売業": 1,
+            "魚介類販売業": 1,
+            "水産製品製造業": 1,
+            "そうざい製造業": 1
+          }
         },
         {
           "sheet": "2026年2月",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -409,12 +596,40 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 183,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 158,
+            "菓子製造業": 13,
+            "そうざい製造業": 6,
+            "食肉販売業": 2,
+            "冷凍食品製造業": 2,
+            "魚介類販売業": 1,
+            "食品の小分け業": 1
+          }
         },
         {
           "sheet": "2026年3月",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -452,12 +667,43 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 186,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 152,
+            "菓子製造業": 12,
+            "そうざい製造業": 6,
+            "食肉販売業": 4,
+            "魚介類販売業": 4,
+            "食肉処理業": 3,
+            "麺類製造業": 2,
+            "水産製品製造業": 1,
+            "冷凍食品製造業": 1,
+            "添加物製造業": 1
+          }
         },
         {
           "sheet": "2026年4月（更新含む）",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -495,12 +741,41 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 86,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 64,
+            "菓子製造業": 9,
+            "そうざい製造業": 5,
+            "冷凍食品製造業": 4,
+            "魚介類販売業": 1,
+            "食肉販売業": 1,
+            "食品の小分け業": 1,
+            "漬物製造業": 1
+          }
         },
         {
           "sheet": "2026年5月（更新含む）",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -538,12 +813,41 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 174,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 150,
+            "菓子製造業": 8,
+            "魚介類販売業": 5,
+            "そうざい製造業": 4,
+            "食肉処理業": 2,
+            "麺類製造業": 2,
+            "冷凍食品製造業": 2,
+            "食肉販売業": 1
+          }
         },
         {
           "sheet": "2026年6月（更新含む）",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -581,12 +885,43 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 191,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 156,
+            "菓子製造業": 13,
+            "そうざい製造業": 5,
+            "魚介類販売業": 4,
+            "食品の小分け業": 3,
+            "みそ又はしょうゆ製造業": 2,
+            "食肉販売業": 2,
+            "水産製品製造業": 2,
+            "冷凍食品製造業": 2,
+            "豆腐製造業": 1
+          }
         },
         {
           "sheet": "2026年7月（更新含む）",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -624,21 +959,67 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 127,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 0,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 108,
+            "菓子製造業": 5,
+            "魚介類販売業": 4,
+            "そうざい製造業": 3,
+            "食肉販売業": 2,
+            "冷凍食品製造業": 2,
+            "食肉処理業": 1,
+            "水産製品製造業": 1,
+            "麺類製造業": 1
+          }
         }
       ],
-      "outputs": []
+      "outputs": [
+        "data/snapshots/matsuyama_monthly_2025-08.csv",
+        "data/snapshots/matsuyama_monthly_2025-09.csv",
+        "data/snapshots/matsuyama_monthly_2025-10.csv",
+        "data/snapshots/matsuyama_monthly_2025-11.csv",
+        "data/snapshots/matsuyama_monthly_2025-12.csv",
+        "data/snapshots/matsuyama_monthly_2026-01.csv",
+        "data/snapshots/matsuyama_monthly_2026-02.csv",
+        "data/snapshots/matsuyama_monthly_2026-03.csv",
+        "data/snapshots/matsuyama_monthly_2026-04.csv",
+        "data/snapshots/matsuyama_monthly_2026-05.csv",
+        "data/snapshots/matsuyama_monthly_2026-06.csv",
+        "data/snapshots/matsuyama_monthly_2026-07.csv"
+      ]
     },
     "matsuyama_all": {
       "authority": "松山市",
       "landing_url": "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhin.html",
       "files": [
         {
-          "anchor_text": "é£åå¶æ¥­è¨±å¯å¨æ½è¨­ä¸è¦§ï¼ä»¤å3å¹´5ææ«ã¾ã§ã«è¨±å¯ãåå¾ããæ½è¨­ï¼ï¼ä»¤å8å¹´3æ31æ¥æç¹ï¼ï¼CSVï¼183KBï¼",
+          "anchor_text": "食品営業許可全施設一覧（令和3年5月末までに許可を取得した施設）（令和8年3月31日時点）（CSV：183KB）",
           "source_url": "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhin.files/382019_food_business_all_2026031.csv",
-          "status": "schema_error",
-          "error": "Required columns not found: ['facility_name', 'facility_address']; columns=['全国地方公共団体コード', 'ID', '地方公共団体名', '施設名称1', '施設名称2', '施設名称＿ｶﾅ', '施設名称＿英字', '営業の種類', '業態', '所在地＿全国地方公共団体コード', '町字ID', '所在地＿連結表記', '施設所在地＿都道府県', '施設所在地＿市区町村', '施設所在地＿町字', '施設所在地＿番地以下', '施設方書', '緯度', '経度', '施設電話番号', '連絡先メールアドレス', '連絡先FormURL', '連絡先備考（その他、SNSなど）', '郵便番号', '申請者個人名', '法人名', '法人番号', '法人代表者氏名', '許可番号', '初回許可年月日', '許可年月日', '許可開始日', '許可満了日', '廃業年月日', '申請区分', '許可条件', '備考']",
+          "status": "sanitized",
+          "sha256": "d1c623faaa6450b45a31873a3344cee7e569f4a5478d7a293029327e832c61fe",
+          "bytes": 187839,
           "encoding": "utf-8-sig",
+          "header_row": 0,
           "columns": [
             "全国地方公共団体コード",
             "ID",
@@ -677,57 +1058,126 @@
             "申請区分",
             "許可条件",
             "備考"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称1",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 577,
+          "missing_permit_date": 577,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 2,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 438,
+            "菓子製造業": 45,
+            "喫茶店営業": 34,
+            "そうざい製造業": 15,
+            "食品の冷凍又は冷蔵業": 11,
+            "魚介類販売業": 10,
+            "食肉販売業": 10,
+            "アイスクリーム類製造業": 6,
+            "食肉処理業": 3,
+            "めん類製造業": 2
+          }
         },
         {
-          "anchor_text": "é£åå¶æ¥­è¨±å¯å¨æ½è¨­ä¸è¦§ï¼ä»¤å3å¹´6æä»¥éã«è¨±å¯ãåå¾ããæ½è¨­ï¼ï¼ä»¤å8å¹´3æ31æ¥æç¹ï¼ï¼CSVï¼1,899KBï¼",
+          "anchor_text": "食品営業許可全施設一覧（令和3年6月以降に許可を取得した施設）（令和8年3月31日時点）（CSV：1,899KB）",
           "source_url": "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhin.files/382019_food_business_all_2026032.csv",
-          "status": "schema_error",
-          "error": "Required columns not found: ['permit_number', 'permit_date', 'business_type', 'facility_name', 'facility_address']; columns=['Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4', 'Unnamed: 5', 'Unnamed: 6', 'Unnamed: 7', 'Unnamed: 8', 'Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12', 'Unnamed: 13', 'Unnamed: 14', 'Unnamed: 15', 'Unnamed: 16', 'Unnamed: 17', 'Unnamed: 18', 'Unnamed: 19', 'Unnamed: 20', 'Unnamed: 21', 'Unnamed: 22', 'Unnamed: 23', 'Unnamed: 24', 'Unnamed: 25', 'Unnamed: 26', 'Unnamed: 27', 'Unnamed: 28', 'Unnamed: 29', 'Unnamed: 30', 'Unnamed: 31', 'Unnamed: 32', 'Unnamed: 33', 'Unnamed: 34', 'Unnamed: 35', 'Unnamed: 36', 'Unnamed: 37']",
+          "status": "sanitized",
+          "sha256": "d4b97ff4dc81f84244b6886cd89d80f34f98c246be84d06510f550082d347b4d",
+          "bytes": 1944965,
           "encoding": "utf-8-sig",
+          "header_row": 1,
           "columns": [
-            "Unnamed: 0",
-            "Unnamed: 1",
-            "Unnamed: 2",
-            "Unnamed: 3",
-            "Unnamed: 4",
-            "Unnamed: 5",
-            "Unnamed: 6",
-            "Unnamed: 7",
-            "Unnamed: 8",
-            "Unnamed: 9",
-            "Unnamed: 10",
-            "Unnamed: 11",
-            "Unnamed: 12",
-            "Unnamed: 13",
-            "Unnamed: 14",
-            "Unnamed: 15",
-            "Unnamed: 16",
-            "Unnamed: 17",
-            "Unnamed: 18",
-            "Unnamed: 19",
-            "Unnamed: 20",
-            "Unnamed: 21",
-            "Unnamed: 22",
-            "Unnamed: 23",
-            "Unnamed: 24",
-            "Unnamed: 25",
-            "Unnamed: 26",
-            "Unnamed: 27",
-            "Unnamed: 28",
-            "Unnamed: 29",
-            "Unnamed: 30",
-            "Unnamed: 31",
-            "Unnamed: 32",
-            "Unnamed: 33",
-            "Unnamed: 34",
-            "Unnamed: 35",
-            "Unnamed: 36",
+            "全国地方公共団体コード",
+            "ID",
+            "地方公共団体名",
+            "施設名称1",
+            "施設名称2",
+            "施設名称＿ｶﾅ",
+            "施設名称＿英字",
+            "営業の種類",
+            "業態",
+            "所在地＿全国地方公共団体コード",
+            "町字ID",
+            "所在地＿連結表記",
+            "施設所在地＿都道府県",
+            "施設所在地＿市区町村",
+            "施設所在地＿町字",
+            "施設所在地＿番地以下",
+            "施設方書",
+            "緯度",
+            "経度",
+            "施設電話番号",
+            "連絡先メールアドレス",
+            "連絡先FormURL",
+            "連絡先備考（その他、SNSなど）",
+            "郵便番号",
+            "申請者個人名",
+            "法人名",
+            "法人番号",
+            "法人代表者氏名",
+            "許可番号",
+            "初回許可年月日",
+            "許可年月日",
+            "許可開始日",
+            "許可満了日",
+            "廃業年月日",
+            "申請区分",
+            "許可条件",
+            "備考",
             "Unnamed: 37"
-          ]
+          ],
+          "mapping": {
+            "permit_number": "許可番号",
+            "initial_permit_date": "初回許可年月日",
+            "permit_date": "許可年月日",
+            "permit_expiry_date": "許可満了日",
+            "business_type": "営業の種類",
+            "facility_name": "施設名称1",
+            "facility_address": "所在地＿連結表記",
+            "municipality_code": "所在地＿全国地方公共団体コード",
+            "town_id": "町字ID",
+            "latitude": "緯度",
+            "longitude": "経度",
+            "application_type": "申請区分"
+          },
+          "rows": 7110,
+          "missing_permit_date": 0,
+          "missing_facility_address": 0,
+          "duplicate_permit_number_rows": 6977,
+          "rows_with_coordinates": 0,
+          "application_type_counts": {},
+          "business_type_top10": {
+            "飲食店営業": 5642,
+            "菓子製造業": 553,
+            "魚介類販売業": 208,
+            "そうざい製造業": 207,
+            "食肉販売業": 133,
+            "冷凍食品製造業": 66,
+            "食肉処理業": 55,
+            "水産製品製造業": 40,
+            "漬物製造業": 37,
+            "密封包装食品製造業": 31
+          }
         }
       ],
-      "outputs": []
+      "outputs": [
+        "data/snapshots/matsuyama_all_2026-03-31_part1.csv",
+        "data/snapshots/matsuyama_all_2026-03-31_part2.csv"
+      ]
     }
   },
   "errors": {}
