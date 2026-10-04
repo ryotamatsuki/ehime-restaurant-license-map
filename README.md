@@ -127,3 +127,15 @@ Stage 7 summary:
 - Stage 0–7 complete
 
 See [`docs/research/STAGE7_PUBLICATION_QA.md`](docs/research/STAGE7_PUBLICATION_QA.md).
+
+
+## Matsuyama retrospective extension
+
+The public Matsuyama animation now covers **2021-06 through 2026-07 (62 consecutive months)**.
+
+- 2021-06–2024-08: **参考復元・不完全** — 3,743 restaurant-permit rows reconstructed from the 2026-03-31 all-facilities snapshot; 3,574 can be displayed at town level or better.
+- 2024-09–2026-07: **完全観測 月次** — the exact monthly source window.
+
+The retrospective period is explicitly marked in the UI and is subject to survivor/carry-forward bias. It is not presented as a complete historical new-permit archive. Fine mesh and rolling-12 indicators continue to use complete/high-precision data only.
+
+See [`docs/research/MATSUYAMA_RETROSPECTIVE_EXTENSION.md`](docs/research/MATSUYAMA_RETROSPECTIVE_EXTENSION.md).
