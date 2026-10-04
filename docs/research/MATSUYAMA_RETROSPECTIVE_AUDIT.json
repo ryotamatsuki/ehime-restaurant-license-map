@@ -1,0 +1,248 @@
+{
+  "scope": "松山市 retrospective partial before exact monthly window",
+  "period": [
+    "2021-06",
+    "2024-08"
+  ],
+  "months": 39,
+  "restaurant_rows": 3743,
+  "unique_facilities": 3703,
+  "nonempty_addresses": 3743,
+  "monthly": [
+    {
+      "month": "2021-06",
+      "rows": 202,
+      "unique_facilities": 202,
+      "nonempty_address": 202
+    },
+    {
+      "month": "2021-07",
+      "rows": 43,
+      "unique_facilities": 42,
+      "nonempty_address": 43
+    },
+    {
+      "month": "2021-08",
+      "rows": 106,
+      "unique_facilities": 105,
+      "nonempty_address": 106
+    },
+    {
+      "month": "2021-09",
+      "rows": 112,
+      "unique_facilities": 112,
+      "nonempty_address": 112
+    },
+    {
+      "month": "2021-10",
+      "rows": 50,
+      "unique_facilities": 50,
+      "nonempty_address": 50
+    },
+    {
+      "month": "2021-11",
+      "rows": 104,
+      "unique_facilities": 104,
+      "nonempty_address": 104
+    },
+    {
+      "month": "2021-12",
+      "rows": 138,
+      "unique_facilities": 138,
+      "nonempty_address": 138
+    },
+    {
+      "month": "2022-01",
+      "rows": 39,
+      "unique_facilities": 39,
+      "nonempty_address": 39
+    },
+    {
+      "month": "2022-02",
+      "rows": 95,
+      "unique_facilities": 95,
+      "nonempty_address": 95
+    },
+    {
+      "month": "2022-03",
+      "rows": 120,
+      "unique_facilities": 120,
+      "nonempty_address": 120
+    },
+    {
+      "month": "2022-04",
+      "rows": 49,
+      "unique_facilities": 49,
+      "nonempty_address": 49
+    },
+    {
+      "month": "2022-05",
+      "rows": 107,
+      "unique_facilities": 107,
+      "nonempty_address": 107
+    },
+    {
+      "month": "2022-06",
+      "rows": 118,
+      "unique_facilities": 118,
+      "nonempty_address": 118
+    },
+    {
+      "month": "2022-07",
+      "rows": 59,
+      "unique_facilities": 59,
+      "nonempty_address": 59
+    },
+    {
+      "month": "2022-08",
+      "rows": 99,
+      "unique_facilities": 99,
+      "nonempty_address": 99
+    },
+    {
+      "month": "2022-09",
+      "rows": 113,
+      "unique_facilities": 113,
+      "nonempty_address": 113
+    },
+    {
+      "month": "2022-10",
+      "rows": 57,
+      "unique_facilities": 57,
+      "nonempty_address": 57
+    },
+    {
+      "month": "2022-11",
+      "rows": 132,
+      "unique_facilities": 132,
+      "nonempty_address": 132
+    },
+    {
+      "month": "2022-12",
+      "rows": 131,
+      "unique_facilities": 131,
+      "nonempty_address": 131
+    },
+    {
+      "month": "2023-01",
+      "rows": 51,
+      "unique_facilities": 50,
+      "nonempty_address": 51
+    },
+    {
+      "month": "2023-02",
+      "rows": 88,
+      "unique_facilities": 88,
+      "nonempty_address": 88
+    },
+    {
+      "month": "2023-03",
+      "rows": 127,
+      "unique_facilities": 127,
+      "nonempty_address": 127
+    },
+    {
+      "month": "2023-04",
+      "rows": 61,
+      "unique_facilities": 61,
+      "nonempty_address": 61
+    },
+    {
+      "month": "2023-05",
+      "rows": 89,
+      "unique_facilities": 89,
+      "nonempty_address": 89
+    },
+    {
+      "month": "2023-06",
+      "rows": 143,
+      "unique_facilities": 143,
+      "nonempty_address": 143
+    },
+    {
+      "month": "2023-07",
+      "rows": 50,
+      "unique_facilities": 50,
+      "nonempty_address": 50
+    },
+    {
+      "month": "2023-08",
+      "rows": 105,
+      "unique_facilities": 105,
+      "nonempty_address": 105
+    },
+    {
+      "month": "2023-09",
+      "rows": 119,
+      "unique_facilities": 119,
+      "nonempty_address": 119
+    },
+    {
+      "month": "2023-10",
+      "rows": 75,
+      "unique_facilities": 75,
+      "nonempty_address": 75
+    },
+    {
+      "month": "2023-11",
+      "rows": 133,
+      "unique_facilities": 133,
+      "nonempty_address": 133
+    },
+    {
+      "month": "2023-12",
+      "rows": 92,
+      "unique_facilities": 92,
+      "nonempty_address": 92
+    },
+    {
+      "month": "2024-01",
+      "rows": 38,
+      "unique_facilities": 38,
+      "nonempty_address": 38
+    },
+    {
+      "month": "2024-02",
+      "rows": 124,
+      "unique_facilities": 123,
+      "nonempty_address": 124
+    },
+    {
+      "month": "2024-03",
+      "rows": 125,
+      "unique_facilities": 125,
+      "nonempty_address": 125
+    },
+    {
+      "month": "2024-04",
+      "rows": 49,
+      "unique_facilities": 49,
+      "nonempty_address": 49
+    },
+    {
+      "month": "2024-05",
+      "rows": 119,
+      "unique_facilities": 118,
+      "nonempty_address": 119
+    },
+    {
+      "month": "2024-06",
+      "rows": 111,
+      "unique_facilities": 110,
+      "nonempty_address": 111
+    },
+    {
+      "month": "2024-07",
+      "rows": 64,
+      "unique_facilities": 64,
+      "nonempty_address": 64
+    },
+    {
+      "month": "2024-08",
+      "rows": 106,
+      "unique_facilities": 105,
+      "nonempty_address": 106
+    }
+  ],
+  "interpretation": "Backdated initial-permit dates from the 2026-03-31 all-facilities snapshot; incomplete historical event coverage and subject to survivor/carry-forward bias."
+}
