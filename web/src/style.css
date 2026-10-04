@@ -373,6 +373,13 @@ select {
   background: linear-gradient(90deg, rgba(2,7,12,.72), rgba(2,7,12,.26) 76%, transparent);
   text-shadow: 0 2px 18px rgba(0,0,0,.52);
   pointer-events: none;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity .20s ease, transform .20s ease;
+}
+.cinematic-hud.is-active {
+  opacity: 1;
+  transform: translateY(0);
 }
 .cinematic-place {
   min-height: 20px;
