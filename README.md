@@ -66,7 +66,7 @@ Stage 0: complete
 Stage 1: complete  
 Stage 2: complete  
 Stage 3: **complete** — historical coverage reconstructed and audited  
-Stage 4: pending  
+Stage 4: **complete** — addresses normalized, coordinates and precision flags attached  
 Stage 5: pending  
 Stage 6: pending  
 Stage 7: pending
@@ -79,3 +79,14 @@ Stage 3 summary:
 - all other months are explicitly flagged partial or unavailable in `data/processed/coverage_matrix.csv`
 
 See [`docs/research/STAGE3_HISTORICAL_RECONSTRUCTION.md`](docs/research/STAGE3_HISTORICAL_RECONSTRUCTION.md).
+
+Stage 4 summary:
+- 4,240 exact permit events geocoded/audited
+- 4,229 (99.74%) have some coordinate
+- 2,937 (69.27%) reach town level or better
+- 904 (21.32%) reach address/parcel level
+- Matsuyama: 95.92% town-or-better
+- historical Ehime 2021-12–2022-04 is mostly municipality-only because the source itself lacks detailed addresses
+- low-precision coordinates are explicitly excluded from strict point-map use
+
+See [`docs/research/STAGE4_GEOCODING.md`](docs/research/STAGE4_GEOCODING.md).
