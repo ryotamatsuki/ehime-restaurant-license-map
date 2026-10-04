@@ -14,7 +14,7 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
   await page.locator('#cinematic-enter').click();
   await expect(page.locator('#cinematic-shell')).toBeVisible();
 
-  const captureTimes = new Set([0, 5, 20, 23, 40, 50, 66, 78]);
+  const captureTimes = new Set([0, 5, 20, 23, 40, 50, 62, 66, 78]);
   const telemetry = [];
   const start = Date.now();
 
@@ -39,9 +39,27 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
 
     sample.second = second;
     sample.kpi = await page.locator('#cinematic-kpi').textContent();
+    sample.place = await page.locator('#cinematic-place').textContent();
+    sample.scope = await page.locator('#cinematic-scope').textContent();
+    sample.supportVisible = await page.locator('#cinematic-support').evaluate(el => el.classList.contains('is-visible'));
+    sample.chartVisible = await page.locator('#cinematic-chart').evaluate(el => el.classList.contains('is-visible'));
     sample.caption = await page.locator('#cinematic-annotation').textContent();
     sample.captionVisible = await page.locator('#cinematic-annotation').evaluate(el => el.classList.contains('is-visible'));
     telemetry.push(sample);
+
+    if (second === 62) {
+      expect(sample.kpi).toBe('158件');
+      expect(sample.place).toBe('松山市全体');
+      expect(sample.scope).toBe('松山市全体');
+      expect(sample.supportVisible).toBe(false);
+      expect(sample.chartVisible).toBe(false);
+    }
+    if (second === 66) {
+      expect(sample.kpi).toBe('14件');
+      expect(sample.place).toBe('道後');
+      expect(sample.scope).toBe('道後周辺の1km区画・高精度地点');
+      expect(sample.chartVisible).toBe(true);
+    }
 
     if (captureTimes.has(second)) {
       await page.screenshot({

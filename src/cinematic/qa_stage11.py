@@ -59,6 +59,23 @@ def main() -> int:
         start, end = beat["caption_window"]
         assert end - start >= 2.5, (beat_id, end - start)
 
+    # Brief local glimpses use short captions without stretching the film clock.
+    for beat in beats:
+        if beat.get("style") == "minor_local":
+            assert len(beat["caption"]) <= 12, (beat["id"], beat["caption"])
+
+    # February's whole-city KPI must never inherit Dogo's local context.
+    climax = next(b for b in beats if b["id"] == "dogo_202602")
+    city, local = climax["kpi_sequence"]
+    assert city["value"] == 158 and city["place"] == "松山市全体"
+    assert city["scope"] == "松山市全体"
+    assert not city["support"] and not city["sparkline"]
+    assert local["value"] == 14 and local["place"] == "道後"
+    assert local["scope"] == "道後周辺の1km区画・高精度地点"
+    assert local["sparkline"] == "dogo"
+    assert city["end"] < climax["focus_window"][0] <= local["start"]
+    assert not any(climax.get(k) for k in ["place", "scope", "support", "sparkline"])
+
     checks = t["numeric_checks"]
     assert checks["2024-02_dogo"] == 6
     assert checks["2024-05_takehara"] == 4

@@ -594,7 +594,7 @@
       ],
       "scope": "道後周辺の1km区画・高精度地点",
       "local_count": 6,
-      "caption": "道後にも、許可のまとまりが繰り返し現れる。",
+      "caption": "道後に集まる許可。",
       "caption_window": [
         16.0,
         17.55
@@ -613,7 +613,7 @@
       ],
       "scope": "竹原・藤原周辺の1km区画・高精度地点",
       "local_count": 4,
-      "caption": "竹原・藤原にも、許可のまとまりが見える。",
+      "caption": "竹原・藤原にも。",
       "caption_window": [
         19.05,
         20.65
@@ -632,7 +632,7 @@
       ],
       "scope": "道後周辺の1km区画・高精度地点",
       "local_count": 15,
-      "caption": "道後周辺に、許可がまとまって現れる。",
+      "caption": "道後に、15件。",
       "caption_window": [
         23.15,
         24.5
@@ -651,7 +651,7 @@
       ],
       "scope": "空港通・竹原周辺の1km区画・高精度地点",
       "local_count": 4,
-      "caption": "空港通・竹原にも、別のまとまりが現れる。",
+      "caption": "空港通・竹原にも。",
       "caption_window": [
         26.15,
         28.0
@@ -731,31 +731,39 @@
       "id": "dogo_202602",
       "start": 61.0,
       "end": 69.5,
-      "place": "道後",
       "focus_mesh": "50326622",
       "focus_center": [
         132.78125,
         33.85416666666667
       ],
-      "scope": "道後周辺の1km区画・高精度地点",
+      "focus_window": [
+        64.5,
+        69.5
+      ],
       "kpi_sequence": [
         {
           "start": 61.5,
           "end": 63.25,
           "label": "松山市全体",
           "value": 158,
-          "unit": "件"
+          "unit": "件",
+          "place": "松山市全体",
+          "scope": "松山市全体",
+          "support": "",
+          "sparkline": ""
         },
         {
           "start": 64.55,
           "end": 69.0,
           "label": "道後周辺",
           "value": 14,
-          "unit": "件"
+          "unit": "件",
+          "place": "道後",
+          "scope": "道後周辺の1km区画・高精度地点",
+          "support": "道後周辺の1km区画・高精度地点",
+          "sparkline": "dogo"
         }
       ],
-      "support": "道後周辺の1km区画・高精度地点",
-      "sparkline": "dogo",
       "caption": "2026年2月、道後周辺に許可が集中。",
       "caption_window": [
         65.15,

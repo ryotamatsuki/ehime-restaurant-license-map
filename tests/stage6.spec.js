@@ -95,9 +95,26 @@ test('cinematic mode stages local/citywide KPIs and hands off to Explore', async
   await expect(page.locator('#cinematic-scope')).toContainText('1km区画');
   await expect(page.locator('#cinematic-chart')).toHaveClass(/is-visible/);
 
+  await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(62));
+  await expect(page.locator('#cinematic-month')).toHaveText('2026.02');
+  await expect(page.locator('#cinematic-kpi')).toHaveText('158件');
+  await expect(page.locator('#cinematic-kpi-label')).toHaveText('松山市全体');
+  await expect(page.locator('#cinematic-place')).toHaveText('松山市全体');
+  await expect(page.locator('#cinematic-scope')).toHaveText('松山市全体');
+  await expect(page.locator('#cinematic-support')).not.toHaveClass(/is-visible/);
+  await expect(page.locator('#cinematic-chart')).not.toHaveClass(/is-visible/);
+
+  await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(64));
+  await expect(page.locator('#cinematic-kpi-wrap')).not.toHaveClass(/is-visible/);
+  await expect(page.locator('#cinematic-chart')).not.toHaveClass(/is-visible/);
+
   await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(66));
   await expect(page.locator('#cinematic-month')).toHaveText('2026.02');
   await expect(page.locator('#cinematic-kpi')).toHaveText('14件');
+  await expect(page.locator('#cinematic-place')).toHaveText('道後');
+  await expect(page.locator('#cinematic-scope')).toHaveText('道後周辺の1km区画・高精度地点');
+  await expect(page.locator('#cinematic-support')).toHaveText('道後周辺の1km区画・高精度地点');
+  await expect(page.locator('#cinematic-chart')).toHaveClass(/is-visible/);
   await expect(page.locator('#cinematic-annotation')).toContainText('道後周辺に許可が集中');
 
   await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(78));
@@ -168,6 +185,13 @@ test('cinematic mobile reduced-motion retains the same information', async ({pag
   await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(50.6));
   let debug = await page.evaluate(() => window.__CINEMATIC_DEBUG__);
   expect(debug.focusPixel.y).toBeLessThan(debug.hudRect.top + 8);
+
+  await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(62));
+  await expect(page.locator('#cinematic-kpi')).toHaveText('158件');
+  await expect(page.locator('#cinematic-place')).toHaveText('松山市全体');
+  await expect(page.locator('#cinematic-scope')).toHaveText('松山市全体');
+  await expect(page.locator('#cinematic-support')).not.toHaveClass(/is-visible/);
+  await expect(page.locator('#cinematic-chart')).not.toHaveClass(/is-visible/);
 
   await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(66));
   await expect(page.locator('#cinematic-kpi')).toHaveText('14件');

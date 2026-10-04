@@ -266,8 +266,8 @@ export function createCinematicController({
         data: cache.visibleStrict,
         getPosition: d => [d.lon, d.lat],
         getRadius: d => d._age === 0 ? 24 : 14,
-        radiusMinPixels: d => d._age === 0 ? 1.7 : 0.9,
-        radiusMaxPixels: d => d._age === 0 ? 4.0 : 2.2,
+        radiusMinPixels: 0.9,
+        radiusMaxPixels: 4.0,
         getFillColor: d => [...MEMORY, Math.round(255 * d._alpha)],
         stroked: false,
         pickable: false
@@ -304,7 +304,10 @@ export function createCinematicController({
     }));
 
     const focus = focusFeatures(beat);
-    if (focus.length && elapsed >= beat.start + 0.55) {
+    const focusVisible = beat?.focus_window
+      ? activeInWindow(elapsed, beat.focus_window)
+      : beat && elapsed >= beat.start + 0.55;
+    if (focus.length && focusVisible) {
       layers.push(new GeoJsonLayer({
         id: 'cin-focus-mesh-' + beat.id,
         data: {type: 'FeatureCollection', features: focus},
@@ -369,6 +372,10 @@ export function createCinematicController({
     els.cinematicPeriod.textContent = periodNote(month);
 
     const kpi = findKpi(beat, elapsed);
+    const place = kpi?.place ?? beat?.place ?? '';
+    const scope = kpi?.scope ?? beat?.scope ?? '';
+    const support = kpi?.support ?? beat?.support ?? '';
+    const sparkline = kpi?.sparkline ?? beat?.sparkline ?? null;
     const captionVisible = beat && activeInWindow(elapsed, beat.caption_window);
     const ctaVisible = beat && activeInWindow(elapsed, beat.cta_window);
 
@@ -379,25 +386,25 @@ export function createCinematicController({
     els.cinematicTitle.textContent = beat?.title || '';
     els.cinematicTitle.classList.toggle('is-visible', Boolean(beat?.title && elapsed <= 4.2));
 
-    els.cinematicPlace.textContent = beat?.place || '';
-    els.cinematicPlace.classList.toggle('is-visible', Boolean(beat?.place && elapsed >= beat.start + 0.45));
+    els.cinematicPlace.textContent = place;
+    els.cinematicPlace.classList.toggle('is-visible', Boolean(place && elapsed >= beat.start + 0.45));
 
     if (kpi) {
       els.cinematicKpiLabel.textContent = kpi.label || '';
       els.cinematicKpi.textContent = formatValue(kpi);
-      els.cinematicScope.textContent = beat?.scope || '';
+      els.cinematicScope.textContent = scope;
       els.cinematicKpiWrap.classList.add('is-visible');
     } else {
       els.cinematicKpiWrap.classList.remove('is-visible');
     }
 
-    els.cinematicSupport.textContent = beat?.support || '';
-    els.cinematicSupport.classList.toggle('is-visible', Boolean(kpi && beat?.support));
+    els.cinematicSupport.textContent = support;
+    els.cinematicSupport.classList.toggle('is-visible', Boolean(kpi && support));
 
     els.cinematicAnnotation.textContent = beat?.caption || '';
     els.cinematicAnnotation.classList.toggle('is-visible', Boolean(captionVisible));
 
-    if (beat?.sparkline && kpi) renderSparkline(beat.sparkline, month);
+    if (sparkline && kpi) renderSparkline(sparkline, month);
     else renderSparkline(null, month);
 
     const final = beat?.style === 'closing';
@@ -410,7 +417,7 @@ export function createCinematicController({
     const hudHasContent = Boolean(
       beat
       && !closingQuiet
-      && (beat.place || beat.title || kpi || captionVisible || beat.support || beat.sparkline)
+      && (place || beat.title || kpi || captionVisible || support || sparkline)
     );
     els.cinematicHud.classList.toggle('is-active', hudHasContent);
 
