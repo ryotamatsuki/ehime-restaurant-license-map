@@ -1,0 +1,256 @@
+{
+  "generated_at_utc": "2026-10-04T02:34:49.327176+00:00",
+  "bodik": {
+    "380008_2344_cc-by": {
+      "dataset_id": "380008_2344_cc-by",
+      "package_show_ok": true,
+      "package": {
+        "id": "dace4e82-e8f4-40cb-97f7-1758984c40b4",
+        "name": "380008_2344_cc-by",
+        "title": "食品営業許可施設一覧",
+        "metadata_created": "2026-05-21T21:20:56.135020",
+        "metadata_modified": "2026-06-24T12:08:07.777811",
+        "resources": [
+          {
+            "id": "dde127ca-b649-4836-9865-6cf82c10913a",
+            "name": "新規営業許可施設(R8.5月)・全営業許可施設(R8.5.31現在).xlsx",
+            "url": "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/25999/%E6%96%B0%E8%A6%8F%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD(R8.5%E6%9C%88)%E3%83%BB%E5%85%A8%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD(R8.5.31%E7%8F%BE%E5%9C%A8).xlsx",
+            "format": "XLSX",
+            "created": "2026-06-24T12:08:07.619219",
+            "last_modified": null,
+            "metadata_modified": "2026-06-24T12:08:07.781129",
+            "size": null,
+            "hash": ""
+          }
+        ],
+        "extras": [
+          {
+            "key": "createdby",
+            "value": "bodik harvest"
+          },
+          {
+            "key": "updatedat",
+            "value": "2026-05-08T19:34:13.510+09:00"
+          }
+        ]
+      },
+      "activity_ok": false,
+      "activity_error": "HTTPError: 400 Client Error: BAD REQUEST for url: https://odm.bodik.jp/api/3/action/package_activity_list?id=380008_2344_cc-by&limit=100&offset=0"
+    },
+    "382019_3669_cc-by": {
+      "dataset_id": "382019_3669_cc-by",
+      "package_show_ok": true,
+      "package": {
+        "id": "5da32fd8-a94e-4f71-a05d-1220ea317441",
+        "name": "382019_3669_cc-by",
+        "title": "食品営業許可新規施設一覧",
+        "metadata_created": "2026-05-12T12:05:19.009166",
+        "metadata_modified": "2026-05-12T12:05:19.316383",
+        "resources": [
+          {
+            "id": "749e2607-60e5-4c1b-89f7-6bf9ea5aa0a3",
+            "name": "shokuhinsinki.xlsx",
+            "url": "https://www.pref.ehime.jp/opendata-catalog/dataset/3669/resource/26044/source-url",
+            "format": "XLSX",
+            "created": "2026-05-12T12:05:19.325839",
+            "last_modified": null,
+            "metadata_modified": "2026-05-12T12:05:19.321387",
+            "size": null,
+            "hash": ""
+          }
+        ],
+        "extras": [
+          {
+            "key": "createdby",
+            "value": "bodik harvest"
+          },
+          {
+            "key": "updatedat",
+            "value": "2025-12-31T00:00:00.000+09:00"
+          }
+        ]
+      },
+      "activity_ok": false,
+      "activity_error": "HTTPError: 400 Client Error: BAD REQUEST for url: https://odm.bodik.jp/api/3/action/package_activity_list?id=382019_3669_cc-by&limit=100&offset=0"
+    },
+    "382019_3375_cc-by": {
+      "dataset_id": "382019_3375_cc-by",
+      "package_show_ok": false,
+      "package_error": "HTTPError: 404 Client Error: NOT FOUND for url: https://odm.bodik.jp/api/3/action/package_show?id=382019_3375_cc-by",
+      "activity_ok": false,
+      "activity_error": "HTTPError: 400 Client Error: BAD REQUEST for url: https://odm.bodik.jp/api/3/action/package_activity_list?id=382019_3375_cc-by&limit=100&offset=0"
+    }
+  },
+  "official_html": {
+    "ehime_current": {
+      "ok": true,
+      "links": [
+        {
+          "text": "ãã¦ã³ã­ã¼ã",
+          "url": "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/29480/%E6%96%B0%E8%A6%8F%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD(R8.8%E6%9C%88)%E3%83%BB%E5%85%A8%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD(R8.8.31%E7%8F%BE%E5%9C%A8)%20.xlsx"
+        },
+        {
+          "text": "URLãã³ãã¼",
+          "url": "https://www.pref.ehime.jp/opendata-catalog/dataset/2344/resource/29480/%E6%96%B0%E8%A6%8F%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD(R8.8%E6%9C%88)%E3%83%BB%E5%85%A8%E5%96%B6%E6%A5%AD%E8%A8%B1%E5%8F%AF%E6%96%BD%E8%A8%AD(R8.8.31%E7%8F%BE%E5%9C%A8)%20.xlsx"
+        }
+      ]
+    },
+    "matsuyama_current": {
+      "ok": true,
+      "links": [
+        {
+          "text": "é£åå¶æ¥­è¨±å¯æ°è¦åã¯æ´æ°æ½è¨­ä¸è¦§ï¼ã¨ã¯ã»ã«ï¼364KBï¼",
+          "url": "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.files/shokuhinsinki.xlsx"
+        }
+      ]
+    },
+    "matsuyama_old_1": {
+      "ok": true,
+      "links": [
+        {
+          "text": "å¸çºæãã¼ã¸ãã ãã¦ã³ã­ã¼ã",
+          "url": "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.files/shokuhinsinki.xlsx"
+        }
+      ]
+    },
+    "matsuyama_old_2": {
+      "ok": false,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://www.pref.ehime.jp/opendata-catalog/dataset/3375.html"
+    }
+  },
+  "wayback": {
+    "ehime_dataset": {
+      "ok": true,
+      "captures": [
+        [
+          "20220519121100",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "KNALCMVY3FMY5N4I7PWPAWPHLFHM5URU"
+        ],
+        [
+          "20220814221156",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "BPRFA5KOWUN2HIEHT6PRXE75AHJYLKKG"
+        ],
+        [
+          "20221130042523",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "246MDUPUP5EZC23O2RLC6GISCTGNCJBH"
+        ],
+        [
+          "20230604175852",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "5QJ5TKRR6HWV2YTI5QAHNXN3UKW3V7DU"
+        ],
+        [
+          "20231207203509",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "UXOR2BA37C2J6CYS567RR6GBK4RMZK23"
+        ],
+        [
+          "20240518201541",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "ZDMWOBYV6EAQAPPRSOJYR3UWSCH7DNZJ"
+        ],
+        [
+          "20240920074020",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "6EISHNTXQLPQHV6ASNJXKI64JKKXSYZK"
+        ],
+        [
+          "20250116055415",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "EWT664KOB2IYZBY7Q4QVCF67XG3HU5I6"
+        ],
+        [
+          "20250417185125",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "3F4Q57KXGM74D3L6J3EXCXJTLTDF7B2B"
+        ],
+        [
+          "20251212065530",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "BVCGPW6KNT4FSSTIU3KAYDR22Z2EUEBJ"
+        ],
+        [
+          "20260410232141",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html",
+          "200",
+          "FWT74CDS273EMGNHPW76LVAOGG3VLNOP"
+        ]
+      ]
+    },
+    "matsuyama_current": {
+      "ok": true,
+      "captures": [
+        [
+          "20240811145843",
+          "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.html",
+          "200",
+          "4WNHCXL7MMKMGXCXAIO4NU7ZPUG3NLPA"
+        ],
+        [
+          "20250123165817",
+          "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.html",
+          "200",
+          "2I2E26P3PSYBOZQE4PVB52V5HXJVL67R"
+        ],
+        [
+          "20250518004806",
+          "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.html",
+          "200",
+          "Z5JA6CLSEMDQZD2GOZCIIWHORRNB33CM"
+        ],
+        [
+          "20250919053753",
+          "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.html",
+          "200",
+          "6NCCS52AMJHIENOOYMBUM52CWMXAJJBD"
+        ],
+        [
+          "20251010213410",
+          "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.html",
+          "200",
+          "AJHHX465TELBHETJF225MXKMD2TVKVPW"
+        ],
+        [
+          "20251014144428",
+          "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.html",
+          "200",
+          "IO62FJZMVKQ5WC6ZWQEBLMWB5FE67HCU"
+        ],
+        [
+          "20260120115832",
+          "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.html",
+          "200",
+          "C2DWBHI5UWI6CMVWJWVBEFVLDQNYVG67"
+        ]
+      ]
+    },
+    "matsuyama_old_3669": {
+      "ok": true,
+      "captures": []
+    },
+    "matsuyama_old_3375": {
+      "ok": true,
+      "captures": [
+        [
+          "20260120211707",
+          "https://www.pref.ehime.jp/opendata-catalog/dataset/3375.html",
+          "200",
+          "IRCMVDK5SKPIUR3KPPYWYAIKLPLOENA5"
+        ]
+      ]
+    }
+  }
+}
