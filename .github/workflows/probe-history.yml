@@ -1,11 +1,6 @@
 name: Probe historical source availability
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "src/research/**"
-      - ".github/workflows/probe-history.yml"
   workflow_dispatch:
 
 permissions:
