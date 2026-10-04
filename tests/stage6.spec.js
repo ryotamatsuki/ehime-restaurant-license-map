@@ -11,6 +11,20 @@ test('desktop time-map controls and views work', async ({page}) => {
   await expect(page.locator('#coverage-badge')).toContainText('完全観測');
   await expect(page.locator('#municipality-select')).toHaveValue('382019');
   await expect(page.locator('#business-select')).toHaveValue('飲食店営業');
+  await expect(page.locator('#retrospective-toggle')).toBeChecked();
+  await expect(page.locator('#timeline-start')).toHaveText('2021-06');
+
+  const hybridSlider = page.locator('#month-slider');
+  expect(Number(await hybridSlider.getAttribute('max'))).toBe(61);
+  await hybridSlider.fill('0');
+  await expect(page.locator('#timeline-current')).toHaveText('2021-06');
+  await expect(page.locator('#coverage-badge')).toContainText('参考復元');
+  await expect(page.locator('#metric-total-label')).toContainText('参考復元');
+  await expect(page.locator('button[data-view="mesh1"]')).toBeDisabled();
+
+  await hybridSlider.fill('61');
+  await expect(page.locator('#timeline-current')).toHaveText('2026-07');
+  await expect(page.locator('#coverage-badge')).toContainText('完全観測');
 
   await page.locator('button[data-view="heatmap"]').click();
   await expect(page.locator('button[data-view="heatmap"]')).toHaveClass(/active/);
