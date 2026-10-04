@@ -1,0 +1,128 @@
+# Project plan
+
+## Research question
+
+愛媛県において、食品営業許可、とりわけ「飲食店営業」の新規許可地点は時間とともにどのように変化してきたか。どの都市・中心市街地・郊外・交通結節点で新規許可の集積が強まり、また弱まったか。
+
+## Stage 0 — Repository / data governance
+
+### Tasks
+- repository layout
+- source attribution and license records
+- public-repository privacy rule
+- raw/source snapshot policy
+- terminology rule: permit event ≠ opening / closure
+
+### Exit criteria
+- README, plan, source config, acquisition script, audit script are committed.
+- unnecessary direct identifiers are excluded from committed datasets.
+
+## Stage 1 — Source discovery
+
+### Tasks
+- identify canonical Ehime Prefecture dataset/API
+- identify canonical Matsuyama new/renewal dataset
+- identify canonical Matsuyama all-facilities dataset
+- confirm update frequency, coverage, license, and caveats
+- investigate historical URL/resource retention
+
+### Exit criteria
+- every source has a canonical landing URL and machine retrieval method or a documented blocker.
+- historical availability is classified as `available`, `partially recoverable`, or `not yet verified`.
+
+## Stage 2 — Acquisition & schema audit
+
+### Tasks
+- retrieve current files
+- calculate SHA-256
+- enumerate workbook sheets / CSV encodings
+- map source columns to canonical columns
+- count rows, duplicates, missing dates/addresses
+- extract only analytically necessary columns into Git-managed snapshots
+- generate machine-readable audit report
+
+### Canonical minimum schema
+- `source_authority`
+- `source_snapshot_date`
+- `permit_number`
+- `permit_date`
+- `permit_expiry_date`
+- `business_type`
+- `facility_name`
+- `facility_address`
+- `record_scope`
+- `source_url`
+- `source_sha256`
+
+### Exit criteria
+- current Prefecture and Matsuyama sources can be reproduced from scripts.
+- source-specific schemas are documented.
+- sanitized snapshots contain no applicant name, applicant kana, or phone number.
+
+## Stage 3 — Historical reconstruction
+
+### Tasks
+- enumerate retained Ehime resource revisions and indexed historical previews
+- search archived/current Matsuyama monthly files
+- deduplicate permit events
+- distinguish new vs renewal where source supports it
+- construct monthly event panel
+- coverage matrix by month × authority
+
+### Exit criteria
+- exact recoverable time window is proven.
+- each month has a completeness flag.
+- no interpolation is silently treated as observed data.
+
+## Stage 4 — Address normalization / geocoding
+
+### Tasks
+- normalize Japanese address strings
+- geocode using reproducible public geocoder/address base
+- detect failures / coarse matches
+- attach municipal code and quality level
+
+### Exit criteria
+- geocoding success and uncertainty are quantified.
+- original address remains traceable in sanitized form.
+
+## Stage 5 — Spatial metrics
+
+Generate:
+- monthly new permits by municipality
+- 500 m / 1 km mesh counts
+- hexbin density
+- kernel density / hotspot surfaces
+- rolling 12-month counts
+- spatial centroid / center-of-gravity movement
+
+Potential secondary analyses:
+- Matsuyama central shopping street vacant-store rate
+- pedestrian counts
+- station-area redevelopment periods
+
+## Stage 6 — Interactive visualization
+
+Target stack:
+- static hosting: GitHub Pages
+- map: MapLibre GL JS
+- dense rendering: deck.gl
+- data: GeoJSON for light layers; Parquet/Arrow if scale requires it
+
+Core interactions:
+- month slider + autoplay
+- new-permit pulse animation
+- Points / Heatmap / Hexagon
+- business-type filter
+- municipality filter
+- monthly vs rolling-12-month toggle
+- source/coverage indicator
+
+## Stage 7 — Publication / QA
+
+- build reproducibly in GitHub Actions
+- publish to GitHub Pages
+- accessibility and mobile check
+- data attribution / caveats
+- performance budget
+- provenance links to each snapshot
