@@ -1,5 +1,7 @@
 # Ehime Restaurant License Map
 
+**Live site:** https://ryotamatsuki.github.io/ehime-restaurant-license-map/
+
 愛媛県・松山市のオープンデータ「食品営業許可」から、飲食店等の新規営業許可の時空間変化を再現・可視化するプロジェクトです。
 
 ## 目的
@@ -69,7 +71,7 @@ Stage 3: **complete** — historical coverage reconstructed and audited
 Stage 4: **complete** — addresses normalized, coordinates and precision flags attached  
 Stage 5: **complete** — monthly/rolling spatial indicators and visualization-ready GeoJSON built  
 Stage 6: **complete** — interactive MapLibre/deck.gl time map built and browser-tested  
-Stage 7: pending
+Stage 7: **complete** — published and QA'd on GitHub Pages
 
 Stage 3 summary:
 - exact observed events: 4,240
@@ -114,3 +116,14 @@ Stage 6 summary:
 - desktop and mobile Chromium QA: PASS
 
 See [`docs/research/STAGE6_INTERACTIVE_MAP.md`](docs/research/STAGE6_INTERACTIVE_MAP.md).
+
+
+Stage 7 summary:
+- GitHub Pages deployment from Actions: PASS
+- public URL: https://ryotamatsuki.github.io/ehime-restaurant-license-map/
+- public HTML smoke test: PASS
+- deployed manifest/data QA: PASS
+- desktop/mobile browser QA: PASS
+- Stage 0–7 complete
+
+See [`docs/research/STAGE7_PUBLICATION_QA.md`](docs/research/STAGE7_PUBLICATION_QA.md).
