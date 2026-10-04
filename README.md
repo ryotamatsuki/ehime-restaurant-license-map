@@ -67,7 +67,7 @@ Stage 1: complete
 Stage 2: complete  
 Stage 3: **complete** — historical coverage reconstructed and audited  
 Stage 4: **complete** — addresses normalized, coordinates and precision flags attached  
-Stage 5: pending  
+Stage 5: **complete** — monthly/rolling spatial indicators and visualization-ready GeoJSON built  
 Stage 6: pending  
 Stage 7: pending
 
@@ -90,3 +90,14 @@ Stage 4 summary:
 - low-precision coordinates are explicitly excluded from strict point-map use
 
 See [`docs/research/STAGE4_GEOCODING.md`](docs/research/STAGE4_GEOCODING.md).
+
+Stage 5 summary:
+- new restaurant permit events used for location-change metrics: 3,088
+- Matsuyama exact monthly window: 2024-09–2026-07 (23 consecutive months)
+- Matsuyama strict address/parcel new events: 586
+- official-standard 1km and 500m monthly meshes generated
+- 12 valid rolling-12-month windows generated without crossing incomplete months
+- municipality, hotspot, centroid-movement and concentration datasets generated
+- CSV + GeoJSON outputs are ready for MapLibre/deck.gl
+
+See [`docs/research/STAGE5_SPATIAL_METRICS.md`](docs/research/STAGE5_SPATIAL_METRICS.md).
