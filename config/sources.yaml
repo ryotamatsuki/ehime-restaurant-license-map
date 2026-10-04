@@ -1,0 +1,46 @@
+version: 1
+sources:
+  ehime_prefecture:
+    authority: "愛媛県"
+    coverage: "愛媛県内（松山市を除く）"
+    landing_url: "https://www.pref.ehime.jp/opendata-catalog/dataset/2344.html"
+    metadata_api: "https://www.pref.ehime.jp/opendata-catalog/api/package_show?id=44d962fa-8684-4be1-9437-030298a483f3"
+    update_frequency: "monthly"
+    license: "CC BY"
+    first_publication_note: "県案内ページでは令和4年1月（令和3年12月新規分）から掲載と説明"
+    caveats:
+      - "休止中又は廃業している施設が含まれる場合がある"
+      - "申請時期等により最新情報が反映されない場合がある"
+      - "一部情報を掲載していない場合がある"
+      - "2026-08-18〜2026-08-20公開版に誤掲載事案。使用禁止。"
+  matsuyama_monthly:
+    authority: "松山市"
+    coverage: "松山市"
+    landing_url: "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.html"
+    update_frequency: "monthly"
+    retention_note: "新規又は更新施設を毎月更新（過去1年分）"
+    license: "CC BY"
+  matsuyama_all:
+    authority: "松山市"
+    coverage: "松山市"
+    landing_url: "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhin.html"
+    update_frequency: "annual"
+    license: "CC BY"
+privacy:
+  commit_allowlist:
+    - permit_number
+    - permit_date
+    - permit_expiry_date
+    - business_type
+    - facility_name
+    - facility_address
+    - source_authority
+    - source_snapshot_date
+    - record_scope
+    - source_url
+    - source_sha256
+  never_commit:
+    - applicant_name
+    - applicant_kana
+    - phone_number
+    - applicant_address
