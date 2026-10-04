@@ -177,10 +177,16 @@ def recover_ehime(report: dict):
                 data = archive_bytes(ts, original)
                 sha = file_sha(data)
                 parsed = parse_workbook(data)
-                new_sheets = [p for p in parsed if p.get("status") == "parsed" and "新規" in p.get("sheet", "")]
-                if not new_sheets:
-                    raise ValueError("no parsed new-permit sheet")
-                p = new_sheets[0]
+                parsed_sheets = [p for p in parsed if p.get("status") == "parsed"]
+                new_sheets = [p for p in parsed_sheets if "新規" in p.get("sheet", "")]
+                if new_sheets:
+                    p = new_sheets[0]
+                elif len(parsed_sheets) == 1:
+                    # Legacy .xls files are themselves explicitly named as monthly new-permit files;
+                    # their single worksheet does not always carry "新規" in the sheet title.
+                    p = parsed_sheets[0]
+                else:
+                    raise ValueError("could not identify new-permit sheet")
                 out, mapping = sanitize_frame(
                     p["df"], "愛媛県", month, "new",
                     f"wayback:{ts}:{original}", sha
