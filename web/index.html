@@ -14,6 +14,7 @@
         <h1>Ehime Restaurant License Map</h1>
       </div>
       <div class="header-status">
+        <button id="cinematic-enter" class="cinematic-enter" type="button">Cinematic</button>
         <span id="coverage-badge" class="badge">読込中</span>
         <span id="period-label" class="period-label">—</span>
       </div>
@@ -95,6 +96,32 @@
         </div>
       </section>
     </main>
+
+    <section id="cinematic-shell" class="cinematic-shell" hidden aria-label="Cinematic Mode">
+      <div class="cinematic-veil"></div>
+      <div class="cinematic-top">
+        <div>
+          <p class="cinematic-kicker">MATSUYAMA / 62 MONTHS</p>
+          <div id="cinematic-month" class="cinematic-month">2021.06</div>
+        </div>
+        <div class="cinematic-top-actions">
+          <span id="cinematic-evidence" class="cinematic-evidence retro">参考復元・不完全</span>
+          <button id="cinematic-exit" type="button" aria-label="Cinematic Modeを終了">Exploreへ戻る</button>
+        </div>
+      </div>
+      <div class="cinematic-hud">
+        <div id="cinematic-kpi-label" class="cinematic-kpi-label"></div>
+        <div id="cinematic-kpi" class="cinematic-kpi"></div>
+        <div id="cinematic-support" class="cinematic-support"></div>
+        <div id="cinematic-annotation" class="cinematic-annotation"></div>
+      </div>
+      <div class="cinematic-controls">
+        <button id="cinematic-play" type="button" aria-label="Cinematic再生・一時停止">Ⅱ</button>
+        <div class="cinematic-progress-track"><div id="cinematic-progress" class="cinematic-progress"></div></div>
+        <button id="cinematic-next" type="button">次の見せ場</button>
+      </div>
+      <div class="cinematic-disclaimer">営業許可の発生を可視化。開店・閉店そのものではありません。</div>
+    </section>
   </div>
   <script type="module" src="/src/main.js"></script>
 </body>
