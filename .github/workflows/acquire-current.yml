@@ -1,0 +1,39 @@
+name: Refresh current permit snapshots
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/acquire/**"
+      - "config/sources.yaml"
+      - ".github/workflows/acquire-current.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+      - name: Install dependencies
+        run: pip install pandas openpyxl requests beautifulsoup4
+      - name: Acquire, sanitize, and audit
+        run: python src/acquire/current.py
+      - name: Commit sanitized snapshots and audit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/snapshots docs/research/CURRENT_DATA_AUDIT.json
+          if git diff --cached --quiet; then
+            echo "No snapshot changes"
+          else
+            git commit -m "data: refresh sanitized current permit snapshots"
+            git push
+          fi
