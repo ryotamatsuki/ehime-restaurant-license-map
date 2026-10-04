@@ -1,0 +1,39 @@
+name: Build Stage 3 historical panel
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/snapshots/**"
+      - "src/transform/build_stage3_history.py"
+      - ".github/workflows/build-stage3-history.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install pandas
+      - name: Build Stage 3 historical panel
+        run: python src/transform/build_stage3_history.py
+      - name: Commit Stage 3 outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed docs/research/STAGE3_HISTORY_AUDIT.json
+          if git diff --cached --quiet; then
+            echo "No Stage 3 output changes"
+          else
+            git commit -m "data: rebuild Stage 3 historical event panel"
+            git pull --rebase origin main
+            git push
+          fi
