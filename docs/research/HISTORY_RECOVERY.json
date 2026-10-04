@@ -1,0 +1,25 @@
+{
+  "generated_at_utc": "2026-10-04T02:40:00.794416+00:00",
+  "method": "Internet Archive CDX + raw archived XLSX; raw files are processed in-memory and never committed.",
+  "safety_exclusions": [],
+  "ehime": {
+    "recovered": [],
+    "failed_months": [],
+    "cdx_rows": 6,
+    "candidate_months": []
+  },
+  "matsuyama": {
+    "recovered": [],
+    "workbooks": [],
+    "workbook_errors": [
+      {
+        "timestamp": "20251014144532",
+        "original": "https://www.city.matsuyama.ehime.jp/shisei/opendata/metadata/shokuhinsinki.files/shokuhinsinki.xlsx",
+        "error": "NameError: name 'parse_excel' is not defined"
+      }
+    ],
+    "sheet_errors": [],
+    "cdx_rows": 1,
+    "recovered_months": []
+  }
+}
