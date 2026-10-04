@@ -173,8 +173,8 @@ def municipality_monthly(new_events: pd.DataFrame, coverage: pd.DataFrame) -> pd
                 "municipality_code": code,
                 "municipality_name": MUNICIPALITIES[code],
                 "new_restaurant_permits": int(len(g)),
-                "strict_address_or_parcel": int(g["map_usable_strict"].map(b).sum()),
-                "town_or_better": int(g["map_usable_town_or_better"].map(b).sum()),
+                "strict_address_or_parcel": int(g["map_usable_strict"].astype(str).str.lower().eq("true").sum()),
+                "town_or_better": int(g["map_usable_town_or_better"].astype(str).str.lower().eq("true").sum()),
                 "coverage_status": "complete_exact_monthly",
             })
     return pd.DataFrame(rows).sort_values(["month", "municipality_code"]).reset_index(drop=True)
@@ -278,7 +278,7 @@ def centroid_monthly(matsu_new: pd.DataFrame) -> pd.DataFrame:
         ("strict_address_or_parcel", "map_usable_strict"),
         ("town_or_better", "map_usable_town_or_better"),
     ]:
-        subset = matsu_new[matsu_new[mask_col].map(b)].copy()
+        subset = matsu_new[matsu_new[mask_col].astype(str).str.lower().eq("true")].copy()
         subset["latitude_num"] = pd.to_numeric(subset["latitude"], errors="coerce")
         subset["longitude_num"] = pd.to_numeric(subset["longitude"], errors="coerce")
         subset = subset.dropna(subset=["latitude_num", "longitude_num"])
@@ -362,7 +362,7 @@ def main() -> int:
     ].copy()
 
     strict = matsu[
-        matsu["map_usable_strict"].map(b)
+        matsu["map_usable_strict"].astype(str).str.lower().eq("true")
         & matsu["latitude_num"].notna()
         & matsu["longitude_num"].notna()
     ].copy()
