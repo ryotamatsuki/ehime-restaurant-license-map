@@ -582,7 +582,10 @@ def score_months(metrics: pd.DataFrame, locations: pd.DataFrame) -> pd.DataFrame
 def choose_storyboard(scored: pd.DataFrame, locations: pd.DataFrame) -> list[dict]:
     scenes = []
     by_month = scored.set_index("month")
-    used_focus_meshes = Counter()
+    used_focus_meshes = {
+        "retrospective_partial": Counter(),
+        "exact_monthly": Counter(),
+    }
 
     def location_for_month(month: str, scene_type: str):
         r = by_month.loc[month]
@@ -635,7 +638,7 @@ def choose_storyboard(scored: pd.DataFrame, locations: pd.DataFrame) -> list[dic
             "reason": reason,
         })
         if target["mesh_1km"]:
-            used_focus_meshes[target["mesh_1km"]] += 1
+            used_focus_meshes[r["evidence_tier"]][target["mesh_1km"]] += 1
 
     add_scene(
         START,
@@ -666,8 +669,10 @@ def choose_storyboard(scored: pd.DataFrame, locations: pd.DataFrame) -> list[dic
 
             target = location_for_month(r["month"], r["primary_scene_type"])
             # Avoid a storyboard that repeatedly zooms to the same dominant mesh.
-            if target["mesh_1km"] and used_focus_meshes[target["mesh_1km"]] >= 3:
-                continue
+            if target["mesh_1km"]:
+                limit = 1 if tier == "retrospective_partial" else 2
+                if used_focus_meshes[tier][target["mesh_1km"]] >= limit:
+                    continue
 
             selected.append(r["month"])
             add_scene(
