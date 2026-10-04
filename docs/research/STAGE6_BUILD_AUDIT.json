@@ -3,6 +3,9 @@
   "manifest_schema_version": 2,
   "strict_new_events": 822,
   "business_type_count": 20,
+  "retrospective_visible_events": 3574,
+  "matsuyama_retrospective_months": 39,
+  "matsuyama_hybrid_months": 62,
   "matsuyama_exact_months": 23,
   "ehime_exact_months": 6,
   "rolling12_end_months": 12,
@@ -10,6 +13,8 @@
   "public_data_bytes": {
     "manifest.json": 4603,
     "strict_new_events.json": 311432,
+    "matsuyama_retrospective_events.json": 1417448,
+    "matsuyama_retrospective_monthly.json": 3706,
     "coverage.json": 41887,
     "municipality_monthly.json": 30791,
     "matsuyama_mesh_1km_monthly.geojson": 157735,
