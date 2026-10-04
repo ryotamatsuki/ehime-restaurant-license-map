@@ -139,3 +139,16 @@ The public Matsuyama animation now covers **2021-06 through 2026-07 (62 consecut
 The retrospective period is explicitly marked in the UI and is subject to survivor/carry-forward bias. It is not presented as a complete historical new-permit archive. Fine mesh and rolling-12 indicators continue to use complete/high-precision data only.
 
 See [`docs/research/MATSUYAMA_RETROSPECTIVE_EXTENSION.md`](docs/research/MATSUYAMA_RETROSPECTIVE_EXTENSION.md).
+
+
+## Cinematic-mode design research
+
+Before implementing a separate high-impact animation mode, the project benchmarked award-winning and highly regarded urban/data-animation work including NYC Taxis: A Day in the Life, District Mobility, HERE Traffic Analytics, Urban Layers, HubCab, Real Time Rome, Flight Patterns, Treepedia, and DataShine.
+
+See [`docs/design/URBAN_DATA_ANIMATION_BENCHMARK.md`](docs/design/URBAN_DATA_ANIMATION_BENCHMARK.md).
+
+The target synthesis is:
+
+> Flight Patterns atmosphere × Urban Layers historical accumulation × HERE Traffic Analytics motion/storyboard × District Mobility insight guidance × NYC Taxi temporal instrumentation.
+
+The existing analytical map remains unchanged; the cinematic mode will be additive.
