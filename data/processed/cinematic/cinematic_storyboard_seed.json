@@ -2,7 +2,7 @@
   {
     "month": "2021-06",
     "role": "opening",
-    "scene_type": "volume_spike",
+    "scene_type": "source_boundary_opening",
     "evidence_tier": "retrospective_partial",
     "editorial_priority_score": 55.77,
     "visual_interest_score": 53.46,
@@ -11,12 +11,12 @@
     "top_mesh": "50325682",
     "top_mesh_locality": "天山一丁目",
     "camera_target": {
-      "mesh_1km": "50326622",
-      "locality": "道後湯之町",
-      "lat": 33.85416666666667,
-      "lon": 132.78125
+      "mesh_1km": "",
+      "locality": "",
+      "lat": 33.83947906325,
+      "lon": 132.7628328295667
     },
-    "reason": "Start of the 62-month reconstructed Matsuyama timeline.",
+    "reason": "Source-boundary opening. The retrospective source begins here, so the high June count is not interpreted as a real volume spike.",
     "sequence": 1
   },
   {
@@ -31,32 +31,32 @@
     "top_mesh": "50326602",
     "top_mesh_locality": "此花町 / 小坂二丁目 / 紅葉町",
     "camera_target": {
-      "mesh_1km": "50326622",
-      "locality": "道後湯之町 / 道後喜多町",
-      "lat": 33.85416666666667,
-      "lon": 132.78125
+      "mesh_1km": "",
+      "locality": "",
+      "lat": 33.834271420129035,
+      "lon": 132.76910464135483
     },
     "reason": "High quantitative scene score driven primarily by centroid_shift.",
     "sequence": 2
   },
   {
-    "month": "2023-11",
+    "month": "2022-08",
     "role": "insight",
-    "scene_type": "hotspot_emergence_or_surge",
+    "scene_type": "spatial_reconfiguration",
     "evidence_tier": "retrospective_partial",
-    "editorial_priority_score": 76.43,
-    "visual_interest_score": 79.29,
-    "total_events": 133,
-    "strict_events": 39,
-    "top_mesh": "50326622",
-    "top_mesh_locality": "道後湯之町 / 道後多幸町 / 道後湯月町",
+    "editorial_priority_score": 69.35,
+    "visual_interest_score": 70.43,
+    "total_events": 99,
+    "strict_events": 26,
+    "top_mesh": "50326537",
+    "top_mesh_locality": "祓川一丁目 / 住吉二丁目 / 住吉一丁目",
     "camera_target": {
-      "mesh_1km": "50326622",
-      "locality": "道後湯之町 / 道後多幸町 / 道後湯月町",
-      "lat": 33.85416666666667,
-      "lon": 132.78125
+      "mesh_1km": "",
+      "locality": "",
+      "lat": 33.830928671423074,
+      "lon": 132.75664273811537
     },
-    "reason": "High quantitative scene score driven primarily by hotspot_emergence_or_surge.",
+    "reason": "High quantitative scene score driven primarily by spatial_reconfiguration.",
     "sequence": 3
   },
   {
@@ -120,64 +120,44 @@
     "sequence": 6
   },
   {
-    "month": "2024-12",
-    "role": "insight",
-    "scene_type": "hotspot_emergence_or_surge",
-    "evidence_tier": "exact_monthly",
-    "editorial_priority_score": 75.57,
-    "visual_interest_score": 69.46,
-    "total_events": 123,
-    "strict_events": 38,
-    "top_mesh": "50326622",
-    "top_mesh_locality": "道後湯之町 / 祝谷町一丁目 / 道後鷺谷町",
-    "camera_target": {
-      "mesh_1km": "50326622",
-      "locality": "道後湯之町 / 祝谷町一丁目 / 道後鷺谷町",
-      "lat": 33.85416666666667,
-      "lon": 132.78125
-    },
-    "reason": "High quantitative scene score driven primarily by hotspot_emergence_or_surge.",
-    "sequence": 7
-  },
-  {
-    "month": "2025-02",
+    "month": "2024-11",
     "role": "insight",
     "scene_type": "concentration_change",
     "evidence_tier": "exact_monthly",
-    "editorial_priority_score": 72.17,
-    "visual_interest_score": 65.22,
-    "total_events": 124,
-    "strict_events": 34,
-    "top_mesh": "50326622",
-    "top_mesh_locality": "道後湯之町 / 道後喜多町 / 道後湯月町",
+    "editorial_priority_score": 69.65,
+    "visual_interest_score": 62.07,
+    "total_events": 123,
+    "strict_events": 40,
+    "top_mesh": "50325599",
+    "top_mesh_locality": "空港通二丁目 / 竹原三丁目",
     "camera_target": {
-      "mesh_1km": "50326622",
-      "locality": "道後湯之町 / 道後喜多町 / 道後湯月町",
-      "lat": 33.85416666666667,
-      "lon": 132.78125
+      "mesh_1km": "50325599",
+      "locality": "空港通二丁目 / 竹原三丁目",
+      "lat": 33.829166666666666,
+      "lon": 132.74375
     },
     "reason": "High quantitative scene score driven primarily by concentration_change.",
-    "sequence": 8
+    "sequence": 7
   },
   {
-    "month": "2025-05",
+    "month": "2025-06",
     "role": "insight",
-    "scene_type": "volume_spike",
+    "scene_type": "centroid_shift",
     "evidence_tier": "exact_monthly",
-    "editorial_priority_score": 80.26,
-    "visual_interest_score": 75.33,
-    "total_events": 165,
-    "strict_events": 40,
-    "top_mesh": "50326622",
-    "top_mesh_locality": "道後湯之町 / 道後緑台 / 道後鷺谷町",
+    "editorial_priority_score": 61.39,
+    "visual_interest_score": 51.74,
+    "total_events": 118,
+    "strict_events": 33,
+    "top_mesh": "50325671",
+    "top_mesh_locality": "居相四丁目 / 居相五丁目 / 古川北四丁目",
     "camera_target": {
-      "mesh_1km": "50326622",
-      "locality": "道後湯之町 / 道後緑台 / 道後鷺谷町",
-      "lat": 33.85416666666667,
-      "lon": 132.78125
+      "mesh_1km": "",
+      "locality": "",
+      "lat": 33.831690022848484,
+      "lon": 132.76549324933333
     },
-    "reason": "High quantitative scene score driven primarily by volume_spike.",
-    "sequence": 9
+    "reason": "High quantitative scene score driven primarily by centroid_shift.",
+    "sequence": 8
   },
   {
     "month": "2025-08",
@@ -197,26 +177,46 @@
       "lon": 132.71875
     },
     "reason": "High quantitative scene score driven primarily by hotspot_emergence_or_surge.",
+    "sequence": 9
+  },
+  {
+    "month": "2025-12",
+    "role": "insight",
+    "scene_type": "volume_spike",
+    "evidence_tier": "exact_monthly",
+    "editorial_priority_score": 69.65,
+    "visual_interest_score": 62.07,
+    "total_events": 131,
+    "strict_events": 26,
+    "top_mesh": "50325681",
+    "top_mesh_locality": "朝生田町一丁目 / 朝生田町六丁目",
+    "camera_target": {
+      "mesh_1km": "50325681",
+      "locality": "朝生田町一丁目 / 朝生田町六丁目",
+      "lat": 33.82083333333334,
+      "lon": 132.76874999999998
+    },
+    "reason": "High quantitative scene score driven primarily by volume_spike.",
     "sequence": 10
   },
   {
-    "month": "2026-02",
+    "month": "2026-03",
     "role": "insight",
-    "scene_type": "hotspot_emergence_or_surge",
+    "scene_type": "volume_spike",
     "evidence_tier": "exact_monthly",
-    "editorial_priority_score": 96.35,
-    "visual_interest_score": 95.43,
-    "total_events": 158,
-    "strict_events": 48,
-    "top_mesh": "50326622",
-    "top_mesh_locality": "道後湯之町 / 道後緑台 / 祝谷町一丁目",
+    "editorial_priority_score": 74.35,
+    "visual_interest_score": 67.93,
+    "total_events": 152,
+    "strict_events": 44,
+    "top_mesh": "50325579",
+    "top_mesh_locality": "余戸東一丁目 / 保免西三丁目 / 余戸南一丁目",
     "camera_target": {
-      "mesh_1km": "50326622",
-      "locality": "道後湯之町 / 道後緑台 / 祝谷町一丁目",
-      "lat": 33.85416666666667,
-      "lon": 132.78125
+      "mesh_1km": "50325579",
+      "locality": "余戸東一丁目 / 保免西三丁目 / 余戸南一丁目",
+      "lat": 33.8125,
+      "lon": 132.74375
     },
-    "reason": "High quantitative scene score driven primarily by hotspot_emergence_or_surge.",
+    "reason": "High quantitative scene score driven primarily by volume_spike.",
     "sequence": 11
   },
   {
@@ -231,10 +231,10 @@
     "top_mesh": "50325597",
     "top_mesh_locality": "南吉田町 / 高岡町",
     "camera_target": {
-      "mesh_1km": "50325597",
-      "locality": "南吉田町 / 高岡町",
-      "lat": 33.829166666666666,
-      "lon": 132.71875
+      "mesh_1km": "",
+      "locality": "",
+      "lat": 33.84056681390909,
+      "lon": 132.76126909527272
     },
     "reason": "End-state frame for comparison with the opening.",
     "sequence": 12
