@@ -174,3 +174,26 @@ Completed:
 See `docs/design/MATSUYAMA_CINEMATIC_SCENE_EXTRACTION.md`.
 
 Next: cinematic design specification and implementation.
+
+
+## Stage 9 — Cinematic motion specification
+
+**Status: COMPLETE (2026-10-04)**
+
+The Stage 8 quantitative storyboard has been translated into an implementation-ready silent-first motion system.
+
+Completed:
+- 80-second authored timeline
+- second-level scene timing
+- deterministic camera keyframes
+- permit ignition / decay / urban-memory model
+- hotspot glow and focal breathing model
+- retrospective vs exact evidence grammar
+- annotation copy and KPI semantics
+- mobile and reduced-motion behavior
+- performance budget
+- machine-readable timeline and automated QA
+
+See `docs/design/CINEMATIC_MOTION_SPEC.md` and `data/processed/cinematic/cinematic_timeline_v1.json`.
+
+Next: Stage 10 — implement Cinematic Mode in the public application and browser-QA the finished experience.
