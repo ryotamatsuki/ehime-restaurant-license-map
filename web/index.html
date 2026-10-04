@@ -40,6 +40,10 @@
             <button data-period="monthly" class="active">月次</button>
             <button data-period="rolling12">12か月</button>
           </div>
+          <label class="retro-toggle">
+            <input id="retrospective-toggle" type="checkbox" checked />
+            <span>松山市の参考復元（2021-06〜2024-08）を含める</span>
+          </label>
           <p id="mode-note" class="note"></p>
         </section>
 
@@ -57,21 +61,23 @@
         </section>
 
         <section class="metrics">
-          <article><span>新規飲食店許可</span><strong id="metric-total">—</strong></article>
-          <article><span>高精度地点</span><strong id="metric-points">—</strong></article>
+          <article><span id="metric-total-label">新規飲食店許可</span><strong id="metric-total">—</strong></article>
+          <article><span id="metric-points-label">高精度地点</span><strong id="metric-points">—</strong></article>
           <article><span id="metric-third-label">表示セル</span><strong id="metric-third">—</strong></article>
         </section>
 
         <section class="legend-block">
           <h2>精度・完全性</h2>
-          <p><span class="dot dot-strict"></span>Points / Heatmap / Hexagon は番地・地番レベル座標のみ。</p>
-          <p><span class="dot dot-mesh"></span>メッシュも同じ高精度地点のみを集計。</p>
+          <p><span class="dot dot-strict"></span>完全観測期の Points / Heatmap / Hexagon は番地・地番レベル座標のみ。</p>
+          <p><span class="dot dot-retro"></span>参考復元期は町丁目代表点を含み、2026-03-31時点の全施設一覧から初回許可日に遡った不完全系列です。</p>
+          <p><span class="dot dot-mesh"></span>メッシュは完全観測期の高精度地点のみを集計。</p>
           <p>県の2021–2022年旧データは市町村レベルのため、市町別件数には使いますが施設点にはしません。</p>
         </section>
 
         <details class="method">
           <summary>データと注意事項</summary>
           <p>営業許可は開店・閉店そのものではありません。「新規営業許可の発生」を表示します。</p>
+          <p>参考復元期は当時の全新規許可を完全収録したものではなく、2026-03-31時点で一覧に残る施設に偏ります。</p>
           <p>12か月表示は12か月すべてが完全観測できる場合だけ生成します。</p>
           <p><a href="https://github.com/ryotamatsuki/ehime-restaurant-license-map" target="_blank" rel="noreferrer">GitHub / methodology</a></p>
         </details>
