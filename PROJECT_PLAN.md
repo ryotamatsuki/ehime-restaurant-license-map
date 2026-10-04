@@ -197,3 +197,22 @@ Completed:
 See `docs/design/CINEMATIC_MOTION_SPEC.md` and `data/processed/cinematic/cinematic_timeline_v1.json`.
 
 Next: Stage 10 — implement Cinematic Mode in the public application and browser-QA the finished experience.
+
+
+## Stage 10 — Cinematic Mode implementation
+
+**Status: COMPLETE (2026-10-04)**
+
+Implemented the Stage 9 specification in the public application:
+- additive Cinematic / Watch mode;
+- 80-second deterministic timeline;
+- darkened map field;
+- historical permit-memory and fresh-event emphasis;
+- authored camera targets;
+- evidence-aware HUD, KPI and annotation;
+- desktop/mobile/reduced-motion interaction;
+- production build, browser QA and Pages deployment.
+
+See `docs/research/STAGE10_CINEMATIC_IMPLEMENTATION_QA.md`.
+
+Future work is visual polish/performance refinement rather than a Stage 10 completion blocker.
