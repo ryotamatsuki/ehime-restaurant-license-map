@@ -1,0 +1,40 @@
+name: Build Matsuyama retrospective extension
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/retrospective/prepare_matsuyama_geocode.py"
+      - "src/retrospective/geocode_matsuyama_retrospective.mjs"
+      - "src/retrospective/finalize_matsuyama_retrospective.py"
+      - ".github/workflows/build-retrospective-extension.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: pip install pandas
+      - run: npm ci --no-audit --no-fund
+      - run: python src/retrospective/prepare_matsuyama_geocode.py
+      - run: node src/retrospective/geocode_matsuyama_retrospective.mjs
+      - run: python src/retrospective/finalize_matsuyama_retrospective.py
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/geocode/matsuyama_retrospective_input.json data/geocode/matsuyama_retrospective_geocode_cache.json data/processed/matsuyama_restaurant_retrospective_geocoded.csv docs/research/MATSUYAMA_RETROSPECTIVE_GEOCODE_AUDIT.json
+          git commit -m "data: build Matsuyama retrospective geocoded extension" || exit 0
+          git pull --rebase origin main
+          git push
