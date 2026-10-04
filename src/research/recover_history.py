@@ -111,9 +111,12 @@ def month_from_sheet(sheet: str) -> str | None:
 
 def month_from_ehime_name(text: str) -> str | None:
     m = re.search(r"R(\d+)\.(\d+)月", text)
-    if not m:
-        return None
-    return f"{2018 + int(m.group(1)):04d}-{int(m.group(2)):02d}"
+    if m:
+        return f"{2018 + int(m.group(1)):04d}-{int(m.group(2)):02d}"
+    m = re.search(r"令和(\d+)年(\d+)月", text)
+    if m:
+        return f"{2018 + int(m.group(1)):04d}-{int(m.group(2)):02d}"
+    return None
 
 
 def write_safe(df: pd.DataFrame, path: Path):
@@ -219,7 +222,7 @@ def recover_matsuyama(report: dict):
         try:
             data = archive_bytes(ts, original)
             sha = file_sha(data)
-            parsed = parse_excel(data)
+            parsed = parse_workbook(data)
             workbook_months = []
             for p in parsed:
                 if p.get("status") != "parsed":
