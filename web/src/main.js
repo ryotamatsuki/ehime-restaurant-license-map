@@ -1,4 +1,5 @@
-import {Map, NavigationControl, AttributionControl, setWorkerUrl} from 'maplibre-gl';
+import {Map, NavigationControl, AttributionControl, setWorkerUrl, addProtocol} from 'maplibre-gl';
+import {Protocol} from 'pmtiles';
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {MapLibreOverlay} from '@deck.gl/maplibre';
@@ -8,6 +9,9 @@ import './style.css';
 import {createCinematicController} from './cinematic.js';
 
 setWorkerUrl(maplibreWorkerUrl);
+// The official GSI archive may use PMTiles v2; 3.2 retains v2/v3 decoding.
+const pmtilesProtocol = new Protocol();
+addProtocol('pmtiles', pmtilesProtocol.tile);
 
 const DATA = './data/';
 const COLORS = {
@@ -91,7 +95,7 @@ const map = new Map({
     sources: {
       'cinematic-base': {
         type: 'vector', minzoom: 4, maxzoom: 16,
-        tiles: ['https://cyberjapandata.gsi.go.jp/xyz/optimal_bvmap-v1/{z}/{x}/{y}.pbf'],
+        tiles: ['pmtiles://https://cyberjapandata.gsi.go.jp/xyz/optimal_bvmap-v1/optimal_bvmap-v1.pmtiles/{z}/{x}/{y}'],
         attribution: '<a href="https://github.com/gsi-cyberjapan/optimal_bvmap" target="_blank">国土地理院最適化ベクトルタイル</a>'
       },
       gsi: {
@@ -822,4 +826,3 @@ window.addEventListener('beforeunload', function() {
   stopPlayback();
   cinematicController.destroy();
 });
-

@@ -123,6 +123,7 @@ export function createCinematicController({
     cache: null,
     lastBeatId: null,
     seenMonths: new Set(),
+    requestedMonths: new Set(),
     lastDrawNow: -Infinity,
     destroyed: false
   };
@@ -489,7 +490,7 @@ export function createCinematicController({
   }
 
   function updateDebug(elapsed, monthInfo, beat, camera) {
-    run.seenMonths.add(monthInfo.month);
+    run.requestedMonths.add(monthInfo.month);
     const focusCenter = beat?.focus_center || beat?.focus_centers?.[0] || null;
     const focusPixel = focusCenter ? map.project(focusCenter) : null;
     const hudRect = els.cinematicHud?.getBoundingClientRect?.() || null;
@@ -503,6 +504,7 @@ export function createCinematicController({
       focusPixel: focusPixel ? {x: focusPixel.x, y: focusPixel.y} : null,
       hudRect: hudRect ? {top: hudRect.top, bottom: hudRect.bottom, left: hudRect.left, right: hudRect.right} : null,
       seenMonths: Array.from(run.seenMonths),
+      requestedMonths: Array.from(run.requestedMonths),
       selectedExploreTarget: run.selectedExploreTarget
     };
   }
@@ -516,7 +518,13 @@ export function createCinematicController({
     const focusVisible = beat?.focus_window ? activeInWindow(safe, beat.focus_window) : Boolean(beat && safe >= beat.start + 0.55);
     const key = monthInfo.month + ':' + (animated ? Math.floor(safe * 30) : 'hold') + ':' + beat?.id + ':' + focusVisible;
     if (layersKey !== key) {
-      overlay.setProps({layers: layersForTime(safe, monthInfo, beat), getTooltip: null});
+      overlay.setProps({layers: layersForTime(safe, monthInfo, beat), getTooltip: null,
+        onAfterRender: () => {
+          if (!state.cinematic || run.seenMonths.has(monthInfo.month)) return;
+          run.seenMonths.add(monthInfo.month);
+          if (window.__CINEMATIC_DEBUG__) window.__CINEMATIC_DEBUG__.seenMonths = Array.from(run.seenMonths);
+        }
+      });
       layersKey = key;
     }
     renderHud(safe, monthInfo, beat);
@@ -554,6 +562,8 @@ export function createCinematicController({
       run.elapsed = 0;
       run.pausedAt = 0;
       run.seenMonths.clear();
+      run.requestedMonths.clear();
+      run.lastDrawNow = -Infinity;
     }
     run.playing = true;
     run.startedAt = performance.now();
@@ -580,12 +590,14 @@ export function createCinematicController({
     run.cacheMonth = null;
     run.cache = null;
     run.seenMonths.clear();
+    run.requestedMonths.clear();
     run.selectedExploreTarget = 'dogo';
     syncTargetButtons();
     els.cinematicShell.hidden = false;
     document.querySelector('.topbar')?.setAttribute('aria-hidden', 'true');
     document.querySelector('.panel')?.setAttribute('aria-hidden', 'true');
     setMapTone(true);
+    overlay.setProps({onAfterRender: () => {}});
     render(0);
     if (run.reduced) {
       pause();
@@ -627,6 +639,8 @@ export function createCinematicController({
     run.pausedAt = 0;
     run.cacheMonth = null;
     run.seenMonths.clear();
+    run.requestedMonths.clear();
+    run.lastDrawNow = -Infinity;
     render(0);
     if (!run.reduced) play();
   }
