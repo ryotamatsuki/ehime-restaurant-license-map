@@ -111,7 +111,7 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
       await expect(page.locator('#cinematic-chart svg')).toHaveAttribute('aria-label', '2025-05 1件、2025-06 0件、2025-07 0件、2025-08 5件');
     }
     if (second === 66) await expect.poll(async () => (await page.evaluate(() => window.__CINEMATIC_TEST_API__.basemap())).roads).toBeGreaterThan(0);
-    await page.screenshot({path: testInfo.outputPath(prefix + '-' + second + 's.png'), fullPage: true});
+    await page.screenshot({path: testInfo.outputPath(prefix + '-' + second + 's.png'), fullPage: true, animations: 'disabled'});
   }
 }
 
