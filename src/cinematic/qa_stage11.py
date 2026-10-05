@@ -69,7 +69,7 @@ def main() -> int:
     city, local = climax["kpi_sequence"]
     assert city["value"] == 158 and city["place"] == "松山市全体"
     assert city["scope"] == "松山市全体"
-    assert not city["support"] and not city["sparkline"]
+    assert city["support"] == "位置を特定した48件を地図に表示" and not city["sparkline"]
     assert local["value"] == 14 and local["place"] == "道後"
     assert local["scope"] == "道後周辺の1km区画・高精度地点"
     assert local["sparkline"] == "dogo"
@@ -96,6 +96,9 @@ def main() -> int:
     assert len(f["mitsu"]["series"]) == 23
     assert next(x for x in f["dogo"]["series"] if x["month"] == "2026-02")["count"] == 14
     assert next(x for x in f["mitsu"]["series"] if x["month"] == "2025-08")["count"] == 5
+
+    assert [r["count"] for r in t["local_comparisons"]["mitsu"]] == [1, 0, 0, 5]
+    assert [r["count"] for r in t["local_comparisons"]["dogo"]] == [6, 3, 0, 14]
 
     period_labels = [x["label"] for x in t["period_notes"]]
     assert period_labels == [
@@ -129,3 +132,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

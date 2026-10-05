@@ -720,3 +720,67 @@ body.cinematic-active #map { background: #02070b; }
     transition: none !important;
   }
 }
+
+/* Stage 12: one visual hierarchy, a quiet base, and readable evidence. */
+body.cinematic-active .topbar { display: none; }
+body.cinematic-active .workspace { height: 100dvh; }
+body.cinematic-active #app { height: 100dvh; overflow: hidden; }
+.cinematic-shell { font-family: Inter, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif; }
+.cinematic-month, .cinematic-month.is-bridge, .cinematic-month.is-focus {
+  font-size: 32px; font-weight: 500; opacity: .8; transition: opacity .2s;
+}
+.cinematic-title { white-space: pre-line; font-weight: 650; line-height: 1.4; letter-spacing: .01em; font-size: clamp(32px, 3.7vw, 52px); }
+.cinematic-chapter { position: absolute; left: 28px; top: 94px; font-size: 11px; letter-spacing: .1em; color: #a7bdc8; }
+.cinematic-legend { position: absolute; left: 28px; top: 122px; color: #b4c1c7; font-size: 10px; display: flex; align-items: center; gap: 7px; }
+.cinematic-legend i { width: 5px; height: 5px; border-radius: 50%; background: #ffe0b9; box-shadow: 0 0 8px #ff7540; }
+.cinematic-legend i.past { background: #6ea4b9; box-shadow: none; margin-left: 12px; }
+.cinematic-geography { position: absolute; inset: 0; overflow: hidden; }
+.cinematic-geography span { position: absolute; left: 0; top: 0; color: #b8cad3; font-size: 13px; letter-spacing: .16em; text-shadow: 0 1px 5px #000; }
+.cinematic-hud { width: min(430px, calc(100vw - 56px)); min-height: 0; padding: 14px 20px; }
+.cinematic-place { font-size: 20px; font-weight: 700; }
+.cinematic-kpi-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.cinematic-kpi { margin-top: 6px; font-size: 56px; font-weight: 600; letter-spacing: -.035em; }
+.cinematic-scope { font-size: 10px; color: #a7bbc5; }
+.cinematic-scope.is-redundant { display: none; }
+.cinematic-support { min-height: 0; font-size: 11px; margin-top: 8px; }
+.cinematic-support:not(.is-visible) { display: none; }
+.cinematic-annotation { min-height: 0; font-size: 17px; margin-top: 12px; letter-spacing: .02em; }
+.cinematic-annotation:not(.is-visible) { visibility: hidden; }
+.cinematic-chart { align-items: center; gap: 12px; margin-top: 8px; }
+.cinematic-chart.is-visible { max-height: 86px; }
+.cinematic-chart svg { width: 232px; height: 76px; flex-shrink: 0; }
+.cinematic-chart text { fill: #e5edf1; font-size: 12px; font-family: inherit; font-variant-numeric: tabular-nums; }
+.cinematic-chart .bar-date { fill: #a9bbc5; font-size: 10px; }
+.cinematic-chart span { font-size: 9px; color: #a9bbc5; max-width: 125px; }
+.cinematic-final { width: min(410px, calc(100vw - 56px)); border-radius: 3px; padding: 20px; }
+.cinematic-final h2 { font-size: 26px; line-height: 1.3; font-weight: 700; margin: 0 0 8px; letter-spacing: .02em; }
+.cinematic-final-purpose { font-size: 12px; margin: 0 0 14px; color: #ffdbbd; }
+.cinematic-final-label { color: #acbdc7; font-size: 10px; }
+.closing-row { margin-top: 10px; }
+.closing-row strong { font-size: 14px; font-weight: 650; }
+.closing-months { display: flex; gap: 4px; margin-top: 6px; }
+.closing-months i { display: block; width: 9px; height: 5px; background: #31404b; }
+.closing-months i.recorded { background: #edc7a8; }
+body.cinematic-active .maplibregl-ctrl-bottom-right { bottom: 60px; opacity: .65; }
+@media (max-width: 760px) {
+  .cinematic-month, .cinematic-month.is-bridge, .cinematic-month.is-focus { font-size: 26px; }
+  .cinematic-chapter { left: 14px; top: 78px; font-size: 10px; }
+  .cinematic-legend { left: 14px; top: 102px; font-size: 9px; }
+  .cinematic-title { font-size: 30px; top: 37%; line-height: 1.5; }
+  .cinematic-geography span { font-size: 11px; }
+  .cinematic-hud { max-height: none; min-height: 0; padding: 10px 13px; bottom: 74px; }
+  .cinematic-place { font-size: 17px; }
+  .cinematic-kpi { font-size: 44px; }
+  .cinematic-scope { font-size: 10px; }
+  .cinematic-support { font-size: 10px; }
+  .cinematic-annotation { font-size: 14px; margin-top: 9px; }
+  .cinematic-chart svg { width: 208px; height: 68px; }
+  .cinematic-chart { gap: 6px; }
+  .cinematic-chart span { font-size: 8px; max-width: 90px; }
+  .cinematic-final { top: auto; bottom: 74px; padding: 16px; }
+  .cinematic-final h2 { font-size: 24px; }
+  .cinematic-final-actions { grid-template-columns: 1fr auto; }
+  #cinematic-explore, #cinematic-replay { padding: 7px; font-size: 10px; }
+  .closing-months { gap: 3px; }
+  .closing-months i { width: 9px; }
+}

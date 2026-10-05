@@ -101,7 +101,7 @@ test('cinematic mode stages local/citywide KPIs and hands off to Explore', async
   await expect(page.locator('#cinematic-kpi-label')).toHaveText('松山市全体');
   await expect(page.locator('#cinematic-place')).toHaveText('松山市全体');
   await expect(page.locator('#cinematic-scope')).toHaveText('松山市全体');
-  await expect(page.locator('#cinematic-support')).not.toHaveClass(/is-visible/);
+  await expect(page.locator('#cinematic-support')).toHaveText('位置を特定した48件を地図に表示');
   await expect(page.locator('#cinematic-chart')).not.toHaveClass(/is-visible/);
 
   await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(64));
@@ -113,9 +113,9 @@ test('cinematic mode stages local/citywide KPIs and hands off to Explore', async
   await expect(page.locator('#cinematic-kpi')).toHaveText('14件');
   await expect(page.locator('#cinematic-place')).toHaveText('道後');
   await expect(page.locator('#cinematic-scope')).toHaveText('道後周辺の1km区画・高精度地点');
-  await expect(page.locator('#cinematic-support')).toHaveText('道後周辺の1km区画・高精度地点');
+  await expect(page.locator('#cinematic-support')).not.toHaveClass(/is-visible/);
   await expect(page.locator('#cinematic-chart')).toHaveClass(/is-visible/);
-  await expect(page.locator('#cinematic-annotation')).toContainText('道後周辺に許可が集中');
+  await expect(page.locator('#cinematic-annotation')).toContainText('道後の同じ区画に、14件');
 
   await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(78));
   await expect(page.locator('#cinematic-month')).toHaveText('2026.07');
@@ -190,7 +190,7 @@ test('cinematic mobile reduced-motion retains the same information', async ({pag
   await expect(page.locator('#cinematic-kpi')).toHaveText('158件');
   await expect(page.locator('#cinematic-place')).toHaveText('松山市全体');
   await expect(page.locator('#cinematic-scope')).toHaveText('松山市全体');
-  await expect(page.locator('#cinematic-support')).not.toHaveClass(/is-visible/);
+  await expect(page.locator('#cinematic-support')).toHaveText('位置を特定した48件を地図に表示');
   await expect(page.locator('#cinematic-chart')).not.toHaveClass(/is-visible/);
 
   await page.evaluate(() => window.__CINEMATIC_TEST_API__.seek(66));
@@ -207,3 +207,4 @@ test('cinematic mobile reduced-motion retains the same information', async ({pag
   await page.locator('#cinematic-exit').click();
   await expect(page.locator('#cinematic-shell')).toBeHidden();
 });
+

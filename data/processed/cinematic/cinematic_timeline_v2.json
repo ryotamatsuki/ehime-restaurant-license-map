@@ -1,7 +1,7 @@
 {
   "version": "2.0.0",
   "runtime_seconds": 80,
-  "story": "許可の記録が月ごとに重なり、道後、三津、その他の地区に、繰り返し現れるまとまりが見えてくる。",
+  "story": "行政記録を地図と時間で読み、次に現地で確かめる場所を見つける。",
   "period_notes": [
     {
       "start_month": "2021-06",
@@ -213,41 +213,41 @@
     {
       "month": "2024-09",
       "start": 22.0,
-      "end": 24.6
+      "end": 27.5
     },
     {
       "month": "2024-10",
-      "start": 24.6,
-      "end": 25.3
+      "start": 27.5,
+      "end": 28.3
     },
     {
       "month": "2024-11",
-      "start": 25.3,
-      "end": 28.2
+      "start": 28.3,
+      "end": 29.7
     },
     {
       "month": "2024-12",
-      "start": 28.2,
-      "end": 29.0
-    },
-    {
-      "month": "2025-01",
-      "start": 29.0,
+      "start": 29.7,
       "end": 31.0
     },
     {
-      "month": "2025-02",
+      "month": "2025-01",
       "start": 31.0,
-      "end": 33.0
+      "end": 32.5
+    },
+    {
+      "month": "2025-02",
+      "start": 32.5,
+      "end": 34.0
     },
     {
       "month": "2025-03",
-      "start": 33.0,
-      "end": 35.0
+      "start": 34.0,
+      "end": 35.5
     },
     {
       "month": "2025-04",
-      "start": 35.0,
+      "start": 35.5,
       "end": 37.0
     },
     {
@@ -344,62 +344,6 @@
       "bearing": -4
     },
     {
-      "t": 14.5,
-      "lon": 132.755,
-      "lat": 33.84,
-      "zoom": 10.8,
-      "pitch": 24,
-      "bearing": -4
-    },
-    {
-      "t": 15.7,
-      "lon": 132.78125,
-      "lat": 33.85416666666667,
-      "zoom": 12.8,
-      "pitch": 38,
-      "bearing": 6
-    },
-    {
-      "t": 17.2,
-      "lon": 132.78125,
-      "lat": 33.85416666666667,
-      "zoom": 12.8,
-      "pitch": 38,
-      "bearing": 6
-    },
-    {
-      "t": 17.8,
-      "lon": 132.755,
-      "lat": 33.84,
-      "zoom": 10.7,
-      "pitch": 24,
-      "bearing": 0
-    },
-    {
-      "t": 18.8,
-      "lon": 132.75625,
-      "lat": 33.829166666666666,
-      "zoom": 12.6,
-      "pitch": 36,
-      "bearing": -8
-    },
-    {
-      "t": 20.3,
-      "lon": 132.75625,
-      "lat": 33.829166666666666,
-      "zoom": 12.6,
-      "pitch": 36,
-      "bearing": -8
-    },
-    {
-      "t": 21.6,
-      "lon": 132.755,
-      "lat": 33.84,
-      "zoom": 10.8,
-      "pitch": 24,
-      "bearing": -2
-    },
-    {
       "t": 22.2,
       "lon": 132.758,
       "lat": 33.842,
@@ -412,40 +356,16 @@
       "lon": 132.78125,
       "lat": 33.85416666666667,
       "zoom": 12.9,
-      "pitch": 39,
+      "pitch": 32,
       "bearing": 6
     },
     {
-      "t": 24.2,
+      "t": 27.1,
       "lon": 132.78125,
       "lat": 33.85416666666667,
       "zoom": 12.9,
-      "pitch": 39,
-      "bearing": 6
-    },
-    {
-      "t": 24.8,
-      "lon": 132.755,
-      "lat": 33.84,
-      "zoom": 10.7,
-      "pitch": 24,
-      "bearing": 0
-    },
-    {
-      "t": 25.7,
-      "lon": 132.74375,
-      "lat": 33.829166666666666,
-      "zoom": 12.5,
-      "pitch": 34,
-      "bearing": -8
-    },
-    {
-      "t": 27.7,
-      "lon": 132.74375,
-      "lat": 33.829166666666666,
-      "zoom": 12.5,
-      "pitch": 34,
-      "bearing": -8
+      "pitch": 32,
+      "bearing": 4
     },
     {
       "t": 29.0,
@@ -492,7 +412,7 @@
       "lon": 132.71875,
       "lat": 33.8625,
       "zoom": 12.9,
-      "pitch": 38,
+      "pitch": 32,
       "bearing": -14
     },
     {
@@ -500,7 +420,7 @@
       "lon": 132.71875,
       "lat": 33.8625,
       "zoom": 12.9,
-      "pitch": 38,
+      "pitch": 32,
       "bearing": -14
     },
     {
@@ -532,7 +452,7 @@
       "lon": 132.78125,
       "lat": 33.85416666666667,
       "zoom": 13.15,
-      "pitch": 40,
+      "pitch": 32,
       "bearing": 8
     },
     {
@@ -540,7 +460,7 @@
       "lon": 132.78125,
       "lat": 33.85416666666667,
       "zoom": 13.15,
-      "pitch": 40,
+      "pitch": 32,
       "bearing": 8
     },
     {
@@ -573,8 +493,8 @@
       "id": "opening",
       "start": 0.0,
       "end": 5.0,
-      "title": "松山、62か月の許可の足跡。",
-      "caption": "光は、その月の許可の記録。",
+      "title": "許可の記録から、\nまちの変化を読む。",
+      "caption": "光は、その月の許可。",
       "caption_window": [
         1.4,
         4.5
@@ -583,47 +503,9 @@
       "style": "opening"
     },
     {
-      "id": "retro_dogo",
-      "start": 15.2,
-      "end": 17.7,
-      "place": "道後",
-      "focus_mesh": "50326622",
-      "focus_center": [
-        132.78125,
-        33.85416666666667
-      ],
-      "scope": "道後周辺の1km区画・高精度地点",
-      "local_count": 6,
-      "caption": "道後に集まる許可。",
-      "caption_window": [
-        16.0,
-        17.55
-      ],
-      "style": "minor_local"
-    },
-    {
-      "id": "takehara",
-      "start": 18.5,
-      "end": 20.8,
-      "place": "竹原・藤原",
-      "focus_mesh": "50325690",
-      "focus_center": [
-        132.75625,
-        33.829166666666666
-      ],
-      "scope": "竹原・藤原周辺の1km区画・高精度地点",
-      "local_count": 4,
-      "caption": "竹原・藤原にも。",
-      "caption_window": [
-        19.05,
-        20.65
-      ],
-      "style": "minor_local"
-    },
-    {
       "id": "dogo_202409",
       "start": 22.0,
-      "end": 24.6,
+      "end": 27.5,
       "place": "道後",
       "focus_mesh": "50326622",
       "focus_center": [
@@ -632,31 +514,12 @@
       ],
       "scope": "道後周辺の1km区画・高精度地点",
       "local_count": 15,
-      "caption": "道後に、15件。",
+      "caption": "同じ場所に、記録が重なる。",
       "caption_window": [
-        23.15,
-        24.5
+        23.8,
+        27.0
       ],
-      "style": "minor_local"
-    },
-    {
-      "id": "airport_takehara",
-      "start": 25.3,
-      "end": 28.2,
-      "place": "空港通・竹原",
-      "focus_mesh": "50325599",
-      "focus_center": [
-        132.74375,
-        33.829166666666666
-      ],
-      "scope": "空港通・竹原周辺の1km区画・高精度地点",
-      "local_count": 4,
-      "caption": "空港通・竹原にも。",
-      "caption_window": [
-        26.15,
-        28.0
-      ],
-      "style": "minor_local"
+      "style": "major_local"
     },
     {
       "id": "city_202505",
@@ -673,8 +536,8 @@
           "unit": "件"
         }
       ],
-      "support": "地図上の高精度地点 40件",
-      "caption": "2025年5月。許可の発生が市内に広がる。",
+      "support": "位置を特定した40件を地図に表示",
+      "caption": "市内に広がる、許可の記録。",
       "caption_window": [
         39.0,
         42.5
@@ -703,29 +566,12 @@
       ],
       "support": "直前3か月は同じ区画で合計1件",
       "sparkline": "mitsu",
-      "caption": "三津。この月、許可が再びまとまって現れる。",
+      "caption": "三津。静かな3か月のあとに。",
       "caption_window": [
         50.15,
         52.95
       ],
       "style": "major_local"
-    },
-    {
-      "id": "year_end",
-      "start": 56.0,
-      "end": 59.0,
-      "place": "松山市全体",
-      "scope": "松山市全体",
-      "kpi_sequence": [
-        {
-          "start": 56.8,
-          "end": 58.5,
-          "label": "松山市全体",
-          "value": 131,
-          "unit": "件"
-        }
-      ],
-      "style": "passing_citywide"
     },
     {
       "id": "dogo_202602",
@@ -749,7 +595,7 @@
           "unit": "件",
           "place": "松山市全体",
           "scope": "松山市全体",
-          "support": "",
+          "support": "位置を特定した48件を地図に表示",
           "sparkline": ""
         },
         {
@@ -760,11 +606,11 @@
           "unit": "件",
           "place": "道後",
           "scope": "道後周辺の1km区画・高精度地点",
-          "support": "道後周辺の1km区画・高精度地点",
+          "support": "",
           "sparkline": "dogo"
         }
       ],
-      "caption": "2026年2月、道後周辺に許可が集中。",
+      "caption": "道後の同じ区画に、14件。",
       "caption_window": [
         65.15,
         68.25
@@ -792,13 +638,13 @@
       ],
       "scope": "月次観測23か月・同じ1km区画・高精度地点",
       "support": "道後 19/23か月　｜　三津 15/23か月",
-      "caption": "道後と三津。許可が繰り返し現れる場所が見えてくる。",
+      "caption": "行政記録を、現地確認の手がかりに。",
       "caption_window": [
-        74.5,
-        77.4
+        73.5,
+        79.8
       ],
       "cta_window": [
-        77.0,
+        73.5,
         80.0
       ],
       "style": "closing"
@@ -837,5 +683,44 @@
     "2026-02_dogo": 14,
     "dogo_exact_active": 19,
     "mitsu_exact_active": 15
+  },
+  "edition": "Stage 12 / records to field questions",
+  "local_comparisons": {
+    "mitsu": [
+      {
+        "month": "2025-05",
+        "count": 1
+      },
+      {
+        "month": "2025-06",
+        "count": 0
+      },
+      {
+        "month": "2025-07",
+        "count": 0
+      },
+      {
+        "month": "2025-08",
+        "count": 5
+      }
+    ],
+    "dogo": [
+      {
+        "month": "2025-11",
+        "count": 6
+      },
+      {
+        "month": "2025-12",
+        "count": 3
+      },
+      {
+        "month": "2026-01",
+        "count": 0
+      },
+      {
+        "month": "2026-02",
+        "count": 14
+      }
+    ]
   }
 }

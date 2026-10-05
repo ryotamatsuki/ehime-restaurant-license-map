@@ -4,9 +4,12 @@ import fs from 'node:fs';
 test.use({video: 'on'});
 
 async function runFullPlayback(page, testInfo, viewport, prefix) {
-  test.setTimeout(135000);
+  test.setTimeout(180000);
   const errors = [];
   page.on('pageerror', error => errors.push(String(error)));
+  page.on('console', message => {
+    if (message.type() === 'error' && /shader|WebGL|deck.gl|NaN/i.test(message.text())) errors.push(message.text());
+  });
 
   await page.setViewportSize(viewport);
   await page.goto('/');
@@ -14,7 +17,7 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
   await page.locator('#cinematic-enter').click();
   await expect(page.locator('#cinematic-shell')).toBeVisible();
 
-  const captureTimes = new Set([0, 5, 20, 23, 40, 50, 66, 78]);
+  const captureTimes = new Set([0, 40, 78]);
   const telemetry = [];
   const start = Date.now();
 
@@ -52,7 +55,7 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
       expect(sample.kpi).toBe('158件');
       expect(sample.place).toBe('松山市全体');
       expect(sample.scope).toBe('松山市全体');
-      expect(sample.supportVisible).toBe(false);
+      expect(sample.supportVisible).toBe(true);
       expect(sample.chartVisible).toBe(false);
     }
     if (sample.elapsed >= 64.55 && sample.elapsed <= 69.0) {
@@ -74,6 +77,7 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
     }
   }
 
+  expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBeLessThanOrEqual(viewport.height);
   const finalDebug = await page.evaluate(() => window.__CINEMATIC_DEBUG__);
   expect(finalDebug.seenMonths).toHaveLength(62);
   expect(finalDebug.month).toBe('2026-07');
@@ -86,18 +90,23 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
 
   // Wall-clock sampling can be late while CI captures screenshots. Verify the
   // exact film-clock frames separately after the uninterrupted 80-second run.
-  for (const second of [62, 66]) {
+  for (const second of [2, 25, 40, 51, 62, 66, 78]) {
     await page.evaluate(t => window.__CINEMATIC_TEST_API__.seek(t), second);
+    if (second === 62 || second === 66) {
     await expect(page.locator('#cinematic-kpi')).toHaveText(second === 62 ? '158件' : '14件');
     await expect(page.locator('#cinematic-place')).toHaveText(second === 62 ? '松山市全体' : '道後');
     await expect(page.locator('#cinematic-scope')).toHaveText(
       second === 62 ? '松山市全体' : '道後周辺の1km区画・高精度地点'
     );
     if (second === 62) {
-      await expect(page.locator('#cinematic-support')).not.toHaveClass(/is-visible/);
+      await expect(page.locator('#cinematic-support')).toHaveText('位置を特定した48件を地図に表示');
       await expect(page.locator('#cinematic-chart')).not.toHaveClass(/is-visible/);
     } else {
       await expect(page.locator('#cinematic-chart')).toHaveClass(/is-visible/);
+    }
+    }
+    if (second === 51) {
+      await expect(page.locator('#cinematic-chart svg')).toHaveAttribute('aria-label', '2025-05 1件、2025-06 0件、2025-07 0件、2025-08 5件');
     }
     await page.screenshot({path: testInfo.outputPath(prefix + '-' + second + 's.png'), fullPage: true});
   }
@@ -110,3 +119,4 @@ test('Stage 11 full 80-second desktop playback', async ({page}, testInfo) => {
 test('Stage 11 full 80-second mobile playback', async ({page}, testInfo) => {
   await runFullPlayback(page, testInfo, {width: 390, height: 844}, 'mobile');
 });
+

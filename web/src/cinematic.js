@@ -2,8 +2,23 @@ import {ScatterplotLayer, GeoJsonLayer} from '@deck.gl/layers';
 
 const FRESH = [255, 224, 185];
 const HALO = [255, 117, 63];
-const MEMORY = [236, 132, 75];
-const AMBIENT = [170, 147, 112];
+const MEMORY = [110, 164, 185];
+const AMBIENT = [132, 149, 156];
+
+// Radial falloff keeps the light inside an actual permit's point footprint.
+class PermitGlowLayer extends ScatterplotLayer {
+  getShaders() {
+    const shaders = super.getShaders();
+    return {...shaders, inject: {...shaders.inject,
+      'fs:DECKGL_FILTER_COLOR': 'color.a *= exp(-4.5 * dot(geometry.uv, geometry.uv)) * (1.0 - smoothstep(0.6, 1.0, length(geometry.uv)));'
+    }};
+  }
+}
+PermitGlowLayer.layerName = 'PermitGlowLayer';
+
+function setText(node, text) {
+  if (node.textContent !== text) node.textContent = text;
+}
 
 function clamp(x, lo = 0, hi = 1) {
   return Math.max(lo, Math.min(hi, x));
@@ -87,6 +102,14 @@ export function createCinematicController({
   const monthIndex = new Map(schedule.map((m, i) => [m.month, i]));
   const eventMonthIndex = new Map(schedule.map((m, i) => [m.month, i]));
 
+  const chapter = document.querySelector('#cinematic-chapter');
+  const geonames = ['dogo', 'mitsu'].map(key => ({
+    key, node: document.querySelector('#cinematic-geoname-' + key)
+  }));
+  let chartKey = null;
+  let lastCamera = null;
+  let layersKey = null;
+  const focusCache = new Map();
   const run = {
     playing: false,
     elapsed: 0,
@@ -184,12 +207,18 @@ export function createCinematicController({
 
   function applyCamera(elapsed) {
     const c = cameraAtTime(elapsed);
-    map.jumpTo({
+    if (!lastCamera || ['lon', 'lat', 'zoom', 'pitch', 'bearing'].some(k => Math.abs(c[k] - lastCamera[k]) > 1e-7)) map.jumpTo({
       center: [c.lon, c.lat],
       zoom: c.zoom,
       pitch: c.pitch,
       bearing: c.bearing
     });
+    lastCamera = c;
+    for (const {key, node} of geonames) {
+      const point = map.project(focusSeries[key].center);
+      node.style.transform = `translate(${point.x + 12}px, ${point.y - 24}px)`;
+      node.style.opacity = c.zoom < 12 ? '0.7' : '0';
+    }
     return c;
   }
 
@@ -241,10 +270,14 @@ export function createCinematicController({
   }
 
   function focusFeatures(beat) {
+    if (!beat) return [];
+    if (focusCache.has(beat.id)) return focusCache.get(beat.id);
     const centers = [];
     if (beat?.focus_center) centers.push(beat.focus_center);
     if (beat?.focus_centers) centers.push(...beat.focus_centers);
-    return centers.map(focusPolygon);
+    const features = centers.map(focusPolygon);
+    focusCache.set(beat.id, features);
+    return features;
   }
 
   function layersForTime(elapsed, monthInfo, beat) {
@@ -275,14 +308,14 @@ export function createCinematicController({
     ];
 
     if (!run.reduced && cache.freshStrict.length) {
-      layers.push(new ScatterplotLayer({
+      layers.push(new PermitGlowLayer({
         id: 'cin-halo-' + monthInfo.month,
         data: cache.freshStrict,
         getPosition: d => [d.lon, d.lat],
         getRadius: d => 46 * ignitionPhase(d, elapsed, monthInfo).radius,
-        radiusMinPixels: 3,
+        radiusMinPixels: 7,
         radiusMaxPixels: 14,
-        getFillColor: d => [...HALO, Math.round(92 * ignitionPhase(d, elapsed, monthInfo).halo)],
+        getFillColor: d => [...HALO, Math.round(190 * Math.max(0.22, ignitionPhase(d, elapsed, monthInfo).halo))],
         updateTriggers: {
           getRadius: Math.floor(elapsed * 30),
           getFillColor: Math.floor(elapsed * 30)
@@ -344,37 +377,34 @@ export function createCinematicController({
   }
 
   function renderSparkline(key, currentMonth) {
-    if (!key || !focusSeries[key]) {
+    const nextKey = key ? key + ':' + currentMonth : '';
+    if (chartKey === nextKey) return;
+    chartKey = nextKey;
+    if (!key || !timeline.local_comparisons?.[key]) {
       els.cinematicChart.innerHTML = '';
       els.cinematicChart.classList.remove('is-visible');
       return;
     }
-    const series = focusSeries[key].series;
-    const width = 188;
-    const height = 46;
-    const padX = 4;
-    const padY = 5;
+    const series = timeline.local_comparisons[key];
     const max = Math.max(1, ...series.map(d => d.count));
-    const pts = series.map((d, i) => {
-      const x = padX + i * (width - padX * 2) / Math.max(1, series.length - 1);
-      const y = height - padY - d.count / max * (height - padY * 2);
-      return {x, y, ...d};
-    });
-    const path = pts.map((p, i) => (i ? 'L' : 'M') + p.x.toFixed(1) + ',' + p.y.toFixed(1)).join(' ');
-    const current = pts.find(p => p.month === currentMonth) || pts.at(-1);
-    els.cinematicChart.innerHTML =
-      '<svg viewBox="0 0 ' + width + ' ' + height + '" aria-hidden="true">'
-      + '<path d="' + path + '" class="sparkline-path"></path>'
-      + '<circle cx="' + current.x.toFixed(1) + '" cy="' + current.y.toFixed(1) + '" r="3" class="sparkline-current"></circle>'
-      + '</svg>'
-      + '<span>月次観測23か月・同一1km区画</span>';
+    const bars = series.map((d, i) => {
+      const h = d.count / max * 38;
+      const x = 12 + i * 55;
+      const color = d.month === currentMonth ? '#ffd7bb' : '#6ea4b9';
+      return `<rect x="${x}" y="${53-h}" width="28" height="${Math.max(1,h)}" fill="${color}" opacity="${d.count ? 0.85 : 0.35}"/>`
+        + `<text x="${x+14}" y="${47-h}" text-anchor="middle">${d.count}</text>`
+        + `<text x="${x+14}" y="70" text-anchor="middle" class="bar-date">${d.month.slice(5)}月</text>`;
+    }).join('');
+    const label = series.map(d => d.month + ' ' + d.count + '件').join('、');
+    els.cinematicChart.innerHTML = `<svg viewBox="0 0 232 76" role="img" aria-label="${label}">${bars}</svg><span>同一区画の許可件数<br>${series[0].month.slice(0,4)}年${series[0].month.slice(5)}月–${currentMonth.replace('-', '年')}月</span>`;
     els.cinematicChart.classList.add('is-visible');
   }
 
   function renderHud(elapsed, monthInfo, beat) {
     const month = monthInfo.month;
-    els.cinematicMonth.textContent = month.replace('-', '.');
-    els.cinematicPeriod.textContent = periodNote(month);
+    setText(els.cinematicMonth, month.replace('-', '.'));
+    setText(chapter, elapsed < 37 ? '01｜記録を重ねる' : elapsed < 72.8 ? '02｜場所の違いを読む' : '03｜次の問いへ');
+    setText(els.cinematicPeriod, periodNote(month));
 
     const kpi = findKpi(beat, elapsed);
     const place = kpi?.place ?? beat?.place ?? '';
@@ -388,26 +418,27 @@ export function createCinematicController({
     els.cinematicMonth.classList.toggle('is-focus', Boolean(focusBeat));
     els.cinematicMonth.classList.toggle('is-bridge', !beat || beat.style === 'passing_citywide');
 
-    els.cinematicTitle.textContent = beat?.title || '';
+    setText(els.cinematicTitle, beat?.title || '');
     els.cinematicTitle.classList.toggle('is-visible', Boolean(beat?.title && elapsed <= 4.2));
 
-    els.cinematicPlace.textContent = place;
+    setText(els.cinematicPlace, place);
     els.cinematicPlace.classList.toggle('is-visible', Boolean(place && elapsed >= beat.start + 0.45));
 
     if (kpi) {
-      els.cinematicKpiLabel.textContent = kpi.label || '';
-      els.cinematicKpi.textContent = formatValue(kpi);
-      els.cinematicScope.textContent = scope;
+      setText(els.cinematicKpiLabel, kpi.label || '');
+      setText(els.cinematicKpi, formatValue(kpi));
+      setText(els.cinematicScope, scope);
+      els.cinematicScope.classList.toggle('is-redundant', scope === place);
       els.cinematicKpiWrap.classList.add('is-visible');
     } else {
       els.cinematicKpiWrap.classList.remove('is-visible');
     }
 
-    els.cinematicSupport.textContent = support;
+    setText(els.cinematicSupport, support);
     els.cinematicSupport.classList.toggle('is-visible', Boolean(kpi && support));
 
-    els.cinematicAnnotation.textContent = beat?.caption || '';
-    els.cinematicAnnotation.classList.toggle('is-visible', Boolean(captionVisible));
+    setText(els.cinematicAnnotation, beat?.caption || '');
+    els.cinematicAnnotation.classList.toggle('is-visible', Boolean(captionVisible && beat.style !== 'closing'));
 
     if (sparkline && kpi) renderSparkline(sparkline, month);
     else renderSparkline(null, month);
@@ -415,12 +446,20 @@ export function createCinematicController({
     const final = beat?.style === 'closing';
     els.cinematicFinal.classList.toggle('is-visible', Boolean(final && ctaVisible));
     if (final) {
-      els.cinematicClosingStats.textContent = beat.support || '';
+      if (!els.cinematicClosingStats.dataset.ready) {
+        els.cinematicClosingStats.innerHTML = ['dogo', 'mitsu'].map(key => {
+          const f = focusSeries[key];
+          const dots = f.series.map(d => `<i class="${d.count ? 'recorded' : ''}" title="${d.month}: ${d.count}件"></i>`).join('');
+          return `<div class="closing-row"><strong>${f.label} ${f.exact_active_months}/23か月</strong><div class="closing-months" aria-label="${f.label}の23か月の許可記録">${dots}</div></div>`;
+        }).join('');
+        els.cinematicClosingStats.dataset.ready = 'true';
+      }
     }
 
     const closingQuiet = Boolean(final && beat.caption_window && elapsed > beat.caption_window[1]);
     const hudHasContent = Boolean(
       beat
+      && !final
       && !closingQuiet
       && (place || beat.title || kpi || captionVisible || support || sparkline)
     );
@@ -432,12 +471,11 @@ export function createCinematicController({
 
   function setMapTone(on) {
     document.body.classList.toggle('cinematic-active', on);
+    lastCamera = null;
+    layersKey = null;
     try {
-      map.setPaintProperty('gsi', 'raster-saturation', on ? -1 : 0);
-      map.setPaintProperty('gsi', 'raster-brightness-max', on ? 0.19 : 1);
-      map.setPaintProperty('gsi', 'raster-brightness-min', on ? 0.018 : 0);
-      map.setPaintProperty('gsi', 'raster-contrast', on ? 0.38 : 0);
-      map.setPaintProperty('gsi', 'raster-opacity', on ? 0.72 : 1);
+      map.setLayoutProperty('gsi', 'visibility', on ? 'none' : 'visible');
+      map.setLayoutProperty('cinematic-base', 'visibility', on ? 'visible' : 'none');
     } catch (_) {}
   }
 
@@ -465,7 +503,13 @@ export function createCinematicController({
     const monthInfo = monthAtTime(safe);
     const beat = beatAtTime(safe);
     const camera = applyCamera(safe);
-    overlay.setProps({layers: layersForTime(safe, monthInfo, beat), getTooltip: null});
+    const animated = safe - monthInfo.start < 0.7;
+    const focusVisible = beat?.focus_window ? activeInWindow(safe, beat.focus_window) : Boolean(beat && safe >= beat.start + 0.55);
+    const key = monthInfo.month + ':' + (animated ? Math.floor(safe * 30) : 'hold') + ':' + beat?.id + ':' + focusVisible;
+    if (layersKey !== key) {
+      overlay.setProps({layers: layersForTime(safe, monthInfo, beat), getTooltip: null});
+      layersKey = key;
+    }
     renderHud(safe, monthInfo, beat);
     updateDebug(safe, monthInfo, beat, camera);
   }
@@ -579,7 +623,7 @@ export function createCinematicController({
     els.cinematicTargetDogo.classList.toggle('active', run.selectedExploreTarget === 'dogo');
     els.cinematicTargetMitsu.classList.toggle('active', run.selectedExploreTarget === 'mitsu');
     const target = timeline.explore_targets[run.selectedExploreTarget];
-    els.cinematicExplore.textContent = target.label + 'の時間を、自分で見る';
+    els.cinematicExplore.textContent = target.label + 'の許可を確かめる';
   }
 
   function chooseTarget(key) {

@@ -34,10 +34,10 @@ def build_schedule(ms: list[str]) -> list[dict]:
         "2024-05": 18.5,
         "2024-06": 20.8,
         "2024-09": 22.0,
-        "2024-10": 24.6,
-        "2024-11": 25.3,
-        "2024-12": 28.2,
-        "2025-01": 29.0,
+        "2024-10": 27.5,
+        "2024-11": 28.3,
+        "2024-12": 29.7,
+        "2025-01": 31.0,
         "2025-05": 37.0,
         "2025-06": 44.5,
         "2025-08": 48.0,
@@ -335,6 +335,44 @@ def main() -> int:
         "numeric_checks": checks,
     }
 
+    # Stage 12: retain the data contract, author fewer, longer geographic acts.
+    timeline["edition"] = "Stage 12 / records to field questions"
+    timeline["story"] = "行政記録を地図と時間で読み、次に現地で確かめる場所を見つける。"
+    timeline["beats"] = [b for b in timeline["beats"] if b["id"] not in
+                         {"retro_dogo", "takehara", "airport_takehara", "year_end"}]
+    by_id = {b["id"]: b for b in timeline["beats"]}
+    by_id["opening"]["title"] = "許可の記録から、\nまちの変化を読む。"
+    by_id["opening"]["caption"] = "光は、その月の許可。"
+    dogo = by_id["dogo_202409"]
+    dogo.update(end=27.5, caption="同じ場所に、記録が重なる。",
+                caption_window=[23.8, 27.0], style="major_local")
+    by_id["city_202505"].update(caption="市内に広がる、許可の記録。",
+                              support="位置を特定した40件を地図に表示")
+    by_id["mitsu_202508"].update(caption="三津。静かな3か月のあとに。")
+    climax = by_id["dogo_202602"]
+    climax["caption"] = "道後の同じ区画に、14件。"
+    strict_feb = int(get_metric(metrics, "2026-02", "strict_events"))
+    assert strict_feb == 48
+    climax["kpi_sequence"][0]["support"] = "位置を特定した48件を地図に表示"
+    climax["kpi_sequence"][1]["support"] = ""
+    by_id["closing"].update(caption="行政記録を、現地確認の手がかりに。",
+                            caption_window=[73.5, 79.8], cta_window=[73.5, 80.0])
+    # A four-month comparison never reveals observations from the film's future.
+    for key, end in [("mitsu", "2025-08"), ("dogo", "2026-02")]:
+        rows = [r for r in focus[key]["series"] if r["month"] <= end][-4:]
+        timeline.setdefault("local_comparisons", {})[key] = rows
+    assert [r["count"] for r in timeline["local_comparisons"]["mitsu"]] == [1, 0, 0, 5]
+    assert [r["count"] for r in timeline["local_comparisons"]["dogo"]] == [6, 3, 0, 14]
+    # Remove incidental flyovers; hold the first local observation long enough to read.
+    timeline["camera_keyframes"] = [f for f in timeline["camera_keyframes"]
+        if f["t"] not in {14.5,15.7,17.2,17.8,18.8,20.3,21.6,24.2,24.8,25.7,27.7}]
+    timeline["camera_keyframes"].insert(4, {
+        "t": 27.1, "lon": centers["dogo"][0], "lat": centers["dogo"][1],
+        "zoom": 12.9, "pitch": 32, "bearing": 4})
+    timeline["camera_keyframes"].sort(key=lambda f: f["t"])
+    for f in timeline["camera_keyframes"]:
+        f["pitch"] = min(f["pitch"], 32)
+
     FOCUS_OUT.write_text(json.dumps(focus, ensure_ascii=False, indent=2), encoding="utf-8")
     OUT.write_text(json.dumps(timeline, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({"timeline": str(OUT), "focus": str(FOCUS_OUT), "checks": checks}, ensure_ascii=False, indent=2))
@@ -343,3 +381,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

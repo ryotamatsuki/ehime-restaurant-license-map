@@ -89,6 +89,11 @@ const map = new Map({
   style: {
     version: 8,
     sources: {
+      'cinematic-base': {
+        type: 'raster', tileSize: 256, maxzoom: 14,
+        tiles: ['https://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png'],
+        attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>'
+      },
       gsi: {
         type: 'raster',
         tiles: ['https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png'],
@@ -97,7 +102,12 @@ const map = new Map({
         attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>'
       }
     },
-    layers: [{id: 'gsi', type: 'raster', source: 'gsi'}]
+    layers: [{id: 'gsi', type: 'raster', source: 'gsi'}, {
+      id: 'cinematic-base', type: 'raster', source: 'cinematic-base',
+      layout: {visibility: 'none'},
+      paint: {'raster-saturation': -1, 'raster-brightness-max': 0.20,
+        'raster-brightness-min': 0.018, 'raster-opacity': 0.6}
+    }]
   }
 });
 
@@ -804,3 +814,4 @@ window.addEventListener('beforeunload', function() {
   stopPlayback();
   cinematicController.destroy();
 });
+
