@@ -90,9 +90,9 @@ const map = new Map({
     version: 8,
     sources: {
       'cinematic-base': {
-        type: 'raster', tileSize: 256, maxzoom: 14,
-        tiles: ['https://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png'],
-        attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>'
+        type: 'vector', minzoom: 4, maxzoom: 16,
+        tiles: ['https://cyberjapandata.gsi.go.jp/xyz/optimal_bvmap-v1/{z}/{x}/{y}.pbf'],
+        attribution: '<a href="https://github.com/gsi-cyberjapan/optimal_bvmap" target="_blank">国土地理院最適化ベクトルタイル</a>'
       },
       gsi: {
         type: 'raster',
@@ -103,10 +103,18 @@ const map = new Map({
       }
     },
     layers: [{id: 'gsi', type: 'raster', source: 'gsi'}, {
-      id: 'cinematic-base', type: 'raster', source: 'cinematic-base',
-      layout: {visibility: 'none'},
-      paint: {'raster-saturation': -1, 'raster-brightness-max': 0.20,
-        'raster-brightness-min': 0.018, 'raster-opacity': 0.6}
+      id: 'cinematic-background', type: 'background', layout: {visibility: 'none'},
+      paint: {'background-color': '#080f16'}
+    }, {
+      id: 'cinematic-land', type: 'fill', source: 'cinematic-base', 'source-layer': 'AdmArea',
+      layout: {visibility: 'none'}, paint: {'fill-color': '#111b24'}
+    }, {
+      id: 'cinematic-roads', type: 'line', source: 'cinematic-base', 'source-layer': 'RdCL',
+      layout: {visibility: 'none'}, paint: {'line-color': '#30424e',
+        'line-opacity': 0.38, 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.35, 14, 0.65]}
+    }, {
+      id: 'cinematic-coast', type: 'line', source: 'cinematic-base', 'source-layer': 'Cstline',
+      layout: {visibility: 'none'}, paint: {'line-color': '#537080', 'line-opacity': 0.7, 'line-width': 0.85}
     }]
   }
 });

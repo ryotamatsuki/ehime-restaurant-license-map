@@ -784,3 +784,13 @@ body.cinematic-active .maplibregl-ctrl-bottom-right { bottom: 60px; opacity: .65
   .closing-months { gap: 3px; }
   .closing-months i { width: 9px; }
 }
+
+.cinematic-kpi small { margin-left: 5px; font-size: 22px; font-weight: 500; letter-spacing: 0; }
+.cinematic-hud:has(.cinematic-kpi-wrap:not(.is-visible)) .cinematic-kpi-wrap { display: none; }
+.cinematic-place:not(.is-visible) { display: none; }
+.cinematic-hud:has(.cinematic-kpi-wrap:not(.is-visible)) { border-left-color: transparent; background: none; padding-left: 0; }
+@media (max-width: 760px) {
+ .cinematic-kpi small { font-size: 18px; }
+ body.cinematic-active .maplibregl-ctrl-bottom-right { bottom: 56px; }
+ .cinematic-legend { color: #c2ced4; font-size: 10px; }
+}

@@ -123,6 +123,7 @@ export function createCinematicController({
     cache: null,
     lastBeatId: null,
     seenMonths: new Set(),
+    lastDrawNow: -Infinity,
     destroyed: false
   };
 
@@ -284,7 +285,7 @@ export function createCinematicController({
     const cache = rebuildMonthCache(monthInfo.month);
     const layers = [
       new ScatterplotLayer({
-        id: 'cin-ambient-' + monthInfo.month,
+        id: 'cin-ambient',
         data: cache.ambient,
         getPosition: d => [d.lon, d.lat],
         getRadius: 14,
@@ -295,7 +296,7 @@ export function createCinematicController({
         pickable: false
       }),
       new ScatterplotLayer({
-        id: 'cin-memory-' + monthInfo.month,
+        id: 'cin-memory',
         data: cache.visibleStrict,
         getPosition: d => [d.lon, d.lat],
         getRadius: d => d._age === 0 ? 24 : 14,
@@ -309,7 +310,7 @@ export function createCinematicController({
 
     if (!run.reduced && cache.freshStrict.length) {
       layers.push(new PermitGlowLayer({
-        id: 'cin-halo-' + monthInfo.month,
+        id: 'cin-halo',
         data: cache.freshStrict,
         getPosition: d => [d.lon, d.lat],
         getRadius: d => 46 * ignitionPhase(d, elapsed, monthInfo).radius,
@@ -326,7 +327,7 @@ export function createCinematicController({
     }
 
     layers.push(new ScatterplotLayer({
-      id: 'cin-core-' + monthInfo.month,
+      id: 'cin-core',
       data: cache.freshStrict,
       getPosition: d => [d.lon, d.lat],
       getRadius: 18,
@@ -426,7 +427,13 @@ export function createCinematicController({
 
     if (kpi) {
       setText(els.cinematicKpiLabel, kpi.label || '');
-      setText(els.cinematicKpi, formatValue(kpi));
+      if (els.cinematicKpi.textContent !== formatValue(kpi)) {
+        const value = document.createElement('span');
+        value.textContent = String(kpi.value);
+        const unit = document.createElement('small');
+        unit.textContent = kpi.unit || '';
+        els.cinematicKpi.replaceChildren(value, unit);
+      }
       setText(els.cinematicScope, scope);
       els.cinematicScope.classList.toggle('is-redundant', scope === place);
       els.cinematicKpiWrap.classList.add('is-visible');
@@ -475,7 +482,9 @@ export function createCinematicController({
     layersKey = null;
     try {
       map.setLayoutProperty('gsi', 'visibility', on ? 'none' : 'visible');
-      map.setLayoutProperty('cinematic-base', 'visibility', on ? 'visible' : 'none');
+      for (const id of ['cinematic-background', 'cinematic-land', 'cinematic-roads', 'cinematic-coast']) {
+        map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
+      }
     } catch (_) {}
   }
 
@@ -523,7 +532,10 @@ export function createCinematicController({
       pause();
       return;
     }
-    render(run.elapsed);
+    if (now - run.lastDrawNow >= 1000 / 30) {
+      render(run.elapsed);
+      run.lastDrawNow = now;
+    }
     run.raf = requestAnimationFrame(frame);
   }
 
@@ -648,7 +660,12 @@ export function createCinematicController({
   }
 
   function bindControls() {
-    window.__CINEMATIC_TEST_API__ = {seek, play, pause, replay};
+    window.__CINEMATIC_TEST_API__ = {seek, play, pause, replay,
+      basemap: () => ({
+        coast: map.queryRenderedFeatures({layers: ['cinematic-coast']}).length,
+        roads: map.queryRenderedFeatures({layers: ['cinematic-roads']}).length
+      })
+    };
     els.cinematicEnter.addEventListener('click', enter);
     els.cinematicExit.addEventListener('click', () => exit());
     els.cinematicPlay.addEventListener('click', toggle);

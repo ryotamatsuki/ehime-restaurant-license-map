@@ -493,7 +493,7 @@
       "id": "opening",
       "start": 0.0,
       "end": 5.0,
-      "title": "許可の記録から、\nまちの変化を読む。",
+      "title": "日々の許可は、\nどこに重なるのか。",
       "caption": "光は、その月の許可。",
       "caption_window": [
         1.4,
@@ -566,7 +566,7 @@
       ],
       "support": "直前3か月は同じ区画で合計1件",
       "sparkline": "mitsu",
-      "caption": "三津。静かな3か月のあとに。",
+      "caption": "三津。少ない記録のあとに。",
       "caption_window": [
         50.15,
         52.95

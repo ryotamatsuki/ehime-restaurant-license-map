@@ -79,6 +79,7 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
 
   expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBeLessThanOrEqual(viewport.height);
   const finalDebug = await page.evaluate(() => window.__CINEMATIC_DEBUG__);
+  fs.writeFileSync(testInfo.outputPath(prefix + '-final-playback-telemetry.json'), JSON.stringify({finalDebug, telemetry}, null, 2));
   expect(finalDebug.seenMonths).toHaveLength(62);
   expect(finalDebug.month).toBe('2026-07');
   expect(errors).toEqual([]);
@@ -106,8 +107,10 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
     }
     }
     if (second === 51) {
+      await expect.poll(async () => (await page.evaluate(() => window.__CINEMATIC_TEST_API__.basemap())).coast).toBeGreaterThan(0);
       await expect(page.locator('#cinematic-chart svg')).toHaveAttribute('aria-label', '2025-05 1件、2025-06 0件、2025-07 0件、2025-08 5件');
     }
+    if (second === 66) await expect.poll(async () => (await page.evaluate(() => window.__CINEMATIC_TEST_API__.basemap())).roads).toBeGreaterThan(0);
     await page.screenshot({path: testInfo.outputPath(prefix + '-' + second + 's.png'), fullPage: true});
   }
 }

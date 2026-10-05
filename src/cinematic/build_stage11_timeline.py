@@ -341,14 +341,14 @@ def main() -> int:
     timeline["beats"] = [b for b in timeline["beats"] if b["id"] not in
                          {"retro_dogo", "takehara", "airport_takehara", "year_end"}]
     by_id = {b["id"]: b for b in timeline["beats"]}
-    by_id["opening"]["title"] = "許可の記録から、\nまちの変化を読む。"
+    by_id["opening"]["title"] = "日々の許可は、\nどこに重なるのか。"
     by_id["opening"]["caption"] = "光は、その月の許可。"
     dogo = by_id["dogo_202409"]
     dogo.update(end=27.5, caption="同じ場所に、記録が重なる。",
                 caption_window=[23.8, 27.0], style="major_local")
     by_id["city_202505"].update(caption="市内に広がる、許可の記録。",
                               support="位置を特定した40件を地図に表示")
-    by_id["mitsu_202508"].update(caption="三津。静かな3か月のあとに。")
+    by_id["mitsu_202508"].update(caption="三津。少ない記録のあとに。")
     climax = by_id["dogo_202602"]
     climax["caption"] = "道後の同じ区画に、14件。"
     strict_feb = int(get_metric(metrics, "2026-02", "strict_events"))
