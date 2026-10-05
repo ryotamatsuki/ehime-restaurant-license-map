@@ -35,8 +35,8 @@
     "assets/buffer-transform-DrLOKHxY.js",
     "assets/expression-E359vKZW.js",
     "assets/get-attribute-from-layouts-Dd2gixpo.js",
-    "assets/index-BU6DyTHq.css",
-    "assets/index-wE-YkXZH.js",
+    "assets/index-BVhZtdYP.js",
+    "assets/index-DmnWQBTB.css",
     "assets/maplibre-gl-worker-CRiIRpYb.js",
     "assets/webgl-BBwxV-F8.js",
     "assets/webgl-device-BKRjQ_1Q.js",
@@ -59,7 +59,7 @@
     "data/strict_new_events.json",
     "index.html"
   ],
-  "dist_total_bytes": 6174981,
+  "dist_total_bytes": 6174999,
   "browser_qa": {
     "framework": "@playwright/test 1.63.0",
     "desktop": "executed by Stage 6 workflow",
