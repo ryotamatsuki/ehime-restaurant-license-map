@@ -1,5 +1,8 @@
 # Stage 12 — 行政記録から、次に確かめる場所へ
 
+Date: 2026-10-05  
+Status: **PASS / COMPLETE after final visual QA and public deployment**
+
 ## 誰に、何を残すか
 
 対象は県庁職員を含む行政実務者。主題は「行政記録を地図と時間で読むと、次に現地で確かめる場所を見つけられる」。許可件数だけから景気、観光需要、店舗の営業継続、開閉店を断定しない。松山市の許可記録を県庁職員にも通じる行政データ活用の具体例として扱う。
@@ -49,4 +52,23 @@ Pythonで元CSVから再生成し数値QAを実施。道後は同じ1km区画で
 5. 終幕で何の19/23、15/23か分かり、次の探索へつながる。
 6. 80秒の実再生、62か月の実描画、Pause/Resume、途中キー、reduced-motion、Explore復帰、分析モードの回帰が通る。
 
-この文書の第一稿時点ではブラウザQAと第二回の視覚検査は未完了。実行結果は別の実装QA記録で確定する。
+## 最終レビューとクローズ
+
+2026-10-05、最新のCinematic成果物をdesktop 1280×720 / mobile 390×844で再レビューした。opening、2025-05全市、三津、2026-02全市→道後、終幕を実画像で確認し、数値・場所・1km区画・グラフ・字幕・カメラの対応に新たな意味上の不整合は見つからなかった。
+
+最終レビューで、MapLibre/GSIの帰属表示が終幕カード右下に重なるレイアウト欠陥を1件検出した。PR #11で、Cinematic中の帰属表示を右上へ移動し、帰属表示を保持したまま終幕カードとの重なりを解消した。さらに78秒時点で帰属表示コンテナと終幕カードが交差しないことをdesktop/mobile双方でPlaywright検査する回帰テストを追加した。
+
+最終main application commitは `aa2419fea5ca218a0c6cd52e3a4678dd0b8f9e33`。その後の `82674a7e9355ddb5ea3386dd486aec38da73e2f6` はStage 6 build/audit生成物の記録コミットである。
+
+最終CI:
+- Stage 6 build and test time map: run **37258027663**, **SUCCESS**。
+- Browser QA: **8 passed (3.4m)**。flaky/retry表示なし。
+- cinematic-playback artifact: **11323826318**。
+- desktop/mobileともtelemetry 81 samples、film time 79.999、final month 2026-07、seen months **62/62**。
+- exact-frame review: 2s / 25s / 40s / 51s / 62s / 66s / 78s。修正後の78sで帰属表示と終幕カードの非重複を実画像でも確認。
+
+最終Pages:
+- Deploy GitHub Pages: run **37258027646**, **SUCCESS**。
+- build / deploy / public URL smoke-test はすべて **SUCCESS**。
+
+物理iPhone実機はこの環境では利用できないため、iPhone実機PASSとは記録しない。mobile 390×844のChromium実描画・80秒通し再生・終幕重なり検査はPASSしている。この制約を残したうえで、Stage 12はクローズする。
