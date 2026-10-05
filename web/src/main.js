@@ -108,10 +108,15 @@ const map = new Map({
     },
     layers: [{id: 'gsi', type: 'raster', source: 'gsi'}, {
       id: 'cinematic-background', type: 'background', layout: {visibility: 'none'},
-      paint: {'background-color': '#080f16'}
+      paint: {'background-color': '#12202b'}
     }, {
       id: 'cinematic-land', type: 'fill', source: 'cinematic-base', 'source-layer': 'AdmArea',
-      layout: {visibility: 'none'}, paint: {'fill-color': '#111b24'}
+      layout: {visibility: 'none'}, paint: {'fill-color': '#12202b'}
+    }, {
+      // At overview zooms GSI encodes the shoreline as water-area polygons.
+      // Cstline alone is absent in these tiles; WA preserves the actual coast.
+      id: 'cinematic-water', type: 'fill', source: 'cinematic-base', 'source-layer': 'WA',
+      layout: {visibility: 'none'}, paint: {'fill-color': '#070f17'}
     }, {
       id: 'cinematic-roads', type: 'line', source: 'cinematic-base', 'source-layer': 'RdCL',
       layout: {visibility: 'none'}, paint: {'line-color': '#30424e',

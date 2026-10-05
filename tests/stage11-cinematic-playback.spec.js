@@ -107,7 +107,7 @@ async function runFullPlayback(page, testInfo, viewport, prefix) {
     }
     }
     if (second === 51) {
-      await expect.poll(async () => (await page.evaluate(() => window.__CINEMATIC_TEST_API__.basemap())).coast).toBeGreaterThan(0);
+      await expect.poll(async () => (await page.evaluate(() => window.__CINEMATIC_TEST_API__.basemap())).water).toBeGreaterThan(0);
       await expect(page.locator('#cinematic-chart svg')).toHaveAttribute('aria-label', '2025-05 1件、2025-06 0件、2025-07 0件、2025-08 5件');
     }
     if (second === 66) await expect.poll(async () => (await page.evaluate(() => window.__CINEMATIC_TEST_API__.basemap())).roads).toBeGreaterThan(0);
@@ -122,4 +122,3 @@ test('Stage 11 full 80-second desktop playback', async ({page}, testInfo) => {
 test('Stage 11 full 80-second mobile playback', async ({page}, testInfo) => {
   await runFullPlayback(page, testInfo, {width: 390, height: 844}, 'mobile');
 });
-

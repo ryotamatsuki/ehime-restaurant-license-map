@@ -483,7 +483,7 @@ export function createCinematicController({
     layersKey = null;
     try {
       map.setLayoutProperty('gsi', 'visibility', on ? 'none' : 'visible');
-      for (const id of ['cinematic-background', 'cinematic-land', 'cinematic-roads', 'cinematic-coast']) {
+      for (const id of ['cinematic-background', 'cinematic-land', 'cinematic-water', 'cinematic-roads', 'cinematic-coast']) {
         map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
       }
     } catch (_) {}
@@ -676,7 +676,7 @@ export function createCinematicController({
   function bindControls() {
     window.__CINEMATIC_TEST_API__ = {seek, play, pause, replay,
       basemap: () => ({
-        coast: map.queryRenderedFeatures({layers: ['cinematic-coast']}).length,
+        water: map.queryRenderedFeatures({layers: ['cinematic-water']}).length,
         roads: map.queryRenderedFeatures({layers: ['cinematic-roads']}).length
       })
     };
